@@ -56,6 +56,18 @@ In this case will give you
   ]
 }
 ```
+## TODO
+
+* Add parameter end-point/route generator
+* Don't show SQL errors in the response message
+* Add tests for other components
+* Fix image resource loading issue in generated reports
+* Support basic authentication via `apache-shiro` support or `api-key`
+* Add extension support i.e. a user should be able to generate a pdf report by appending `.pdf` to the route
+* Support for specifying custom routes in yaml configuration
+* Support for specifying output types in the yaml configuration
+* Allow users to change the SQL Datasource of a report based on configuration or environment variables, or both
+* Build artifact via maven-assembly plugin
 
 ## Authors
 

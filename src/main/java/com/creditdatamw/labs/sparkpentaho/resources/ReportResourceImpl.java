@@ -1,0 +1,45 @@
+package com.creditdatamw.labs.sparkpentaho.resources;
+
+import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
+import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
+
+import java.util.EnumSet;
+
+
+public class ReportResourceImpl implements ReportResource {
+
+    public final String routePath;
+
+    public final ReportDefinition reportDefinition;
+
+    public final String[] methods;
+
+    public final EnumSet<OutputType> outputTypes;
+
+    public ReportResourceImpl(String routePath, String[] methods, EnumSet<OutputType> outputTypes, ReportDefinition reportDefinition) {
+        this.routePath = routePath;
+        this.reportDefinition = reportDefinition;
+        this.methods = methods;
+        this.outputTypes = outputTypes;
+    }
+
+    @Override
+    public String path() {
+        return routePath;
+    }
+
+    @Override
+    public ReportDefinition reportDefinition() {
+        return reportDefinition;
+    }
+
+    @Override
+    public String[] methods() {
+        return methods.clone();
+    }
+
+    @Override
+    public EnumSet<OutputType> outputTypes() {
+        return outputTypes.clone();
+    }
+}

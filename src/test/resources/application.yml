@@ -1,0 +1,20 @@
+host: localhost
+port: 4567
+apiRoot: /api
+reports:
+  - name: Hello Report
+    version: "1.0.0"
+    path: "src/test/resources/test_report.prpt"
+    parameters:
+      - name: report_id
+        type: java.lang.String
+        required: true
+        default: 0
+      - name: subreport_1
+        type: java.lang.Boolean
+        required: false
+        default: true
+      - name: subreport_2
+        type: java.lang.Boolean
+        required: false
+        default: true

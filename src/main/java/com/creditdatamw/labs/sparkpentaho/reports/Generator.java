@@ -51,7 +51,7 @@ public final class Generator {
      * @param reportFileName the path to the `.prpt` report file and it must not be in a zipped folder or
      * anything. Just something on the file system that you have read-permissions to.
      * @param parameters values for the parameters that the report accepts/requires
-     * @param outputType The output type of the report. Either HTML, PDF, TEXT. Defaults to HTML
+     * @param outputType The output type of the report. Either HTML, PDF, TXT. Defaults to HTML
      * @param outputStream the output stream to write the generated report to
      * @throws GeneratorException Wraps exceptions thrown while trying to produce the report. Use {@linkplain Exception#getCause} to get actual exception
      */
@@ -108,7 +108,7 @@ public final class Generator {
 
             // Defaults to HTML output
             switch (outputType) {
-                case TEXT:
+                case TXT:
                     PlainTextReportUtil.createPlainText(masterReport, outputStream);
                     break;
                 case PDF:

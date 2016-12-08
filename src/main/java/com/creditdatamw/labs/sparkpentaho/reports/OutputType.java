@@ -7,5 +7,5 @@ public enum OutputType {
     NONE,
     PDF,
     HTML,
-    TEXT
+    TXT
 }

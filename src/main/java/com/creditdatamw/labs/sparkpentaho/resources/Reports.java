@@ -9,6 +9,7 @@ import spark.*;
 
 import java.util.*;
 
+import static java.util.stream.Collectors.toList;
 import static spark.Spark.halt;
 
 /**
@@ -52,16 +53,37 @@ public class Reports {
     private void registerParameterRoute(ReportResource reportResource) {
     }
 
+    /**
+     * Registers a reportResource to the spark application.
+     * The report is mapped to the {@linkplain ReportResource#path()} of the resource
+     * as <code>/path</code> and depending on the output types the resource
+     * is mapped to routes with extensions e.g. <code>/path.html</code>
+     *
+     * If the report resource has a GET or POST defined as {@linkplain ReportResource#methods()}
+     * the routes are mapped to those HTTP methods
+     *
+     * @param reportResource
+     */
     private void registerRoute(ReportResource reportResource) {
         final ReportRoute reportRoute = new ReportRoute(reportResource);
+        final String reportPath = withRootPath(reportResource.path());
+
+        List<String> extensionList = reportResource.outputTypes()
+            .stream()
+            .map(ot -> ".".concat(ot.name().toLowerCase()))
+            .collect(toList());
 
         for(String method: reportResource.methods()) {
             if (method.equalsIgnoreCase("GET")) {
-                Spark.get(withRootPath(reportResource.path()), reportRoute);
+                Spark.get(reportPath, reportRoute);
+                // We want to map the path to the route /path and /path.ext for each output in the resource
+                extensionList.forEach(extension -> Spark.get(reportPath.concat(extension), reportRoute));
             }
 
             if (method.equalsIgnoreCase("POST")) {
                 Spark.post(withRootPath(reportResource.path()),reportRoute);
+                // We want to map the path to the route /path and /path.ext for each output in the resource
+                extensionList.forEach(extension -> Spark.post(reportPath.concat(extension), reportRoute));
             }
         }
         LoggerFactory.getLogger(getClass()).debug("Registered Route: {}", withRootPath(reportResource.path()));

@@ -105,27 +105,24 @@ final class ReportRoute implements Route {
      */
     private static OutputType determineOutputTypeAndContentType(Request request, Response response) {
         // Yea, I know a method shouldn't do too much but a foolish consistency ...
-        String accept = request.headers("Accept");
+        String accept = Objects.isNull(request.headers("Accept")) ? "" : request.headers("Accept");
+        String requestUri = Objects.isNull(request.uri()) ?  "" : request.uri().toLowerCase();
 
-        if (Objects.isNull(accept)) {
+        if (accept.toLowerCase().contains("html") || requestUri.contains(".html")) {
             response.type("text/html;charset=utf-8");
             return OutputType.HTML;
-        }
-
-        // If you are cool with anything, you get back html - you're probably a dumb http client
-        if (accept.toLowerCase().equalsIgnoreCase("*/*")) {
-            response.type("text/html;charset=utf-8");
-            return OutputType.HTML;
-        } else if(accept.toLowerCase().contains("html")) {
-            response.type("text/html;charset=utf-8");
-            return OutputType.HTML;
-        } else if (accept.toLowerCase().contains("pdf")) {
+        } else if (accept.toLowerCase().contains("pdf") || requestUri.contains(".pdf")) {
             response.type("application/pdf;charset=utf-8");
             return OutputType.PDF;
-        } else if (accept.toLowerCase().contains("text/plain")) {
+        } else if (accept.toLowerCase().contains("text/plain") || requestUri.contains(".txt")) {
             response.type("text/plain;charset=utf-8");
-            return OutputType.TEXT;
+            return OutputType.TXT;
+        } else if (accept.toLowerCase().equalsIgnoreCase("*/*")) {
+            // If you are cool with anything, you get back html - you're probably a dumb http client
+            response.type("text/html;charset=utf-8");
+            return OutputType.HTML;
         }
+
         // If clients don't specify a valid type - we assume they don't want anything
         return OutputType.NONE;
     }

@@ -1,22 +1,17 @@
 package com.creditdatamw.labs.sparkpentaho;
 
 import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
-import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
 import com.creditdatamw.labs.sparkpentaho.resources.ReportResource;
 import com.creditdatamw.labs.sparkpentaho.resources.ReportResourceImpl;
 import com.creditdatamw.labs.sparkpentaho.resources.Reports;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.google.common.collect.ImmutableList;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;
 import org.slf4j.LoggerFactory;
-import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -82,8 +77,8 @@ public class SparkPentahoAPI {
             reportResources.add(
                 new ReportResourceImpl(
                     reportRoute.startsWith("/") ? reportRoute : "/".concat(reportRoute),
-                    new String[] { "GET", "POST"},
-                    EnumSet.of(OutputType.PDF, OutputType.HTML),
+                    new String[] { "GET", "POST" },
+                    EnumSet.of(OutputType.PDF, OutputType.HTML, OutputType.TXT),
                     reportDefinition));
         });
 

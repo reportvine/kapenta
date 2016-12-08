@@ -53,7 +53,7 @@ by the report.
 Invoking 
 
 ```bash
-$ curl -G http://host:port/api/customer_report/params
+$ curl -G http://host:port/api/customer_report/info
 ```
 
 In this case will give you 
@@ -69,7 +69,6 @@ In this case will give you
 ```
 ## TODO
 
-* Add parameter end-point/route generator
 * Don't show SQL errors in the response message
 * Add tests for other components
 * Fix image resource loading issue in generated reports

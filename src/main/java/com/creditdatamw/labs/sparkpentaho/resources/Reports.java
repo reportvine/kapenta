@@ -1,8 +1,6 @@
 package com.creditdatamw.labs.sparkpentaho.resources;
 
-import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
 import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.*;
@@ -50,7 +48,14 @@ public class Reports {
         return rootPath.concat(path);
     }
 
+    /**
+     * Returns the Report definition
+     *
+     * @param reportResource
+     */
     private void registerParameterRoute(ReportResource reportResource) {
+        String reportInfoPath = withRootPath(reportResource.path().concat("/info"));
+        Spark.get(reportInfoPath, new ReportDefinitionRoute(reportResource));
     }
 
     /**

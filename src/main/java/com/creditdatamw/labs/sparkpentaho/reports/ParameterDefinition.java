@@ -56,7 +56,7 @@ public final class ParameterDefinition {
         return required;
     }
 
-    public Class getValueType() {
+    public Class getType() {
         return type;
     }
 

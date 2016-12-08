@@ -40,6 +40,18 @@ public class ReportDefinition {
         this.parameters = parameters;
     }
 
+    public ReportDefinition(String reportName,
+                            String reportFilePath,
+                            List<ParameterDefinition> parameters,
+                            String version,
+                            String description) {
+        this.reportName = reportName;
+        this.reportFilePath = reportFilePath;
+        this.parameters = parameters;
+        this.version = version;
+        this.description = description;
+    }
+
 
     public String getReportName() {
         return reportName;
@@ -117,7 +129,7 @@ public class ReportDefinition {
         if (! optional.isPresent()) {
             return null;
         }
-        return optional.get().getValueType();
+        return optional.get().getType();
     }
 
 }

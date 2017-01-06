@@ -1,5 +1,7 @@
 package com.creditdatamw.labs.sparkpentaho;
 
+import com.creditdatamw.labs.sparkpentaho.config.ApiConfiguration;
+import com.creditdatamw.labs.sparkpentaho.config.Method;
 import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
 import com.creditdatamw.labs.sparkpentaho.resources.ReportResource;
 import com.creditdatamw.labs.sparkpentaho.resources.ReportResourceImpl;
@@ -9,9 +11,13 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.constructor.Constructor;
+import spark.Spark;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -62,6 +68,9 @@ public class SparkPentahoAPI {
     private static Reports createFromYaml(String yamlFile) {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         ApiConfiguration configuration = null;
+
+        Path yamlFileDir = Paths.get(yamlFile).getParent();
+
         try {
             configuration = mapper.readValue(new File(yamlFile), ApiConfiguration.class);
         } catch (IOException e) {
@@ -71,24 +80,32 @@ public class SparkPentahoAPI {
 
         List<ReportResource> reportResources = new ArrayList<>();
 
-        configuration.getReports().forEach(reportDefinition -> {
-            String reportName = reportDefinition.getReportName();
+        final String[] defaultMethods = new String[] { "GET", "POST" };
+
+        configuration.getReports().forEach(reportConfiguration -> {
+            String reportName = reportConfiguration.getReportName();
             String reportRoute = reportName.toLowerCase().replace(" ", "_");
+            String path = Optional.ofNullable(reportConfiguration.getPath()).orElse(reportRoute);
+
+            Method methods = reportConfiguration.getMethods();
+
+            if (! methods.isGet() && ! methods.isPost()) {
+                throw new RuntimeException("Specify at least one HTTP method between GET or POST");
+            }
+
             reportResources.add(
                 new ReportResourceImpl(
-                    reportRoute.startsWith("/") ? reportRoute : "/".concat(reportRoute),
-                    new String[] { "GET", "POST" },
-                    EnumSet.of(OutputType.PDF, OutputType.HTML, OutputType.TXT),
-                    reportDefinition));
+                    path.startsWith("/") ? path : "/".concat(path),
+                    methods.toArray().length < 1 ? defaultMethods : methods.toArray(),
+                    reportConfiguration.extensions(),
+                    reportConfiguration.toReportDefinition(Optional.of(yamlFileDir))));
         });
 
-        return new Reports(configuration.getApiRoot(), Collections.unmodifiableList(reportResources));
-    }
+        String host = Optional.ofNullable(configuration.getHost()).orElse("0.0.0.0");
+        Spark.ipAddress(host);
 
-    private static class MapConstructor extends Constructor {
-        @Override
-        protected Map<Object, Object> createDefaultMap() {
-            return new HashMap<>();
-        }
+        Spark.port(configuration.getPort());
+
+        return new Reports(configuration.getApiRoot(), Collections.unmodifiableList(reportResources));
     }
 }

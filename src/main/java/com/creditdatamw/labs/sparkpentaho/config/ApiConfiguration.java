@@ -1,6 +1,7 @@
-package com.creditdatamw.labs.sparkpentaho;
+package com.creditdatamw.labs.sparkpentaho.config;
 
 import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
@@ -9,13 +10,17 @@ import java.util.List;
  */
 public class ApiConfiguration {
 
+    @JsonProperty(required=true)
     private String apiRoot;
 
+    @JsonProperty(required=true, defaultValue = "0.0.0.0")
     private String host;
 
+    @JsonProperty(required=true)
     private int port;
 
-    private List<ReportDefinition> reports;
+    @JsonProperty
+    private List<ReportConfiguration> reports;
 
     public ApiConfiguration() {
     }
@@ -44,11 +49,11 @@ public class ApiConfiguration {
         this.port = port;
     }
 
-    public List<ReportDefinition> getReports() {
+    public List<ReportConfiguration> getReports() {
         return reports;
     }
 
-    public void setReports(List<ReportDefinition> reports) {
+    public void setReports(List<ReportConfiguration> reports) {
         this.reports = reports;
     }
 }

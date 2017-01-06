@@ -14,7 +14,7 @@ public class Method
     @JsonProperty("get")
     private boolean get = true;
 
-    @JsonProperty("true")
+    @JsonProperty("post")
     private boolean post = true;
 
     public boolean isGet() {

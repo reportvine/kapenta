@@ -95,7 +95,7 @@ final class ReportRoute implements Route {
             );
             LOGGER.info("Generated report: {} for {}", reportDefinition.getReportName(), reportResource.path());
         } catch (GeneratorException | IOException e) {
-            LOGGER.error("Failed to generate report", e);
+            LOGGER.error("Failed to generate report. Error: " + e.getMessage(), e.getCause());
             response.type(APPLICATION_JSON);
             response.status(HttpStatus.INTERNAL_SERVER_ERROR_500);
             return errorJson("Failed to generate report. Please contact the System Administrator.");

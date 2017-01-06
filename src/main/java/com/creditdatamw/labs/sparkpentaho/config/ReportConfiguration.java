@@ -32,7 +32,7 @@ public class ReportConfiguration {
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("path")
+    @JsonProperty("file")
     private String reportFilePath;
 
     @JsonProperty("parameters")

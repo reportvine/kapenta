@@ -37,7 +37,6 @@ public final class ParameterDefinition {
         this.defaultValue = defaultValue;
     }
 
-    @JsonCreator
     public ParameterDefinition(@JsonProperty("name") String name,
                                @JsonProperty("required") boolean required,
                                @JsonProperty("type") Class type,

@@ -9,10 +9,14 @@ reports:
   - name: Hello Report
     path: /hello
     version: "1.0.0"
-    path: "src/test/resources/test_report.prpt"
+    file: "src/test/resources/test_report.prpt"
     methods:
       get: true
       post: true
+    ext:
+      - PDF
+      - HTML
+      - TXT
     parameters:
       - name: report_id
         type: java.lang.String

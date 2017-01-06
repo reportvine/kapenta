@@ -34,13 +34,17 @@ $ java -jar spark-pentaho-report.jar configuration.yml
 The API created will have two end-points, one for generating your report.
 Example to generate a report for customer with id #1 we'd have:
 
-`http://host:port/api/customer_report?customer_id=1`
+`http://localhost:4567/api/customer_report?customer_id=1`
 
 This by default will result in an html report being generated. The server currently
 supports three output types for a report: PDF, HTML and TEXT
 
 In order to get a PDF report - append `.pdf` to the path before adding the query
 parameters or set the `Accept` header to `application/pdf`.
+
+For example the same request above can be made a pdf by performing the request in a browser:
+
+`http://localhost:4567/api/customer_report.pdf?customer_id=1`
 
 In order to get a Text report - append `.txt` to the path before adding the query
 parameters or set the `Accept` header to `text/plain`.
@@ -53,7 +57,7 @@ by the report.
 Invoking 
 
 ```bash
-$ curl -G http://host:port/api/customer_report/info
+$ curl -G http://localhost:4567/api/customer_report/info
 ```
 
 In this case will give you 
@@ -67,12 +71,55 @@ In this case will give you
   ]
 }
 ```
+
+## Advanced Configuration
+
+## Server Configuration
+
+You can configure the server to bind to a different ip address than `localhost` and
+different port than the default `4567`.
+
+For example
+
+```yaml
+host: 192.168.1.45
+port: 8172
+```
+
+### Configuring Basic Authentication
+
+In order to add some level of security to the API you can configure HTTP Basic Authentication via
+the configuration file.
+
+#### Single User authentication
+
+```yaml
+basicAuth:
+  user:
+    username: zikani
+    password: zikani123
+```
+
+#### Multiple Users authentication
+
+In order to allow multiple usernames and passwords to authenticate to the API you can use
+the `users` key in the basicAuth configuration
+
+```yaml
+basicAuth:
+  users:
+    - username: zikani
+      password: zikani123
+    - username: john
+      password: john123
+```
+
 ## TODO
 
 * Add tests for other components
 * Fix image resource loading issue in generated reports
-* Support basic authentication
 * Allow users to change the SQL Datasource of a report based on configuration or environment variables, or both
+* Add optional backup directory for generated reports
 
 ## Authors
 

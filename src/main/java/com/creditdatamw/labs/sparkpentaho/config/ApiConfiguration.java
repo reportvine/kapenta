@@ -20,6 +20,9 @@ public class ApiConfiguration {
     private int port;
 
     @JsonProperty
+    BasicAuth basicAuth;
+
+    @JsonProperty
     private List<ReportConfiguration> reports;
 
     public ApiConfiguration() {
@@ -55,5 +58,13 @@ public class ApiConfiguration {
 
     public void setReports(List<ReportConfiguration> reports) {
         this.reports = reports;
+    }
+
+    public BasicAuth getBasicAuth() {
+        return basicAuth;
+    }
+
+    public void setBasicAuth(BasicAuth basicAuth) {
+        this.basicAuth = basicAuth;
     }
 }

@@ -1,7 +1,9 @@
 package com.creditdatamw.labs.sparkpentaho;
 
 import com.creditdatamw.labs.sparkpentaho.config.ApiConfiguration;
+import com.creditdatamw.labs.sparkpentaho.config.BasicAuth;
 import com.creditdatamw.labs.sparkpentaho.config.Method;
+import com.creditdatamw.labs.sparkpentaho.filter.BasicAuthenticationFilter;
 import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
 import com.creditdatamw.labs.sparkpentaho.resources.ReportResource;
 import com.creditdatamw.labs.sparkpentaho.resources.ReportResourceImpl;
@@ -25,7 +27,7 @@ import java.util.*;
  *
  */
 public class SparkPentahoAPI {
-
+    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private final Reports reports;
 
     SparkPentahoAPI(String apiRoot, List<ReportResource> availableReports) {
@@ -106,6 +108,30 @@ public class SparkPentahoAPI {
 
         Spark.port(configuration.getPort());
 
+        if (Optional.ofNullable(configuration.getBasicAuth()).isPresent()) {
+            configureBasicAuth(configuration);
+        }
+
         return new Reports(configuration.getApiRoot(), Collections.unmodifiableList(reportResources));
+    }
+
+    private static void configureBasicAuth(ApiConfiguration configuration) {
+        BasicAuth basicAuth = configuration.getBasicAuth();
+        boolean multipleUsers = false;
+
+        BasicAuth.User user = basicAuth.getUser();
+        List<BasicAuth.User> userList = basicAuth.getUsers();
+
+        if (! Objects.isNull(userList) && !userList.isEmpty()) {
+            multipleUsers = true;
+        }
+
+        if (multipleUsers) {
+            // Configure for multiple users
+            Spark.before(new BasicAuthenticationFilter(userList));
+        } else {
+            // Configure auth for the single user
+            Spark.before(new BasicAuthenticationFilter(user));
+        }
     }
 }

@@ -1,7 +1,10 @@
 package com.creditdatamw.labs.sparkpentaho.resources;
 
-import com.creditdatamw.labs.sparkpentaho.reports.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.creditdatamw.labs.sparkpentaho.reports.Generator;
+import com.creditdatamw.labs.sparkpentaho.reports.GeneratorException;
+import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
+import com.creditdatamw.labs.sparkpentaho.reports.ParameterDefinition;
+import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
 import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +13,14 @@ import spark.Response;
 import spark.Route;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
+
+import static com.creditdatamw.labs.sparkpentaho.SparkPentahoAPI.OBJECT_MAPPER;
 
 /**
  * Route Handler for a single report resource
@@ -19,7 +28,6 @@ import java.util.stream.Collectors;
  */
 final class ReportRoute implements Route {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReportRoute.class);
-    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     public static final String APPLICATION_JSON = "application/json;charset=utf-8";
 

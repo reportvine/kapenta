@@ -1,6 +1,10 @@
 host: localhost
 port: 4567
 apiRoot: /api
+basicAuth:
+  user:
+    username: zikani
+    password: zikani123
 reports:
   - name: Hello Report
     path: /hello

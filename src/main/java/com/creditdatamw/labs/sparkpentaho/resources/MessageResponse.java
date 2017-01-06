@@ -1,9 +1,12 @@
 package com.creditdatamw.labs.sparkpentaho.resources;
 
+import static com.creditdatamw.labs.sparkpentaho.SparkPentahoAPI.OBJECT_MAPPER;
+
 /**
  * Message Response for error messages and information messages
  */
-final class MessageResponse {
+public final class MessageResponse {
+
     public final String message;
     public final boolean error;
 
@@ -18,5 +21,13 @@ final class MessageResponse {
 
     public boolean isError() {
         return error;
+    }
+
+    public static String errorJson(String message) {
+        try {
+            return OBJECT_MAPPER.writeValueAsString(new MessageResponse(message, true));
+        } catch(Exception e) {
+        }
+        return "{\"message\":\"" + message + ",\"error\":true}";
     }
 }

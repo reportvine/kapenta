@@ -69,12 +69,9 @@ In this case will give you
 ```
 ## TODO
 
-* Don't show SQL errors in the response message
 * Add tests for other components
 * Fix image resource loading issue in generated reports
-* Support basic authentication via `apache-shiro` support or `api-key`
-* Support for specifying custom routes in yaml configuration
-* Support for limiting output types in the yaml configuration
+* Support basic authentication
 * Allow users to change the SQL Datasource of a report based on configuration or environment variables, or both
 
 ## Authors

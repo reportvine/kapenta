@@ -1,5 +1,6 @@
 package com.creditdatamw.labs.sparkpentaho.resources;
 
+import com.creditdatamw.labs.sparkpentaho.config.Backup;
 import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +22,19 @@ public class Reports {
 
     private final List<ReportResource> resources;
 
+    private Backup backup;
+
     public Reports(String rootPath, List<ReportResource> resourceList) {
         Objects.requireNonNull(rootPath);
         Objects.requireNonNull(resourceList);
         assert(! resourceList.isEmpty());
         this.rootPath = rootPath;
         this.resources = resourceList;
+    }
+
+    public Reports(String rootPath, List<ReportResource> resourceList, Backup backup) {
+        this(rootPath, resourceList);
+        this.backup = backup;
     }
 
     protected void validateResources() {
@@ -70,7 +78,7 @@ public class Reports {
      * @param reportResource
      */
     private void registerRoute(ReportResource reportResource) {
-        final ReportRoute reportRoute = new ReportRoute(reportResource);
+        final ReportRoute reportRoute = Objects.isNull(backup) ? new ReportRoute(reportResource) : new ReportRoute(reportResource, backup);
         final String reportPath = withRootPath(reportResource.path());
 
         List<String> extensionList = reportResource.outputTypes()

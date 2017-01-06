@@ -5,6 +5,12 @@ basicAuth:
   user:
     username: zikani
     password: zikani123
+# Configuration for backup of generated reports
+backup:
+  # Where to store the generated reports
+  directory: /var/log
+  # If the directory should have subdirectories for each day
+  rollingBackup: true
 reports:
   - name: Hello Report
     path: /hello

@@ -1,5 +1,6 @@
 package com.creditdatamw.labs.sparkpentaho.resources;
 
+import com.creditdatamw.labs.sparkpentaho.config.Backup;
 import com.creditdatamw.labs.sparkpentaho.reports.Generator;
 import com.creditdatamw.labs.sparkpentaho.reports.GeneratorException;
 import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
@@ -13,10 +14,16 @@ import spark.Response;
 import spark.Route;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
@@ -33,8 +40,15 @@ final class ReportRoute implements Route {
 
     private final ReportResource reportResource;
 
+    private final Optional<Backup> backup;
+
     public ReportRoute(ReportResource reportResource) {
         this.reportResource = reportResource;
+        this.backup = Optional.empty();
+    }
+    public ReportRoute(ReportResource reportResource, Backup backup) {
+        this.reportResource = reportResource;
+        this.backup = Optional.of(backup);
     }
 
     @Override
@@ -93,6 +107,17 @@ final class ReportRoute implements Route {
                 outputType,
                 response.raw().getOutputStream()
             );
+
+            if (backup.isPresent()) {
+                try (OutputStream outputStream = getBackupOutput(reportDefinition.getReportName(), outputType)) {
+                    Generator.generateReport(
+                            reportDefinition.getReportFilePath(),
+                            reportParameters,
+                            outputType,
+                            outputStream
+                    );
+                }
+            }
             LOGGER.info("Generated report: {} for {}", reportDefinition.getReportName(), reportResource.path());
         } catch (GeneratorException | IOException e) {
             LOGGER.error("Failed to generate report. Error: " + e.getMessage(), e.getCause());
@@ -102,6 +127,16 @@ final class ReportRoute implements Route {
         }
 
         return response;
+    }
+
+    private OutputStream getBackupOutput(String reportName, OutputType outputType) throws IOException {
+        String nameSanitized = reportName.replace(" ", "");
+
+        String backupFileName = String.format("%s-%s.%s", System.currentTimeMillis(), nameSanitized, outputType.name());
+
+        Path outputPath = Paths.get(backup.get().getDirectory(), backupFileName.toLowerCase());
+
+        return Files.newOutputStream(outputPath, StandardOpenOption.CREATE_NEW);
     }
 
     /**

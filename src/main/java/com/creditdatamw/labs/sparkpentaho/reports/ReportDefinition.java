@@ -74,6 +74,10 @@ public class ReportDefinition {
         return Collections.unmodifiableList(parameters);
     }
 
+    public static ParameterDefinition requiredParameter(String name, String type) {
+        return new ParameterDefinition(name, true, type);
+    }
+
     public static ParameterDefinition requiredParameter(String name, Class clazz) {
         return new ParameterDefinition(name, true, clazz);
     }

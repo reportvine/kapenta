@@ -1,38 +1,32 @@
 package com.creditdatamw.labs.sparkpentaho.autogen;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.FileVisitResult;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.pentaho.reporting.engine.classic.core.MasterReport;
-
-
-import org.pentaho.reporting.engine.classic.core.parameters.ParameterDefinitionEntry;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.creditdatamw.labs.sparkpentaho.SparkPentahoAPI;
-
-
 import com.creditdatamw.labs.sparkpentaho.config.ApiConfiguration;
 import com.creditdatamw.labs.sparkpentaho.config.Method;
 import com.creditdatamw.labs.sparkpentaho.config.ReportConfiguration;
 import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
-
 import com.creditdatamw.labs.sparkpentaho.reports.ParameterDefinition;
-
 import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;
+import org.pentaho.reporting.engine.classic.core.MasterReport;
+import org.pentaho.reporting.engine.classic.core.parameters.ParameterDefinitionEntry;
+import org.pentaho.reporting.libraries.resourceloader.Resource;
+import org.pentaho.reporting.libraries.resourceloader.ResourceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Pentaho API Generator
@@ -44,31 +38,43 @@ import com.fasterxml.jackson.databind.ObjectWriter;
  */
 public class PentahoAPIGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(PentahoAPIGenerator.class);
-    private static ObjectMapper objectMapper = SparkPentahoAPI.OBJECT_MAPPER;
+    private static final YAMLMapper yamlMapper = new YAMLMapper();
+    private static final ObjectMapper objectMapper = SparkPentahoAPI.OBJECT_MAPPER;
+    private final ResourceManager resourceManager;
 
     private final Path sourceDir;
     private final Path outputFile;
 
+    /**
+     * Creates an ApiConfiguration generator
+     *
+     * @param sourceDir The directory to search for reports from
+     * @param outputFile The file to write the YAML configuration to
+     */
     public PentahoAPIGenerator(Path sourceDir, Path outputFile) {
         this.sourceDir = sourceDir;
         this.outputFile = outputFile;
+        ClassicEngineBoot.getInstance().start();
+        this.resourceManager = new ResourceManager();
+        resourceManager.registerDefaults();
     }
 
     public void generate() throws IOException {
         List<ReportDefinition> defs = searchForPrpts(sourceDir);
         ApiConfiguration apiConfiguration = buildConfiguration(defs);
-        writeConfiguratotionToFile(apiConfiguration);
+
+        Objects.requireNonNull(apiConfiguration);
+
+        try (OutputStream fos = Files.newOutputStream(outputFile)) {
+            yamlMapper.enable(YAMLGenerator.Feature.MINIMIZE_QUOTES);
+            yamlMapper.writeValue(fos, apiConfiguration);
+            LOGGER.debug("Wrote output YAML to: {}", outputFile);
+        } catch(Exception e) {
+            LOGGER.error("Failed to write output YAML", e);
+            throw new RuntimeException("Failed to write YAML to: " + outputFile);
+        }
     }
 
-    public void writeConfiguratotionToFile(ApiConfiguration apiConfiguration) throws IOException {
-        Objects.requireNonNull(apiConfiguration);
-        
-        ObjectWriter writer = objectMapper.writerFor(ApiConfiguration.class);
-        
-        writer.writeValues(outputFile.toFile());
-        // TODO: Figure out how to write YAML out to the file
-        objectMapper.writeValue(writer, apiConfiguration);
-    }
     private ApiConfiguration buildConfiguration(List<ReportDefinition> reportDefinitions) {
         ApiConfiguration apiConfiguration = new ApiConfiguration();
 
@@ -81,7 +87,7 @@ public class PentahoAPIGenerator {
 
                     String reportPath = reportDefinition.getReportName().toLowerCase().replace(" ", "_");
                     
-                    reportConfiguration.setPath(reportPath);
+                    reportConfiguration.setPath(reportPath.startsWith("/") ? reportPath : "/".concat(reportPath));
 
                     reportConfiguration.setReportName(reportDefinition.getReportName());
                     reportConfiguration.setDescription(reportDefinition.getDescription());
@@ -93,9 +99,8 @@ public class PentahoAPIGenerator {
                     reportConfiguration.setMethods(Method.ALL);
 
                     // Add all the output types for this report
-                    reportConfiguration.setExtensions(Arrays.asList(OutputType.values())
-                        .stream()
-                        .filter(o -> o.equals(OutputType.NONE))
+                    reportConfiguration.setExtensions(Arrays.stream(OutputType.values())
+                        .filter(o -> !o.equals(OutputType.NONE))
                         .map(OutputType::name)
                         .collect(Collectors.toList()));
 
@@ -134,15 +139,14 @@ public class PentahoAPIGenerator {
         return Collections.emptyList();
     }
 
-    private final PentahoMetadataScanner scanner = new PentahoMetadataScanner();
     private ReportDefinition parseReportDefinition(Path reportFilePath) throws Exception {
-        
-        org.pentaho.reporting.engine.classic.core.ReportDefinition pentahoReport = scanner.reportDefinition(reportFilePath);
 
-        MasterReport masterReport = (MasterReport) pentahoReport.getParentSection().getMasterReport();
-        
-        List<ParameterDefinitionEntry> pentahoParams = Arrays.asList(masterReport.getParameterDefinition().getParameterDefinitions());
+        final Resource resource = resourceManager.createDirectly(reportFilePath.toFile(), MasterReport.class);
 
+        final MasterReport pentahoReport = (MasterReport) resource.getResource();
+
+        List<ParameterDefinitionEntry> pentahoParams = Arrays.asList(pentahoReport.getParameterDefinition()
+                                                                                  .getParameterDefinitions());
         List<ParameterDefinition> params = pentahoParams.stream()
                 .map(param -> {
                     try {
@@ -159,31 +163,24 @@ public class PentahoAPIGenerator {
                     }
                     return null;
                 })
-                .filter(Objects::isNull)
+                .filter(p -> !Objects.isNull(p))
                 .collect(Collectors.toList());
 
         // Ensure that all the parameters are extracted
         if (pentahoParams.size() != params.size()) {
-            throw new Exception("Parameters in report definition and extracted parameters do not match");
+            String realParams = objectMapper.writeValueAsString(pentahoParams);
+            String extractedParams = objectMapper.writeValueAsString(params);
+            String comparison = String.format("Expected: %s, Actual: %s", realParams, extractedParams);
+            throw new Exception("Parameters in report definition and extracted parameters do not match. " + comparison);
         }
 
-        String reportName = pentahoReport.getName();
-        String version = null;
-        String description = null;
+        String reportName = reportFilePath.getFileName().toString();
+        // Remove the extension
+        reportName = reportName.replace(".prpt", "");
+        // TODO: Get version and description from report metadata
+        String version = pentahoReport.getId();
+        String description = pentahoReport.getTitle();
         
         return new ReportDefinition(reportName, reportFilePath.toAbsolutePath().toString(), params, version, description);
-    }
-
-
-    /**
-     * Obtains pentaho metadata
-     */
-    private final class PentahoMetadataScanner {
-
-        public org.pentaho.reporting.engine.classic.core.ReportDefinition reportDefinition(Path filePath) throws Exception {
-            // TODO: extract pentaho report definition from the given path
-            return null;
-        }
-
     }
 }

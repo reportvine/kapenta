@@ -112,6 +112,7 @@ public final class ParameterDefinition {
         return name;
     }
 
+    @JsonIgnore
     public boolean isMandatory() {
         return required;
     }

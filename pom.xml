@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.creditdatamw.labs</groupId>
     <artifactId>spark-pentaho-report</artifactId>
-    <version>0.2.3</version>
+    <version>0.2.4-SNAPSHOT</version>
     <name>Spark Pentaho Report</name>
     <description>Create a Report API for Pentaho Reports</description>
     <properties>
@@ -204,6 +204,11 @@
                         <classpath/>
                         <argument>com.creditdatamw.labs.sparkpentaho.Application</argument>
                         <argument>src/test/resources/application.yml</argument>
+                        <!-- uncomment below args and comment line above to test generation
+                        <argument>generate</argument>
+                        <argument>src/test/resources/</argument>
+                        <argument>target/generated-config.yml</argument>
+                        -->
                     </arguments>
                 </configuration>
             </plugin>

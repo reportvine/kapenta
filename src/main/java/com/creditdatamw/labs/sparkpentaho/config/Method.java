@@ -1,5 +1,6 @@
 package com.creditdatamw.labs.sparkpentaho.config;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Arrays;
@@ -32,7 +33,8 @@ public class Method
     @JsonProperty("post")
     private boolean post = true;
 
-    private Method(boolean get, boolean post) {
+    @JsonCreator
+    private Method(@JsonProperty("get") boolean get, @JsonProperty("post") boolean post) {
         this.get = get;
         this.post = post;
     }

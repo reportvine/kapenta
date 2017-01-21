@@ -4,6 +4,8 @@ Spark Pentaho API
 Generate restful apis for your pentaho reports automatically from
 a YAML configuration file.
 
+## Basic Usage
+
 Let's assume you have designed a report called `customer_report` in Pentaho Report Designer
 and you want to make this report available via an *API*.
 
@@ -17,7 +19,8 @@ apiRoot: /api
 reports:
   - name: Customer Report
     version: "1.0.0"
-    path: "./customer_report.prpt"
+    path: /customer_report
+    file: ./customer_report.prpt
     parameters:
       - name: customer_id
         type: java.lang.Long
@@ -28,7 +31,7 @@ reports:
 Running the following command will start a webserver at port 4567
 
 ```bash
-$ java -jar spark-pentaho-report.jar configuration.yml
+$ bin/spark_pentaho configuration.yml
 ```
 
 The API created will have two end-points, one for generating your report.
@@ -71,6 +74,31 @@ In this case will give you
   ]
 }
 ```
+
+## Generating Configuration
+
+Let's say you have too many reports you want to expose via an API or you're just too lazy to write up the YAML
+configuration by hand you can **automagically generate** the YAML configuration using the same binary!
+
+Let's assume you have reports in a directory called `/var/pentaho_reports`. You can use the following
+command to generate a YAML file called `my_api.yml` that contains basic configuration for the reports
+in that directory.
+
+> NOTE: The directory must contain valid Pentaho report templates but may also contain other files. The
+> generator only picks up the Pentaho files
+
+```sh
+$ bin/spark_pentaho generate /var/pentaho_reports my_api.yml
+```
+
+You can then use the generated YAML file to run your API and you didn't have to write anything!
+
+```sh
+$ bin/spark_pentaho my_api.yml
+```
+
+The generated configuration file does not configure backup and authentication - so if you
+need those features you have to add them in yourself. See the *Advanced Configuration* section, below.
 
 ## Advanced Configuration
 

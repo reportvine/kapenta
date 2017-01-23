@@ -174,6 +174,8 @@ basicAuth:
 
 ## TODO
 
+* Fix run scripts (spark_pentaho.bat, spark_pentaho) to allow users to execute them from anywhere
+* Support List type parameters in http requests
 * Add tests for other components
 * Fix image resource loading issue in generated reports
 * Allow users to change the SQL Datasource of a report based on configuration or environment variables, or both

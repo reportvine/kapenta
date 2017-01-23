@@ -132,9 +132,10 @@ public final class ParameterDefinition {
     }
 
     private static final ImmutableSet<String> WHITELISTED_CLASSES = ImmutableSet.of(
+            "java.lang.Number",
             "java.lang.Integer",
-            "java.lang.String",
             "java.lang.Double",
+            "java.lang.String",
             "java.lang.Long",
             "java.lang.Boolean",
             "java.lang.Char",

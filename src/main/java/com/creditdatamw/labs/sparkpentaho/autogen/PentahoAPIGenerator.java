@@ -12,6 +12,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;
 import org.pentaho.reporting.engine.classic.core.MasterReport;
+import org.pentaho.reporting.engine.classic.core.parameters.DefaultParameterContext;
 import org.pentaho.reporting.engine.classic.core.parameters.ParameterDefinitionEntry;
 import org.pentaho.reporting.libraries.resourceloader.Resource;
 import org.pentaho.reporting.libraries.resourceloader.ResourceManager;
@@ -148,21 +149,7 @@ public class PentahoAPIGenerator {
         List<ParameterDefinitionEntry> pentahoParams = Arrays.asList(pentahoReport.getParameterDefinition()
                                                                                   .getParameterDefinitions());
         List<ParameterDefinition> params = pentahoParams.stream()
-                .map(param -> {
-                    try {
-                        if (param.isMandatory()) {
-                            return ReportDefinition.requiredParameter(param.getName(),
-                                                                    param.getDefaultValue(null),
-                                                                    param.getValueType());
-                        }
-                        return ReportDefinition.optionalParameter(param.getName(),
-                                                                param.getDefaultValue(null),
-                                                                param.getValueType());
-                    } catch(Exception ex) {
-                        LOGGER.error("Failed to extract parameter", ex);
-                    }
-                    return null;
-                })
+                .map(param -> mapPentahoParameterToParameterDefinition(param, pentahoReport))
                 .filter(p -> !Objects.isNull(p))
                 .collect(Collectors.toList());
 
@@ -182,5 +169,37 @@ public class PentahoAPIGenerator {
         String description = pentahoReport.getTitle();
         
         return new ReportDefinition(reportName, reportFilePath.toAbsolutePath().toString(), params, version, description);
+    }
+
+    /**
+     * Map a pentaho report parameter to the ParameterDefinition class
+     *
+     * @param param
+     * @param pentahoReport
+     * @return
+     */
+    private ParameterDefinition mapPentahoParameterToParameterDefinition(ParameterDefinitionEntry param, MasterReport pentahoReport) {
+        Object defaultValue = null;
+        try {
+            /**
+             * Pentaho requires us to provide a {@link org.pentaho.reporting.engine.classic.core.parameters.ParameterContext}
+             * which may fail since it needs to connect to the DataFactory (database)
+             * for some other kinds of parameters so we allow the call to fail in which case
+             * the default will remain a <code>null</code>
+             */
+            DefaultParameterContext context = new DefaultParameterContext(pentahoReport);
+            defaultValue = param.getDefaultValue(context);
+        } catch(Exception ex) {
+            LOGGER.error("Failed to get default value for parameter", ex);
+        }
+
+        if (param.isMandatory()) {
+            return ReportDefinition.requiredParameter(param.getName(),
+                    defaultValue,
+                    param.getValueType());
+        }
+        return ReportDefinition.optionalParameter(param.getName(),
+                defaultValue,
+                param.getValueType());
     }
 }

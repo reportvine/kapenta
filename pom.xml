@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.creditdatamw.labs</groupId>
     <artifactId>spark-pentaho-report</artifactId>
-    <version>0.2.6-SNAPSHOT</version>
+    <version>0.2.6</version>
     <name>Spark Pentaho Report</name>
     <description>Create a Report API for Pentaho Reports</description>
     <properties>

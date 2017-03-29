@@ -203,7 +203,7 @@
                         <argument>-classpath</argument>
                         <classpath/>
                         <argument>com.creditdatamw.labs.sparkpentaho.Application</argument>
-                        <argument>src/test/resources/application.yml</argument>
+                        <argument>${project.basedir}/development.yml</argument>
                         <!-- uncomment below args and comment line above to test generation
                         <argument>generate</argument>
                         <argument>src/test/resources/</argument>
@@ -258,56 +258,6 @@
                         <descriptor>${project.basedir}/src/main/assembly/assembly.xml</descriptor>
                     </descriptors>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <finalName>spark-pentaho-report-${project.version}-shaded</finalName>
-                    <createDependencyReducedPom>true</createDependencyReducedPom>
-                    <artifactSet>
-                        <excludes>
-                            <exclude>org.slf4j:slf4j-log4j12</exclude>
-                        </excludes>
-                    </artifactSet>
-                    <filters>
-                        <filter>
-                            <artifact>*:*</artifact>
-                            <excludes>
-                                <exclude>META-INF/*.SF</exclude>
-                                <exclude>META-INF/*.DSA</exclude>
-                                <exclude>META-INF/*.RSA</exclude>
-                            </excludes>
-                        </filter>
-                    </filters>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/spring.handlers</resource>
-                                </transformer>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/spring.schemas</resource>
-                                </transformer>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.creditdatamw.labs.sparkpentaho.Application</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

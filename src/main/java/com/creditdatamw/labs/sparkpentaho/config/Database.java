@@ -1,14 +1,19 @@
 package com.creditdatamw.labs.sparkpentaho.config;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Database configuration for Pentaho reports
  */
 public class Database {
 
+    @JsonProperty
     private String user;
 
+    @JsonProperty
     private String password;
 
+    @JsonProperty
     private String uri;
 
     public String getUser() {

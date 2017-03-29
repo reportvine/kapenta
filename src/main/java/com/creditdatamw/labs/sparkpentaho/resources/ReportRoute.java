@@ -51,13 +51,13 @@ final class ReportRoute implements Route {
         this.database = Optional.empty();
     }
 
-    public ReportRoute(ReportResource reportResource, Backup backup, Database database) {
+    public ReportRoute(ReportResource reportResource, Backup backup, Optional<Database> database) {
         Objects.requireNonNull(reportResource);
         Objects.requireNonNull(backup);
         Objects.requireNonNull(database);
         this.reportResource = reportResource;
         this.backup = Optional.of(backup);
-        this.database = Optional.of(database);
+        this.database = database;
     }
 
     @Override

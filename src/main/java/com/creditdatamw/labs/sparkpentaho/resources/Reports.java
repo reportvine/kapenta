@@ -86,7 +86,10 @@ public class Reports {
      * @param reportResource
      */
     private void registerRoute(ReportResource reportResource) {
-        final ReportRoute reportRoute = Objects.isNull(backup) ? new ReportRoute(reportResource) : new ReportRoute(reportResource, backup);
+        final ReportRoute reportRoute = Objects.isNull(backup)
+                                        ? new ReportRoute(reportResource)
+                                        : new ReportRoute(reportResource, backup, Optional.ofNullable(database));
+
         final String reportPath = withRootPath(reportResource.path());
 
         List<String> extensionList = reportResource.outputTypes()

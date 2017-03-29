@@ -112,7 +112,10 @@ public class SparkPentahoAPI {
             configureBasicAuth(configuration);
         }
 
-        return new Reports(configuration.getApiRoot(), Collections.unmodifiableList(reportResources), configuration.getBackup());
+        return new Reports(configuration.getApiRoot(),
+                           Collections.unmodifiableList(reportResources),
+                           configuration.getBackup(),
+                           configuration.getDatabase());
     }
 
     private static void configureBasicAuth(ApiConfiguration configuration) {

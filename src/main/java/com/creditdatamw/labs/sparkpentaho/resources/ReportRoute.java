@@ -1,11 +1,8 @@
 package com.creditdatamw.labs.sparkpentaho.resources;
 
 import com.creditdatamw.labs.sparkpentaho.config.Backup;
-import com.creditdatamw.labs.sparkpentaho.reports.Generator;
-import com.creditdatamw.labs.sparkpentaho.reports.GeneratorException;
-import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
-import com.creditdatamw.labs.sparkpentaho.reports.ParameterDefinition;
-import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
+import com.creditdatamw.labs.sparkpentaho.config.Database;
+import com.creditdatamw.labs.sparkpentaho.reports.*;
 import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.creditdatamw.labs.sparkpentaho.SparkPentahoAPI.OBJECT_MAPPER;
@@ -42,13 +34,30 @@ final class ReportRoute implements Route {
 
     private final Optional<Backup> backup;
 
+    private final Optional<Database> database;
+
     public ReportRoute(ReportResource reportResource) {
+        Objects.requireNonNull(reportResource);
         this.reportResource = reportResource;
         this.backup = Optional.empty();
+        this.database = Optional.empty();
     }
+
     public ReportRoute(ReportResource reportResource, Backup backup) {
+        Objects.requireNonNull(reportResource);
+        Objects.requireNonNull(backup);
         this.reportResource = reportResource;
         this.backup = Optional.of(backup);
+        this.database = Optional.empty();
+    }
+
+    public ReportRoute(ReportResource reportResource, Backup backup, Database database) {
+        Objects.requireNonNull(reportResource);
+        Objects.requireNonNull(backup);
+        Objects.requireNonNull(database);
+        this.reportResource = reportResource;
+        this.backup = Optional.of(backup);
+        this.database = Optional.of(database);
     }
 
     @Override
@@ -94,6 +103,8 @@ final class ReportRoute implements Route {
                 val = request.queryMap(queryParam).longValue();
             } else if (reportDefinition.parameterType(queryParam) == Integer.class) {
                 val = request.queryMap(queryParam).integerValue();
+            } else if (reportDefinition.parameterType(queryParam) == Number.class) {
+                val = request.queryMap(queryParam).integerValue();
             } else if (reportDefinition.parameterType(queryParam) == Boolean.class) {
                 val = request.queryMap(queryParam).booleanValue();
             }
@@ -101,23 +112,36 @@ final class ReportRoute implements Route {
         });
 
         try {
-            Generator.generateReport(
-                reportDefinition.getReportFilePath(),
-                reportParameters,
-                outputType,
-                response.raw().getOutputStream()
-            );
+            // A MultiplexOutputStream allows us to write to more than one output stream at a time
+            MultiplexOutputStream outputStream = new MultiplexOutputStream(response.raw().getOutputStream());
 
+            // We will write to the backup output stream if the backup configuration is present
             if (backup.isPresent()) {
-                try (OutputStream outputStream = getBackupOutput(reportDefinition.getReportName(), outputType)) {
-                    Generator.generateReport(
-                            reportDefinition.getReportFilePath(),
-                            reportParameters,
-                            outputType,
-                            outputStream
-                    );
-                }
+                outputStream = new MultiplexOutputStream(
+                        response.raw().getOutputStream(),
+                        getBackupOutput(reportDefinition.getReportName(), outputType)
+                );
             }
+
+            // Some reports may require that a database configuration is present
+            // To enable them to point to another database configuration (e.g. DEV, QA, PROD)
+            if (database.isPresent()) {
+                Generator.generateReport(
+                        reportDefinition.getReportFilePath(),
+                        reportParameters,
+                        outputType,
+                        outputStream,
+                        database.get()
+                );
+            } else {
+                Generator.generateReport(
+                        reportDefinition.getReportFilePath(),
+                        reportParameters,
+                        outputType,
+                        outputStream
+                );
+            }
+
             LOGGER.info("Generated report: {} for {}", reportDefinition.getReportName(), reportResource.path());
         } catch (GeneratorException | IOException e) {
             LOGGER.error("Failed to generate report. Error: " + e.getMessage(), e.getCause());

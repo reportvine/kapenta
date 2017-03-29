@@ -26,6 +26,9 @@ public class ApiConfiguration {
     Backup backup;
 
     @JsonProperty
+    Database database;
+
+    @JsonProperty
     private List<ReportConfiguration> reports;
 
     public ApiConfiguration() {
@@ -77,5 +80,13 @@ public class ApiConfiguration {
 
     public void setBackup(Backup backup) {
         this.backup = backup;
+    }
+
+    public Database getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(Database database) {
+        this.database = database;
     }
 }

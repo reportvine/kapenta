@@ -11,6 +11,10 @@ backup:
   directory: /var/log
   # If the directory should have subdirectories for each day
   rollingBackup: true
+#database:
+#  user: user
+#  password: password
+#  uri: jdbc:postgres://localhost:5432/database
 reports:
   - name: Hello Report
     path: /hello

@@ -1,5 +1,6 @@
 package com.creditdatamw.labs.sparkpentaho.reports;
 
+import com.creditdatamw.labs.sparkpentaho.config.Database;
 import org.pentaho.reporting.engine.classic.core.MasterReport;
 import org.pentaho.reporting.engine.classic.core.modules.output.pageable.pdf.PdfReportUtil;
 import org.pentaho.reporting.engine.classic.core.modules.output.pageable.plaintext.PlainTextReportUtil;
@@ -58,6 +59,53 @@ public final class Generator {
 
             // We finally have the pentaho report instance
             final MasterReport masterReport = (MasterReport) resource.getResource();
+
+            ReportParameterValues params = masterReport.getParameterValues();
+
+            parameters.forEach((key, value) -> {
+                params.put(key, value);
+            });
+
+            // Defaults to HTML output
+            switch (outputType) {
+                case TXT:
+                    PlainTextReportUtil.createPlainText(masterReport, outputStream);
+                    break;
+                case PDF:
+                    PdfReportUtil.createPDF(masterReport, outputStream);
+                    break;
+                case HTML:
+                default:
+                    HtmlReportUtil.createStreamHTML(masterReport, outputStream);
+            }
+        } catch (Exception e) {
+            throw new GeneratorException("Failed to generate report", e);
+        }
+    }
+
+    public static void generateReport(String reportFileName,
+                                      Map<String, Object> parameters,
+                                      OutputType outputType,
+                                      OutputStream outputStream,
+                                      Database database) throws GeneratorException {
+        Path filePath = Paths.get(reportFileName);
+        try (InputStream fis = Files.newInputStream(filePath, LinkOption.NOFOLLOW_LINKS)){
+            URL url = filePath.toUri().toURL();
+
+            final Resource resource = resourceManager.createDirectly(url, MasterReport.class);
+
+            LOGGER.debug("Loaded resource: {}", resource.getSource());
+
+            // We finally have the pentaho report instance
+            final MasterReport masterReport = (MasterReport) resource.getResource();
+
+            SQLDataSourceVisitor sqlDataSourceVisitor = new SQLDataSourceVisitor(
+                    database.getUri(),
+                    database.getUser(),
+                    database.getPassword()
+            );
+
+            sqlDataSourceVisitor.inspect(masterReport);
 
             ReportParameterValues params = masterReport.getParameterValues();
 

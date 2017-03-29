@@ -1,6 +1,7 @@
 package com.creditdatamw.labs.sparkpentaho.resources;
 
 import com.creditdatamw.labs.sparkpentaho.config.Backup;
+import com.creditdatamw.labs.sparkpentaho.config.Database;
 import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,8 @@ public class Reports {
 
     private Backup backup;
 
+    private Database database;
+
     public Reports(String rootPath, List<ReportResource> resourceList) {
         Objects.requireNonNull(rootPath);
         Objects.requireNonNull(resourceList);
@@ -35,6 +38,11 @@ public class Reports {
     public Reports(String rootPath, List<ReportResource> resourceList, Backup backup) {
         this(rootPath, resourceList);
         this.backup = backup;
+    }
+
+    public Reports(String rootPath, List<ReportResource> resourceList, Backup backup, Database database) {
+        this(rootPath, resourceList, backup);
+        this.database = database;
     }
 
     protected void validateResources() {

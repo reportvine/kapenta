@@ -35,6 +35,11 @@
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.42</version>
+        </dependency>
         <!-- Pentaho dependencies -->
         <dependency>
             <groupId>pentaho-reporting-engine</groupId>

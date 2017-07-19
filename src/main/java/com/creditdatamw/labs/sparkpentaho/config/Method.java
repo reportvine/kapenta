@@ -3,8 +3,6 @@ package com.creditdatamw.labs.sparkpentaho.config;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Arrays;
-
 /**
  * Configuration of the HTTP Method to support
  */

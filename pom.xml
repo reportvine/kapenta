@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.creditdatamw.labs</groupId>
     <artifactId>spark-pentaho-report</artifactId>
-    <version>0.2.8</version>
+    <version>0.2.9-SNAPSHOT</version>
     <name>Spark Pentaho Report</name>
     <description>Create a Report API for Pentaho Reports</description>
     <properties>
@@ -172,6 +172,12 @@
             <groupId>org.powermock</groupId>
             <artifactId>powermock-module-junit4</artifactId>
             <version>1.6.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

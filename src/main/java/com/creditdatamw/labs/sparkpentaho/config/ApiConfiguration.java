@@ -1,6 +1,5 @@
 package com.creditdatamw.labs.sparkpentaho.config;
 
-import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

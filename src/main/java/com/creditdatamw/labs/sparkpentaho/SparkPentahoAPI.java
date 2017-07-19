@@ -4,7 +4,6 @@ import com.creditdatamw.labs.sparkpentaho.config.ApiConfiguration;
 import com.creditdatamw.labs.sparkpentaho.config.BasicAuth;
 import com.creditdatamw.labs.sparkpentaho.config.Method;
 import com.creditdatamw.labs.sparkpentaho.filter.BasicAuthenticationFilter;
-import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
 import com.creditdatamw.labs.sparkpentaho.resources.ReportResource;
 import com.creditdatamw.labs.sparkpentaho.resources.ReportResourceImpl;
 import com.creditdatamw.labs.sparkpentaho.resources.Reports;
@@ -12,12 +11,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;
 import org.slf4j.LoggerFactory;
-import org.yaml.snakeyaml.constructor.Constructor;
 import spark.Spark;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -48,6 +45,10 @@ public class SparkPentahoAPI {
     public void start() {
         ClassicEngineBoot.getInstance().start();
         reports.registerResources();
+    }
+
+    public void stop() {
+        Spark.stop();
     }
 
     /**

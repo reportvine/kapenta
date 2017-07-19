@@ -1,0 +1,121 @@
+          
+          
+          
+          
+          
+          
+          #1                Testing Parameterized Subreports
+          Employee Name              Department/Subdepartment
+          Andrew                     IT/Software Development
+          
+          Description
+          
+          Curabitur sodales ligula in libero. Sed dignissim lacinia nunc.
+          Andrew comments:           Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          
+          Zikani comments:           Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          Walter comments:           Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          Bonface comments:          Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          
+          Blesssings comments:       Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          Zikani                     IT/Software Development + Operations
+          
+          
+          Description
+          Curabitur sodales ligula in libero. Sed dignissim lacinia nunc.
+          
+          Andrew comments:           Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          Zikani comments:           Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          
+          Walter comments:           Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          Bonface comments:          Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          Blesssings comments:       Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          
+          Walter                     IT/Software
+          
+          Description
+          
+          Curabitur sodales ligula in libero. Sed dignissim lacinia nunc.
+          Andrew comments:           Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          
+          Zikani comments:           Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          Walter comments:           Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          
+          Bonface comments:          Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          
+          
+          
+          
+          
+          
+          
+          
+                                    SUBREPORT #2
+          Blesssings comments:       Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          
+          Bonface                    IT/Database
+          
+          Description
+          
+          Curabitur sodales ligula in libero. Sed dignissim lacinia nunc.
+          Andrew comments:           Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          Zikani comments:           Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          
+          Walter comments:           Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          Bonface comments:          Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          
+          Blesssings comments:       Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          Blesssings                 IT/Operations
+          
+          
+          Description
+          Curabitur sodales ligula in libero. Sed dignissim lacinia nunc.
+          
+          Andrew comments:           Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          Zikani comments:           Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          Walter comments:           Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          
+          Bonface comments:          Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          Blesssings comments:       Lorem ipsum dolor sit amet,
+                                     consectetur adipiscing elit.
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+

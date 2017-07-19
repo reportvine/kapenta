@@ -1,19 +1,12 @@
 package com.creditdatamw.labs.sparkpentaho;
 
 import com.creditdatamw.labs.sparkpentaho.autogen.PentahoAPIGenerator;
-import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
-import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
-import com.creditdatamw.labs.sparkpentaho.resources.ReportResourceImpl;
-import com.google.common.collect.ImmutableList;
-import spark.Spark;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.EnumSet;
 import java.util.Objects;
 
 import static com.creditdatamw.labs.sparkpentaho.SparkPentahoAPI.sparkPentaho;
-import static spark.Spark.halt;
 
 /**
  * Run the application to get an auto-generated Server API for Pentaho Reports

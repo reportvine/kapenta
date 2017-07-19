@@ -68,7 +68,7 @@ public final class ParameterDefinition {
         this.defaultValue = null;
     }
 
-    private static Class typeFromStr(String typeStr) {
+    public static Class typeFromStr(String typeStr) {
         try {
             if (WHITELISTED_CLASSES.contains(typeStr)) {
                 Class clazz = Class.forName(typeStr);
@@ -128,7 +128,29 @@ public final class ParameterDefinition {
     @JsonIgnore
     @Override
     public Object clone() throws CloneNotSupportedException {
-        return null;
+        return new ParameterDefinition(this.name, this.required, this.type, this.defaultValue);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ParameterDefinition that = (ParameterDefinition) o;
+
+        if (required != that.required) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (defaultValue != null ? !defaultValue.equals(that.defaultValue) : that.defaultValue != null) return false;
+        return type != null ? type.equals(that.type) : that.type == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (required ? 1 : 0);
+        result = 31 * result + (defaultValue != null ? defaultValue.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        return result;
     }
 
     private static final ImmutableSet<String> WHITELISTED_CLASSES = ImmutableSet.of(

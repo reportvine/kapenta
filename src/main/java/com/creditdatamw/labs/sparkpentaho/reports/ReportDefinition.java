@@ -4,11 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * Report definition
@@ -28,16 +24,19 @@ public class ReportDefinition {
     private String reportFilePath;
 
     @JsonProperty("parameters")
-    private List<ParameterDefinition> parameters;
+    private final List<ParameterDefinition> parameters;
 
     public ReportDefinition() {
-
+        this.parameters = Collections.emptyList();
     }
 
     public ReportDefinition(String reportName, String reportFilePath, List<ParameterDefinition> parameters) {
         this.reportName = reportName;
         this.reportFilePath = reportFilePath;
-        this.parameters = parameters;
+        Set<ParameterDefinition> paramSet = new HashSet<>();
+        paramSet.addAll(parameters);
+        this.parameters = new ArrayList<>();
+        paramSet.forEach(this.parameters::add);
     }
 
     public ReportDefinition(String reportName,
@@ -47,9 +46,12 @@ public class ReportDefinition {
                             String description) {
         this.reportName = reportName;
         this.reportFilePath = reportFilePath;
-        this.parameters = parameters;
         this.version = version;
         this.description = description;
+        Set<ParameterDefinition> paramSet = new HashSet<>();
+        paramSet.addAll(parameters);
+        this.parameters = new ArrayList<>();
+        paramSet.forEach(this.parameters::add);
     }
 
 
@@ -106,22 +108,6 @@ public class ReportDefinition {
 
         if (! Files.exists(Paths.get(reportFilePath))) {
             throw new RuntimeException("ReportFile not found: " + reportFilePath);
-        }
-
-        validateParameters();
-    }
-
-    protected void validateParameters() {
-        Objects.requireNonNull(parameters);
-        int duplicateParams = parameters.stream()
-            .collect(Collectors.groupingBy(ParameterDefinition::getName))
-            .values()
-            .stream()
-            .filter(List::isEmpty)
-            .collect(Collectors.toList())
-            .size();
-        if (duplicateParams > 0) {
-            throw new RuntimeException("Duplicate parameter entries found for report");
         }
     }
 

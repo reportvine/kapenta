@@ -1,7 +1,7 @@
 Spark Pentaho API
 =
 
-Generate RESTful APIis for your Pentaho Reports automatically from
+Generate RESTful APIs for your Pentaho Reports automatically from
 a YAML configuration file.
 
 ## Basic Usage
@@ -168,6 +168,47 @@ basicAuth:
       password: foo123
     - username: john
       password: john123
+```
+
+## Building
+
+You will need a minimum of [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html) 
+and [Maven 3](https://maven.apache.org/) to build the project.
+
+The project uses the [assembly](https://maven.apache.org/plugins/maven-assembly-plugin/usage.html) 
+to create both a zip and tar archive
+that contains the compiled application, all it's dependencies and the executable 
+scripts; `bin/spark_pentaho.bat` file for Windows and a bash (`bin/spark_pentaho`) 
+file for Linux.
+
+```sh
+$ git clone https://github.com/creditdatamw/spark-pentaho-report.git
+$ cd spark-pentaho-report
+$ mvn clean install
+$ mvn assembly:assembly
+```
+
+The archives will be created in the `target` directory.
+
+## Note on MySQL database drivers
+
+The project does not ship with the database driver for MySQL so you will have problems
+if your reports connect to a MySQL database. You can fix this by adding the MySQL 
+dependency to the dependencies section in the `pom` file on your own fork of the repo.
+
+Alternatively, assuming you have a tarball build of `spark-pentaho-report` you can add 
+the MySQL jar file in the `lib` directory - this should work.
+
+> NOTE: We will not accept pull requests to add MySQL as a dependency in the pom.
+
+You may add something like:
+
+```xml
+<dependency>
+	<groupId>mysql</groupId>
+	<artifactId>mysql-connector-java</artifactId>
+	<version>5.1.42</version>
+</dependency>
 ```
 
 ## CONTRIBUTING

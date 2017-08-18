@@ -157,8 +157,8 @@ final class ReportRoute implements Route {
         String nameSanitized = reportName.replace(" ", "");
 
         String backupFileName = String.format("%s-%s.%s", System.currentTimeMillis(), nameSanitized, outputType.name());
-
-        Path outputPath = Paths.get(backup.get().getDirectory(), backupFileName.toLowerCase());
+        Backup backupConfig = backup.get();
+        Path outputPath = Paths.get(backupConfig.getFullDirectory(), backupFileName.toLowerCase());
 
         return Files.newOutputStream(outputPath, StandardOpenOption.CREATE_NEW);
     }

@@ -3,7 +3,7 @@
 We'd love to get contributions from you!
 
 If you have any questions or run into any problems, please create
-an issue here or email the us it [at] creditdatamw.com
+an issue here or email us: it [at] creditdatamw.com
 
 ## Workflow
 
@@ -33,7 +33,7 @@ detail. The maintainers will review all issues created and we'll do
 our best to give feedback if necessary. However, we recommend that you send
 a Pull Request with a fix if you can manage - contributions are always welcome
 
-As outlined above, you must create a feature or bugfix branch make a 
+As outlined above, you must create a feature or bugfix branch and make a 
 pull request from the branch which the maintainers will review.
 You may be asked to improve some things in the pull request and once the
 pull request is satisfactory it will be merged into the mainline.

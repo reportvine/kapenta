@@ -14,7 +14,7 @@ import java.util.Objects;
 
 /**
  * Change the DataSource defined in a report at runtime by using this class.
- * Calling the {@link SQLDataSourceVisitor}'s <code>process()</code>
+ * Calling the {@link SqlDataSourceVisitor}'s <code>process()</code>
  * method will cause the report's dataSource to be changed to the dataSource
  * passed in the constructor.
  * 
@@ -24,10 +24,10 @@ import java.util.Objects;
  *
  * @author Zikani
  */
-public class SQLDataSourceVisitor extends AbstractStructureVisitor {
+public class SqlDataSourceVisitor extends AbstractStructureVisitor {
     private final ConnectionProvider connectionProvider;
 
-    public SQLDataSourceVisitor(String databaseUrl, String user, String password) {
+    public SqlDataSourceVisitor(String databaseUrl, String user, String password) {
         this.connectionProvider = new ConnectionProviderImpl(databaseUrl, user, password);
     }
     

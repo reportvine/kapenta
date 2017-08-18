@@ -1,7 +1,7 @@
 Spark Pentaho API
 =
 
-Generate restful apis for your pentaho reports automatically from
+Generate RESTful APIis for your Pentaho Reports automatically from
 a YAML configuration file.
 
 ## Basic Usage
@@ -52,12 +52,12 @@ For example the same request above can be made a pdf by performing the request i
 In order to get a Text report - append `.txt` to the path before adding the query
 parameters or set the `Accept` header to `text/plain`.
 
-All output is UTF-8 encoded
+**All output is UTF-8 encoded**
 
-The other end-point generated allows you to see what parameters are accepted 
+An end-point is generated that allows you to see what parameters are accepted 
 by the report.
 
-Invoking 
+For example, you could run the following request: 
 
 ```bash
 $ curl -G http://localhost:4567/api/customer_report/info
@@ -77,7 +77,7 @@ In this case will give you
 
 ## Generating Configuration
 
-Let's say you have too many reports you want to expose via an API or you're just too lazy to write up the YAML
+Let's say you have too many reports you want to expose via an API or you're just too busy to write up the YAML
 configuration by hand you can **automagically generate** the YAML configuration using the same binary!
 
 Let's assume you have reports in a directory called `/var/pentaho_reports`. You can use the following
@@ -170,17 +170,15 @@ basicAuth:
       password: john123
 ```
 
-## TODO
+## CONTRIBUTING
 
-* Fix run scripts (spark_pentaho.bat, spark_pentaho) to allow users to execute them from anywhere
-* Support List type parameters in http requests
-* Fix image resource loading issue in generated HTML reports
-* Allow users to change the SQL Datasource of a report based on configuration or environment variables, or both
+See the [`CONTRIBUTING.md`](CONTRIBUTING.md) file for more information.
 
-## Authors
 
-* Zikani Nyirenda Mwase
+
+This is not an official Credit Data CRB Ltd product  - just code that 
+happens to be owned by Credit Data CRB Ltd.
 
 ---
 
-Copyright (c) 2016, Credit Data CRB
+Copyright (c) 2017, Credit Data CRB Ltd

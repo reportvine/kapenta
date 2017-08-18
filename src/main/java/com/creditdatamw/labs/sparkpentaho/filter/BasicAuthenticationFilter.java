@@ -7,6 +7,7 @@ import spark.Filter;
 import spark.Request;
 import spark.Response;
 
+import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
@@ -61,7 +62,8 @@ public class BasicAuthenticationFilter implements Filter {
 
         Base64.Decoder decoder = Base64.getDecoder();
         byte[] decoded = decoder.decode(base64Encoded);
-        String[] usernamePassword = new String(decoded).split(":");
+
+        String[] usernamePassword = new String(decoded, Charset.forName("UTF-8")).split(":");
 
         String username = usernamePassword[0],
             password = usernamePassword[1];

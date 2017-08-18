@@ -13,7 +13,7 @@ import java.util.List;
  *
  */
 @JsonTypeName("parameterDefinition")
-public final class ParameterDefinition {
+public final class ParameterDefinition implements Cloneable{
     @JsonProperty("name")
     private final String name;
 

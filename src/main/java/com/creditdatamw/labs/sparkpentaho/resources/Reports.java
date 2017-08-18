@@ -5,12 +5,14 @@ import com.creditdatamw.labs.sparkpentaho.config.Database;
 import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark.*;
+import spark.Spark;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
-import static spark.Spark.halt;
 
 /**
  * Creates and registers the API endpoints for report resources

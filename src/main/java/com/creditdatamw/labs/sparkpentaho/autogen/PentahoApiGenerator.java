@@ -26,7 +26,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -37,8 +41,8 @@ import java.util.stream.Collectors;
  * with all the parameters defined.
  *
  */
-public class PentahoAPIGenerator {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PentahoAPIGenerator.class);
+public class PentahoApiGenerator {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PentahoApiGenerator.class);
     private static final YAMLMapper yamlMapper = new YAMLMapper();
     private static final ObjectMapper objectMapper = SparkPentahoAPI.OBJECT_MAPPER;
     private final ResourceManager resourceManager;
@@ -52,7 +56,7 @@ public class PentahoAPIGenerator {
      * @param sourceDir The directory to search for reports from
      * @param outputFile The file to write the YAML configuration to
      */
-    public PentahoAPIGenerator(Path sourceDir, Path outputFile) {
+    public PentahoApiGenerator(Path sourceDir, Path outputFile) {
         this.sourceDir = sourceDir;
         this.outputFile = outputFile;
         ClassicEngineBoot.getInstance().start();
@@ -140,7 +144,8 @@ public class PentahoAPIGenerator {
         return Collections.emptyList();
     }
 
-    private ReportDefinition parseReportDefinition(Path reportFilePath) throws Exception {
+    private ReportDefinition parseReportDefinition(final Path reportFilePath) throws Exception {
+        Objects.requireNonNull(reportFilePath, "reportFilePath cannot be null");
 
         final Resource resource = resourceManager.createDirectly(reportFilePath.toFile(), MasterReport.class);
 
@@ -161,6 +166,9 @@ public class PentahoAPIGenerator {
             throw new Exception("Parameters in report definition and extracted parameters do not match. " + comparison);
         }
 
+        if (Objects.isNull(reportFilePath.getFileName())) {
+            throw new Exception("Failed to read fileName from reportFilePath");
+        }
         String reportName = reportFilePath.getFileName().toString();
         // Remove the extension
         reportName = reportName.replace(".prpt", "");

@@ -1,6 +1,6 @@
 package com.creditdatamw.labs.sparkpentaho;
 
-import com.creditdatamw.labs.sparkpentaho.autogen.PentahoAPIGenerator;
+import com.creditdatamw.labs.sparkpentaho.autogen.PentahoApiGenerator;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -39,7 +39,7 @@ public class Application {
     }
 
     private static void generateConfiguration(String directory, String configFile) {
-        PentahoAPIGenerator generator = new PentahoAPIGenerator(Paths.get(directory), Paths.get(configFile));
+        PentahoApiGenerator generator = new PentahoApiGenerator(Paths.get(directory), Paths.get(configFile));
         try {
             generator.generate();
         } catch (Exception e) {

@@ -19,7 +19,7 @@ public class ReportResourceImpl implements ReportResource {
     public ReportResourceImpl(String routePath, String[] methods, EnumSet<OutputType> outputTypes, ReportDefinition reportDefinition) {
         this.routePath = routePath;
         this.reportDefinition = reportDefinition;
-        this.methods = methods;
+        this.methods = methods.clone();
         this.outputTypes = outputTypes;
     }
 

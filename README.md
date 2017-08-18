@@ -137,8 +137,6 @@ backup:
 
 ### Rolling Backups
 
-> NOTE: Currently rolling backups are not supported so all files will be in one directory
-
 Rolling backups creates a directory per day and stores the reports in the directory
 with the date they were generated. The directories are named in `YYYY-MM-DD` format.
 
@@ -154,8 +152,8 @@ the configuration file.
 ```yaml
 basicAuth:
   user:
-    username: zikani
-    password: zikani123
+    username: foo
+    password: foo123
 ```
 
 #### Multiple Users authentication
@@ -166,8 +164,8 @@ the `users` key in the basicAuth configuration
 ```yaml
 basicAuth:
   users:
-    - username: zikani
-      password: zikani123
+    - username: foo
+      password: foo123
     - username: john
       password: john123
 ```
@@ -176,8 +174,7 @@ basicAuth:
 
 * Fix run scripts (spark_pentaho.bat, spark_pentaho) to allow users to execute them from anywhere
 * Support List type parameters in http requests
-* Add tests for other components
-* Fix image resource loading issue in generated reports
+* Fix image resource loading issue in generated HTML reports
 * Allow users to change the SQL Datasource of a report based on configuration or environment variables, or both
 
 ## Authors

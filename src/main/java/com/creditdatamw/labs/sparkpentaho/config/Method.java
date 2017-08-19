@@ -54,7 +54,7 @@ public class Method
         if (this.get && !this.post) {
             return new String[]{ "GET" };
         } else if (this.post && !this.get) {
-            return new String[]{ "GET" };
+            return new String[]{ "POST" };
         } else if (this.get && this.post) {
             return new String[] { "GET", "POST" };
         }

@@ -8,9 +8,9 @@ basicAuth:
 # Configuration for backup of generated reports
 backup:
   # Where to store the generated reports
-  directory: /var/log
+  directory: ./log
   # If the directory should have subdirectories for each day
-  rollingBackup: true
+  rollingBackup: false
 #database:
 #  user: user
 #  password: password

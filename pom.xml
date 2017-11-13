@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.creditdatamw.labs</groupId>
     <artifactId>spark-pentaho-report</artifactId>
-    <version>0.3.0</version>
+    <version>0.3.1-SNAPSHOT</version>
 
     <name>Spark Pentaho Report</name>
     <description>Create a Report API for Pentaho Reports</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <pentaho.version>7.0.0.6-95</pentaho.version>
+        <pentaho.version>8.0.0.0-23</pentaho.version>
         <postgresql.version>42.1.1</postgresql.version>
         <spark.version>2.6.0</spark.version>
         <jackson.version>2.8.6</jackson.version>
@@ -49,7 +49,7 @@
     <repositories>
         <repository>
             <id>pentaho</id>
-            <url>http://repository.pentaho.org/artifactory/repo/</url>
+            <url>http://nexus.pentaho.org/content/groups/omni/</url>
         </repository>
     </repositories>
 
@@ -69,96 +69,21 @@
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-        <!-- Pentaho dependencies -->
+
         <dependency>
-            <groupId>pentaho-reporting-engine</groupId>
-            <artifactId>pentaho-reporting-engine-classic-core</artifactId>
+            <groupId>org.pentaho.reporting.engine</groupId>
+            <artifactId>classic-core</artifactId>
             <version>${pentaho.version}</version>
         </dependency>
         <dependency>
-            <groupId>pentaho-reporting-engine</groupId>
-            <artifactId>pentaho-reporting-engine-classic-extensions</artifactId>
+            <groupId>org.pentaho.reporting.engine</groupId>
+            <artifactId>classic-extensions</artifactId>
             <version>${pentaho.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libbase</artifactId>
-            <version>${pentaho.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libdocbundle</artifactId>
-            <version>${pentaho.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libfonts</artifactId>
-            <version>${pentaho.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libformat</artifactId>
-            <version>${pentaho.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libformula</artifactId>
-            <version>${pentaho.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libloader</artifactId>
-            <version>${pentaho.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>librepository</artifactId>
-            <version>${pentaho.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libserializer</artifactId>
-            <version>${pentaho.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libxml</artifactId>
-            <version>${pentaho.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml-schemas</artifactId>
-            <version>3.9</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>3.9</version>
         </dependency>
         <dependency>
             <groupId>org.hashids</groupId>
             <artifactId>hashids</artifactId>
             <version>1.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>3.9</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.3</version>
-        </dependency>
-        <dependency>
-            <groupId>antlr</groupId>
-            <artifactId>antlr</artifactId>
-            <version>2.7.7</version>
-        </dependency>
-        <dependency>
-            <groupId>com.lowagie</groupId>
-            <artifactId>itext</artifactId>
-            <version>2.1.7</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

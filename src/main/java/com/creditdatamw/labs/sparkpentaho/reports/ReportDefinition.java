@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Report definition
@@ -125,6 +126,25 @@ public class ReportDefinition {
             return null;
         }
         return optional.get().getType();
+    }
+
+    /**
+     * Checks that the set contains all the <em>required</em> parameter names
+     * for this report definition. The set may not contain the optional parameters.</br>
+     * This is a utility method to validate for required parameters before attempting to
+     * generate a report.
+     *
+     * @param params
+     * @return
+     */
+    public boolean hasRequiredParameterNamesIn(Set<String> params) {
+        Optional<Boolean> result = parameters
+                .stream()
+                .filter(ParameterDefinition::isMandatory)
+                .map(param -> params.contains(param.getName()))
+                .reduce((u, a) ->Boolean.logicalAnd(u, a));
+
+        return result.isPresent() && result.get();
     }
 
 }

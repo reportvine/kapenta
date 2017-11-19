@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.StringJoiner;
-import java.util.stream.Collectors;
 
 import static com.creditdatamw.labs.sparkpentaho.SparkPentahoAPI.OBJECT_MAPPER;
 
@@ -72,13 +71,6 @@ final class ReportRoute implements Route {
     @Override
     public Object handle(Request request, Response response) {
         final ReportDefinition reportDefinition = reportResource.reportDefinition();
-
-        List<ParameterDefinition> params = reportDefinition.getParameters();
-        List<ParameterDefinition> requiredParams = params
-                .stream()
-                .filter(param -> !param.isMandatory())
-                .collect(Collectors.toList());
-
         final OutputType outputType = determineOutputTypeAndContentType(request, response);
         final StringJoiner sj = new StringJoiner(",", "[", "]");
 
@@ -91,12 +83,7 @@ final class ReportRoute implements Route {
             return errorJson("Unsupported output type. This report only supports: " + sj.toString());
         }
 
-        List<ParameterDefinition> requiredButMissing = requiredParams
-                .stream()
-                .filter(param -> !request.queryMap(param.getName().toLowerCase()).hasValue())
-                .collect(Collectors.toList());
-
-        if (! requiredButMissing.isEmpty()) {
+        if (! reportDefinition.hasRequiredParameterNamesIn(request.queryParams())) {
             LOGGER.error("Failed to generate report. Unsupported parameters given");
             response.type(APPLICATION_JSON);
             response.status(HttpStatus.BAD_REQUEST_400);

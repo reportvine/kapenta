@@ -1,5 +1,6 @@
 package com.creditdatamw.labs.sparkpentaho.reports;
 
+import com.google.common.collect.Sets;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -9,6 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * ReportDefinitionTest
@@ -63,5 +66,19 @@ public class ReportDefinitionTest {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("ReportDefinion must have a valid name");
         reportDefinition.validate();
+    }
+
+    @Test
+    public void testHasRequiredParametersInSet() {
+        List<ParameterDefinition> params = new ArrayList<>();
+        params.add(ReportDefinition.requiredParameter("report_id", Boolean.class));
+        params.add(ReportDefinition.optionalParameter("subreport_1", Boolean.class));
+        params.add(ReportDefinition.optionalParameter("subreport_2", Boolean.class));
+        ReportDefinition reportDefinition = new ReportDefinition("report",
+                "./src/test/resources/test_report.prpt",
+                params);
+
+        assertTrue(reportDefinition.hasRequiredParameterNamesIn(Sets.newHashSet("report_id", "subreport_1", "subreport_2")));
+        assertFalse(reportDefinition.hasRequiredParameterNamesIn(Sets.newHashSet("subreport_1", "subreport_2")));
     }
 }

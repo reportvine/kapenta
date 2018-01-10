@@ -20,12 +20,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.StringJoiner;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.*;
 
 import static com.creditdatamw.labs.sparkpentaho.SparkPentahoAPI.OBJECT_MAPPER;
 
@@ -103,6 +101,12 @@ final class ReportRoute implements Route {
                 val = request.queryMap(queryParam).integerValue();
             } else if (reportDefinition.parameterType(queryParam) == Boolean.class) {
                 val = request.queryMap(queryParam).booleanValue();
+            } else if (reportDefinition.parameterType(queryParam) == Date.class) {
+                LocalDate d = LocalDate.parse(request.queryMap(queryParam).value());
+                val = Date.from(Instant.from(d));
+            } else if (reportDefinition.parameterType(queryParam) == Timestamp.class) {
+                LocalDate d = LocalDate.parse(request.queryMap(queryParam).value());
+                val = Timestamp.from(Instant.from(d));
             }
             reportParameters.put(queryParam, val);
         });

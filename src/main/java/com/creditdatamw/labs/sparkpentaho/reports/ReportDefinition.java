@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Report definition
@@ -167,9 +168,18 @@ public class ReportDefinition {
                 .stream()
                 .filter(ParameterDefinition::isMandatory)
                 .map(param -> params.contains(param.getName()))
-                .reduce((u, a) ->Boolean.logicalAnd(u, a));
+                .reduce(Boolean::logicalOr);
 
         return result.isPresent() && result.get();
     }
 
+    public String extractMissingRequiredParams(Set<String> params) {
+        return parameters
+            .stream()
+            .filter(ParameterDefinition::isMandatory)
+            .filter(param -> !params.contains(param.getName()))
+            .map(ParameterDefinition::getName)
+            .sorted()
+            .collect(Collectors.joining(","));
+    }
 }

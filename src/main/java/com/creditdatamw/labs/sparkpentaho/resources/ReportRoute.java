@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.creditdatamw.labs.sparkpentaho.SparkPentahoAPI.OBJECT_MAPPER;
 
@@ -81,10 +82,14 @@ final class ReportRoute implements Route {
         }
 
         if (! reportDefinition.hasRequiredParameterNamesIn(request.queryParams())) {
-            LOGGER.error("Failed to generate report. Unsupported parameters given");
+            String missingRequireds = String.format(
+                "The following required parameters not provided: %s",
+                reportDefinition.extractMissingRequiredParams(request.queryParams()));
+
+            LOGGER.error("Failed to generate report. {}", missingRequireds);
             response.type(APPLICATION_JSON);
             response.status(HttpStatus.BAD_REQUEST_400);
-            return errorJson("Please provide all required parameters");
+            return errorJson("Please provide all required parameters. " + missingRequireds);
         }
 
         final Map<String, Object> reportParameters = new HashMap<>();;

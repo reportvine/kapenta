@@ -69,6 +69,19 @@ public class ReportDefinitionTest {
     }
 
     @Test
+    public void testHasRequiredParametersInSingleSet() {
+        List<ParameterDefinition> params = new ArrayList<>();
+        params.add(ReportDefinition.requiredParameter("report_id", Boolean.class));
+        ReportDefinition reportDefinition = new ReportDefinition("report",
+                "./src/test/resources/test_report.prpt",
+                params);
+
+        assertTrue(reportDefinition.hasRequiredParameterNamesIn(Sets.newHashSet("report_id")));
+        assertFalse(reportDefinition.hasRequiredParameterNamesIn(
+            Sets.newHashSet("subreport_1", "subreport_2")));
+    }
+
+    @Test
     public void testHasRequiredParametersInSet() {
         List<ParameterDefinition> params = new ArrayList<>();
         params.add(ReportDefinition.requiredParameter("report_id", Boolean.class));
@@ -80,5 +93,36 @@ public class ReportDefinitionTest {
 
         assertTrue(reportDefinition.hasRequiredParameterNamesIn(Sets.newHashSet("report_id", "subreport_1", "subreport_2")));
         assertFalse(reportDefinition.hasRequiredParameterNamesIn(Sets.newHashSet("subreport_1", "subreport_2")));
+    }
+
+    @Test
+    public void testExtractRequiredParametersFromSet() {
+        List<ParameterDefinition> params = new ArrayList<>();
+        params.add(ReportDefinition.requiredParameter("required_param_1", Boolean.class));
+        params.add(ReportDefinition.requiredParameter("required_param_2", Boolean.class));
+        params.add(ReportDefinition.optionalParameter("subreport_1", Boolean.class));
+        params.add(ReportDefinition.optionalParameter("subreport_2", Boolean.class));
+        ReportDefinition reportDefinition = new ReportDefinition("report",
+                "./src/test/resources/test_report.prpt",
+                params);
+
+        // Set with only one required parameter
+        assertEquals("required_param_1",
+            reportDefinition.extractMissingRequiredParams(
+                Sets.newHashSet("required_param_2")));
+
+        // Set with only one required parameter
+        assertEquals("required_param_2",
+            reportDefinition.extractMissingRequiredParams(
+                Sets.newHashSet("required_param_1")));
+
+        // Set with only optional parameters
+        assertEquals("required_param_1,required_param_2",
+            reportDefinition.extractMissingRequiredParams(
+                Sets.newHashSet("subreport_1", "subreport_2")));
+
+        // Set without parameters
+        assertEquals("required_param_1,required_param_2",
+            reportDefinition.extractMissingRequiredParams(Collections.emptySet()));
     }
 }

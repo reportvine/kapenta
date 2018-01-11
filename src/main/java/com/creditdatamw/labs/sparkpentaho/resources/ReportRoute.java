@@ -22,6 +22,9 @@ import java.nio.file.StandardOpenOption;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoField;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -209,10 +212,14 @@ final class ReportRoute implements Route {
             val = request.queryMap(queryParam).booleanValue();
         } else if (reportDefinition.parameterType(queryParam) == Date.class) {
             LocalDate d = LocalDate.parse(request.queryMap(queryParam).value());
-            val = Date.from(Instant.from(d));
+            LocalDateTime dt = d.atStartOfDay();
+            // TODO: enabled configuration of zone offset via parameter
+            val = Date.from(dt.toInstant(ZoneOffset.UTC));
         } else if (reportDefinition.parameterType(queryParam) == Timestamp.class) {
             LocalDate d = LocalDate.parse(request.queryMap(queryParam).value());
-            val = Timestamp.from(Instant.from(d));
+            LocalDateTime dt = d.atStartOfDay();
+            // TODO: enabled configuration of zone offset via parameter
+            val = Timestamp.from(dt.toInstant(ZoneOffset.UTC));
         }
         return val;
     }

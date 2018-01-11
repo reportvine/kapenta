@@ -28,7 +28,7 @@ public class ReportDefinitionRoute implements Route {
         response.type(APPLICATION_JSON);
         // We send the report definition without the reportFilePath to avoid
         // exposing how and where reports are stored on the server #security
-        ReportDefinition original = reportResource.reportDefinition(),
+        final ReportDefinition original = reportResource.reportDefinition(),
             reportDefinition = new ReportDefinition(
                 original.getReportName(),
                 null,

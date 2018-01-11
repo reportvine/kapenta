@@ -36,28 +36,50 @@ public class ReportDefinition {
         this.parameters = Collections.emptyList();
     }
 
+    /**
+     * Report definition for a report without parameters
+     *
+     * @param reportName
+     * @param reportFilePath
+     */
+    public ReportDefinition(String reportName, String reportFilePath) {
+        this.reportName = reportName;
+        this.reportFilePath = reportFilePath;
+        this.parameters = Collections.emptyList();
+    }
+
+    /**
+     * Report definition for a report with parameters
+     *
+     * @param reportName
+     * @param reportFilePath
+     * @param parameters
+     */
     public ReportDefinition(String reportName, String reportFilePath, List<ParameterDefinition> parameters) {
         this.reportName = reportName;
         this.reportFilePath = reportFilePath;
+        this.parameters = new ArrayList<>();
         Set<ParameterDefinition> paramSet = new HashSet<>();
         paramSet.addAll(parameters);
-        this.parameters = new ArrayList<>();
         paramSet.forEach(this.parameters::add);
     }
 
+    /**
+     * Report definition for a report with parameters and addition information like version and description
+     * @param reportName
+     * @param reportFilePath
+     * @param parameters
+     * @param version
+     * @param description
+     */
     public ReportDefinition(String reportName,
                             String reportFilePath,
                             List<ParameterDefinition> parameters,
                             String version,
                             String description) {
-        this.reportName = reportName;
-        this.reportFilePath = reportFilePath;
+        this(reportName, reportFilePath, parameters);
         this.version = version;
         this.description = description;
-        Set<ParameterDefinition> paramSet = new HashSet<>();
-        paramSet.addAll(parameters);
-        this.parameters = new ArrayList<>();
-        paramSet.forEach(this.parameters::add);
     }
 
 
@@ -128,6 +150,9 @@ public class ReportDefinition {
         return optional.get().getType();
     }
 
+    public boolean hasParameters() {
+        return !this.parameters.isEmpty();
+    }
     /**
      * Checks that the set contains all the <em>required</em> parameter names
      * for this report definition. The set may not contain the optional parameters.</br>

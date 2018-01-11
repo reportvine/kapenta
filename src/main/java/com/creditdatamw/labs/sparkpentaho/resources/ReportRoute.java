@@ -5,7 +5,6 @@ import com.creditdatamw.labs.sparkpentaho.config.Database;
 import com.creditdatamw.labs.sparkpentaho.reports.Generator;
 import com.creditdatamw.labs.sparkpentaho.reports.GeneratorException;
 import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
-import com.creditdatamw.labs.sparkpentaho.reports.ParameterDefinition;
 import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
 import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
@@ -88,28 +87,16 @@ final class ReportRoute implements Route {
             return errorJson("Please provide all required parameters");
         }
 
-        final Map<String, Object> reportParameters = new HashMap<>();
-
-        // Map query string key=values to report parameters
-        request.queryParams().forEach(queryParam -> {
-            Object val = request.queryMap(queryParam).value();
-            if (reportDefinition.parameterType(queryParam) == Long.class) {
-                val = request.queryMap(queryParam).longValue();
-            } else if (reportDefinition.parameterType(queryParam) == Integer.class) {
-                val = request.queryMap(queryParam).integerValue();
-            } else if (reportDefinition.parameterType(queryParam) == Number.class) {
-                val = request.queryMap(queryParam).integerValue();
-            } else if (reportDefinition.parameterType(queryParam) == Boolean.class) {
-                val = request.queryMap(queryParam).booleanValue();
-            } else if (reportDefinition.parameterType(queryParam) == Date.class) {
-                LocalDate d = LocalDate.parse(request.queryMap(queryParam).value());
-                val = Date.from(Instant.from(d));
-            } else if (reportDefinition.parameterType(queryParam) == Timestamp.class) {
-                LocalDate d = LocalDate.parse(request.queryMap(queryParam).value());
-                val = Timestamp.from(Instant.from(d));
-            }
-            reportParameters.put(queryParam, val);
-        });
+        final Map<String, Object> reportParameters = new HashMap<>();;
+        if (reportDefinition.hasParameters()) {
+            // Map query string key=values to report parameters
+            request.queryParams()
+                .forEach(queryParam ->
+                    reportParameters.put(
+                        queryParam,
+                        parseQueryParamToReportParamValue(request, reportDefinition, queryParam))
+                );
+        }
 
         try {
             // A MultiplexOutputStream allows us to write to more than one output stream at a time
@@ -128,7 +115,7 @@ final class ReportRoute implements Route {
             if (database.isPresent()) {
                 Generator.generateReport(
                         reportDefinition.getReportFilePath(),
-                        reportParameters,
+                        reportDefinition.hasParameters() ? reportParameters : Collections.emptyMap(),
                         outputType,
                         outputStream,
                         database.get()
@@ -136,7 +123,7 @@ final class ReportRoute implements Route {
             } else {
                 Generator.generateReport(
                         reportDefinition.getReportFilePath(),
-                        reportParameters,
+                        reportDefinition.hasParameters() ? reportParameters : Collections.emptyMap(),
                         outputType,
                         outputStream
                 );
@@ -195,6 +182,35 @@ final class ReportRoute implements Route {
         return OutputType.NONE;
     }
 
+    /**
+     * Parse a query parameter from the request to a report parameter required in the report
+     * @param request
+     * @param reportDefinition
+     * @param queryParam
+     * @return
+     */
+    public Object parseQueryParamToReportParamValue(final Request request,
+                                                     final ReportDefinition reportDefinition,
+                                                     String queryParam) {
+
+        Object val = request.queryMap(queryParam).value();
+        if (reportDefinition.parameterType(queryParam) == Long.class) {
+            val = request.queryMap(queryParam).longValue();
+        } else if (reportDefinition.parameterType(queryParam) == Integer.class) {
+            val = request.queryMap(queryParam).integerValue();
+        } else if (reportDefinition.parameterType(queryParam) == Number.class) {
+            val = request.queryMap(queryParam).integerValue();
+        } else if (reportDefinition.parameterType(queryParam) == Boolean.class) {
+            val = request.queryMap(queryParam).booleanValue();
+        } else if (reportDefinition.parameterType(queryParam) == Date.class) {
+            LocalDate d = LocalDate.parse(request.queryMap(queryParam).value());
+            val = Date.from(Instant.from(d));
+        } else if (reportDefinition.parameterType(queryParam) == Timestamp.class) {
+            LocalDate d = LocalDate.parse(request.queryMap(queryParam).value());
+            val = Timestamp.from(Instant.from(d));
+        }
+        return val;
+    }
 
     public static String toJson(Object object) {
         try {

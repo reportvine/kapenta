@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ReportConfiguration {
@@ -140,7 +141,9 @@ public class ReportConfiguration {
                 }
             }
         }
-
+        if (Objects.isNull(this.parameters)) {
+            return new ReportDefinition(this.reportName, reportFullPath);
+        }
         return new ReportDefinition(this.reportName, reportFullPath, this.parameters);
     }
 }

@@ -84,19 +84,21 @@ final class ReportRoute implements Route {
             return errorJson("Unsupported output type. This report only supports: " + sj.toString());
         }
 
-        if (! reportDefinition.hasRequiredParameterNamesIn(request.queryParams())) {
-            String missingRequireds = String.format(
-                "The following required parameters not provided: %s",
-                reportDefinition.extractMissingRequiredParams(request.queryParams()));
-
-            LOGGER.error("Failed to generate report. {}", missingRequireds);
-            response.type(APPLICATION_JSON);
-            response.status(HttpStatus.BAD_REQUEST_400);
-            return errorJson("Please provide all required parameters. " + missingRequireds);
-        }
-
         final Map<String, Object> reportParameters = new HashMap<>();;
         if (reportDefinition.hasParameters()) {
+
+            if (reportDefinition.hasRequiredParameters() &&
+                !reportDefinition.hasRequiredParameterNamesIn(request.queryParams())) {
+
+                String missingRequireds = String.format(
+                    "The following required parameters not provided: %s",
+                    reportDefinition.extractMissingRequiredParams(request.queryParams()));
+
+                LOGGER.error("Failed to generate report. {}", missingRequireds);
+                response.type(APPLICATION_JSON);
+                response.status(HttpStatus.BAD_REQUEST_400);
+                return errorJson("Please provide all required parameters. " + missingRequireds);
+            }
             // Map query string key=values to report parameters
             request.queryParams()
                 .forEach(queryParam ->

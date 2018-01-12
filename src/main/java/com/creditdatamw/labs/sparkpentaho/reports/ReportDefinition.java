@@ -172,6 +172,14 @@ public class ReportDefinition {
 
         return result.isPresent() && result.get();
     }
+    public boolean hasRequiredParameters() {
+        boolean hasRequired = false;
+        for (ParameterDefinition p: parameters) {
+            hasRequired |= p.isMandatory();
+            if (hasRequired) break;
+        }
+        return hasRequired;
+    }
 
     public String extractMissingRequiredParams(Set<String> params) {
         return parameters

@@ -7,6 +7,7 @@ import com.creditdatamw.labs.sparkpentaho.filter.BasicAuthenticationFilter;
 import com.creditdatamw.labs.sparkpentaho.resources.ReportResource;
 import com.creditdatamw.labs.sparkpentaho.resources.ReportResourceImpl;
 import com.creditdatamw.labs.sparkpentaho.resources.Reports;
+import com.creditdatamw.labs.sparkpentaho.resources.ReportsRoute;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;
@@ -116,11 +117,13 @@ public class SparkPentahoAPI {
         if (Optional.ofNullable(configuration.getBasicAuth()).isPresent()) {
             configureBasicAuth(configuration);
         }
-
-        return new Reports(configuration.getApiRoot(),
+        final Reports reports = new Reports(configuration.getApiRoot(),
                            Collections.unmodifiableList(reportResources),
                            configuration.getBackup(),
                            configuration.getDatabase());
+        final String path = configuration.getApiRoot();
+        Spark.get(path.concat("/").concat("reports.json"), new ReportsRoute(reports));
+        return reports;
     }
 
     private static void configureBasicAuth(ApiConfiguration configuration) {

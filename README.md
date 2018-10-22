@@ -31,7 +31,7 @@ reports:
 Running the following command will start a webserver at port 4567
 
 ```bash
-$ bin/spark_pentaho configuration.yml
+$ bin/spr serve configuration.yml
 ```
 
 The API created will have two end-points, one for generating your report.
@@ -88,13 +88,13 @@ in that directory.
 > generator only picks up the Pentaho files
 
 ```sh
-$ bin/spark_pentaho generate /var/pentaho_reports my_api.yml
+$ bin/spr generate /var/pentaho_reports my_api.yml
 ```
 
 You can then use the generated YAML file to run your API and you didn't have to write anything!
 
 ```sh
-$ bin/spark_pentaho my_api.yml
+$ bin/spr serve my_api.yml
 ```
 
 The generated configuration file does not configure backup and authentication - so if you
@@ -178,7 +178,7 @@ and [Maven 3](https://maven.apache.org/) to build the project.
 The project uses the [assembly](https://maven.apache.org/plugins/maven-assembly-plugin/usage.html) 
 to create both a zip and tar archive
 that contains the compiled application, all it's dependencies and the executable 
-scripts; `bin/spark_pentaho.bat` file for Windows and a bash (`bin/spark_pentaho`) 
+scripts; `bin/spr.bat` file for Windows and a bash (`bin/spr`)
 file for Linux.
 
 ```sh

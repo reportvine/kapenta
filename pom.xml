@@ -193,7 +193,7 @@
                     <effort>Max</effort>
                     <threshold>Default</threshold>
                     <xmlOutput>true</xmlOutput>
-                    <excludeFilterFile>${basedir}/findbugs-exclude.xml</excludeFilterFile>
+                    <excludeFilterFile>${basedir}/excludeFilters.xml</excludeFilterFile>
                 </configuration>
                 <dependencies>
                     <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->

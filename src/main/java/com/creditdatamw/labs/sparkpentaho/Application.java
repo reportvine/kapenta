@@ -34,8 +34,12 @@ public class Application {
             generateConfiguration(dir, out);
             System.exit(0);
             return;
+        } else if (arg.equalsIgnoreCase("serve")) {
+            runServer(args[1]);
+            return;
         }
-        runServer(arg);
+
+        showHelpAndExit();
     }
 
     private static void generateConfiguration(String directory, String configFile) {

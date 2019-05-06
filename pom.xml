@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.creditdatamw.labs</groupId>
-    <artifactId>spark-pentaho-report</artifactId>
+    <artifactId>spr</artifactId>
     <version>0.3.1-SNAPSHOT</version>
 
     <name>Spark Pentaho Report</name>
@@ -36,14 +36,14 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/creditdatamw/spark-pentaho-report.git</connection>
-        <developerConnection>scm:git:git@github.com:creditdatamw/spark-pentaho-report.git</developerConnection>
-        <url>https://github.com/creditdatamw/spark-pentaho-report</url>
+        <connection>scm:git:git://github.com/creditdatamw/spr.git</connection>
+        <developerConnection>scm:git:git@github.com:creditdatamw/spr.git</developerConnection>
+        <url>https://github.com/creditdatamw/spr</url>
     </scm>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/creditdatamw/spark-pentaho-report/issues</url>
+        <url>https://github.com/creditdatamw/spr/issues</url>
     </issueManagement>
 
     <repositories>

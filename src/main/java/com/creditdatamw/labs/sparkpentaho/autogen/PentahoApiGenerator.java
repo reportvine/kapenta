@@ -36,10 +36,11 @@ import java.util.stream.Collectors;
 /**
  * Pentaho API Generator
  * <br/>
- * Given a a directory where you have pentaho reports and an output file
- * will generate and API configuration for the reports in that directory
- * with all the parameters defined.
- *
+ * Generates an API configuration for <code>spr</code> using pentaho report files (*.prpt)
+ * in a the given directory to the given output file.<br/>
+ * The YAML configuration is generated out with all the fields defined.
+ * 
+ * @author Zikani
  */
 public class PentahoApiGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(PentahoApiGenerator.class);

@@ -1,9 +1,9 @@
 <configuration>
-    <!-- Get the REPORTING_HOME property from the system -->
-    <property scope="system" name="REPORTING_HOME" value="" />
+    <!-- Get the SPR_HOME property from the system -->
+    <property scope="system" name="SPR_HOME" value="" />
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${REPORTING_HOME:-./}server.log</file>
+        <file>${SPR_HOME:-./}server.log</file>
         <encoder>
             <pattern>%-5level [%d{yyyy-MM-dd HH:mm:ss}] %logger{36} [%thread] - %msg%n</pattern>
         </encoder>
@@ -18,7 +18,7 @@
 
     <!-- <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern> -->
     <appender name="PENTAHO" class="ch.qos.logback.core.FileAppender">
-        <file>${REPORTING_HOME:-./}pentaho.log</file>
+        <file>${SPR_HOME:-./}pentaho.log</file>
         <encoder>
             <pattern>%-5level [%d{yyyy-MM-dd HH:mm:ss}] %logger{36} [%thread] - %msg%n</pattern>
         </encoder>

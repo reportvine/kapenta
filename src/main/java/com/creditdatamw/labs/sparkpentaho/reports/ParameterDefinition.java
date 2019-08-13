@@ -24,6 +24,9 @@ public final class ParameterDefinition implements Cloneable{
     private final Object defaultValue;
 
     @JsonProperty("type")
+    private final String typeName;
+
+    @JsonIgnore
     private final Class type;
 
     @JsonCreator
@@ -33,6 +36,7 @@ public final class ParameterDefinition implements Cloneable{
                                @JsonProperty("default") Object defaultValue) {
         this.name = name;
         this.required = required;
+        this.typeName = typeStr;
         this.type = typeFromStr(typeStr);
         this.defaultValue = defaultValue;
     }
@@ -43,26 +47,30 @@ public final class ParameterDefinition implements Cloneable{
                                @JsonProperty("default") Object defaultValue) {
         this.name = name;
         this.required = required;
+        this.typeName = type.getSimpleName();
         this.type = type;
         this.defaultValue = defaultValue;
     }
 
-    public ParameterDefinition(String name, boolean required, String type) {
+    public ParameterDefinition(String name, boolean required, String typeStr) {
         this.name = name;
         this.required = required;
-        this.type = typeFromStr(type);
+        this.typeName = typeStr;
+        this.type = typeFromStr(typeStr);
         this.defaultValue = null;
     }
 
     public ParameterDefinition(String name, boolean required, Class type) {
         this.name = name;
         this.required = required;
+        this.typeName = type.getSimpleName();
         this.type = type;
         this.defaultValue = null;
     }
 
     public ParameterDefinition(String name, Class type) {
         this.name = name;
+        this.typeName = type.getSimpleName();
         this.type = type;
         this.required = false;
         this.defaultValue = null;
@@ -77,6 +85,8 @@ public final class ParameterDefinition implements Cloneable{
         } catch(Exception e) {
             // fall through
         }
+
+        typeStr  = typeStr.toLowerCase().trim();
 
         if (isOneOf(typeStr, "text", "string")) {
             return String.class;

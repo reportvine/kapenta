@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.creditdatamw.labs</groupId>
-    <artifactId>spr</artifactId>
+    <artifactId>kapenta</artifactId>
     <version>0.3.1-SNAPSHOT</version>
 
     <name>Spark Pentaho Report</name>
@@ -36,14 +36,14 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/creditdatamw/spr.git</connection>
-        <developerConnection>scm:git:git@github.com:creditdatamw/spr.git</developerConnection>
-        <url>https://github.com/creditdatamw/spr</url>
+        <connection>scm:git:git://github.com/creditdatamw/kapenta.git</connection>
+        <developerConnection>scm:git:git@github.com:creditdatamw/kapenta.git</developerConnection>
+        <url>https://github.com/creditdatamw/kapenta</url>
     </scm>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/creditdatamw/spr/issues</url>
+        <url>https://github.com/creditdatamw/kapenta/issues</url>
     </issueManagement>
 
     <repositories>
@@ -175,6 +175,7 @@
                         <argument>-classpath</argument>
                         <classpath/>
                         <argument>com.creditdatamw.labs.sparkpentaho.Application</argument>
+                        <argument>serve</argument>
                         <argument>${project.basedir}/src/test/resources/application.yml</argument>
                     </arguments>
                 </configuration>

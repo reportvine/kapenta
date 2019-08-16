@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 /**
  * Pentaho API Generator
  * <br/>
- * Generates an API configuration for <code>spr</code> using pentaho report files (*.prpt)
+ * Generates an API configuration for <code>kapenta</code> using pentaho report files (*.prpt)
  * in a the given directory to the given output file.<br/>
  * The YAML configuration is generated out with all the fields defined.
  * 

@@ -1,10 +1,10 @@
 host: localhost
 port: 4567
 apiRoot: /api
-basicAuth:
-  user:
-    username: zikani
-    password: zikani123
+#basicAuth:
+#  user:
+#    username: zikani
+#    password: zikani123
 # Configuration for backup of generated reports
 backup:
   # Where to store the generated reports

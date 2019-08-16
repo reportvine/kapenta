@@ -1,9 +1,9 @@
 {
-  "name": "spr",
+  "name": "kapenta",
   "version": "0.1.0",
-  "description": "spr ui",
+  "description": "kapenta ui",
   "main": "index.js",
-  "repository": "https://github.com/creditdatamw/spr.git",
+  "repository": "https://github.com/creditdatamw/kapenta.git",
   "author": "Zikani Nyirenda Mwase <zikani@creditdatamw.com>",
   "license": "MIT",
   "private": false,

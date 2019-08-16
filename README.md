@@ -31,7 +31,7 @@ reports:
 Running the following command will start a webserver at port 4567
 
 ```bash
-$ bin/spr serve configuration.yml
+$ bin/kapenta serve configuration.yml
 ```
 
 The API created will have two end-points, one for generating your report.
@@ -88,13 +88,13 @@ in that directory.
 > generator only picks up the Pentaho files
 
 ```sh
-$ bin/spr generate /var/pentaho_reports my_api.yml
+$ bin/kapenta generate /var/pentaho_reports my_api.yml
 ```
 
 You can then use the generated YAML file to run your API and you didn't have to write anything!
 
 ```sh
-$ bin/spr serve my_api.yml
+$ bin/kapenta serve my_api.yml
 ```
 
 The generated configuration file does not configure backup and authentication - so if you
@@ -178,12 +178,12 @@ and [Maven 3](https://maven.apache.org/) to build the project.
 The project uses the [assembly](https://maven.apache.org/plugins/maven-assembly-plugin/usage.html) 
 to create both a zip and tar archive
 that contains the compiled application, all it's dependencies and the executable 
-scripts; `bin/spr.bat` file for Windows and a bash (`bin/spr`)
+scripts; `bin/kapenta.bat` file for Windows and a bash (`bin/kapenta`)
 file for Linux.
 
 ```sh
-$ git clone https://github.com/creditdatamw/spark-pentaho-report.git
-$ cd spark-pentaho-report
+$ git clone https://github.com/creditdatamw/kapenta.git
+$ cd kapenta
 $ mvn clean install
 $ mvn assembly:assembly
 ```
@@ -196,7 +196,7 @@ The project does not ship with the database driver for MySQL so you will have pr
 if your reports connect to a MySQL database. You can fix this by adding the MySQL 
 dependency to the dependencies section in the `pom` file on your own fork of the repo.
 
-Alternatively, assuming you have a tarball build of `spark-pentaho-report` you can add 
+Alternatively, assuming you have a tarball build of `kapenta` you can add 
 the MySQL jar file in the `lib` directory - this should work.
 
 > NOTE: We will not accept pull requests to add MySQL as a dependency in the pom.

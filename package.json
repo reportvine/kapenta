@@ -1,0 +1,15 @@
+{
+  "name": "spr",
+  "version": "0.1.0",
+  "description": "spr ui",
+  "main": "index.js",
+  "repository": "https://github.com/creditdatamw/spr.git",
+  "author": "Zikani Nyirenda Mwase <zikani@creditdatamw.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "vue": "^2.6.10",
+    "vue-router": "^3.1.2",
+    "vuesax": "^3.9.0"
+  }
+}

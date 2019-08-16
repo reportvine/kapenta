@@ -1,4 +1,4 @@
-Spark Pentaho API
+Kapenta
 =
 
 Generate RESTful APIs for your Pentaho Reports automatically from
@@ -222,4 +222,4 @@ happens to be owned by Credit Data CRB Ltd.
 
 ---
 
-Copyright (c) 2017, Credit Data CRB Ltd
+Copyright (c) 2017-2019, Credit Data CRB Ltd

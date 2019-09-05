@@ -1,7 +1,7 @@
 package com.creditdatamw.labs.sparkpentaho;
 
 import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
-import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
+import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
 import com.creditdatamw.labs.sparkpentaho.http.ReportResourceImpl;
 import com.google.common.collect.ImmutableList;
 import org.apache.http.client.methods.CloseableHttpResponse;

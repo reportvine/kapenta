@@ -1,4 +1,4 @@
-package com.creditdatamw.labs.sparkpentaho.reports;
+package com.creditdatamw.labs.sparkpentaho.reportdefinition;
 
 import com.creditdatamw.labs.sparkpentaho.parameters.ParameterDefinition;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,6 +1,5 @@
-package com.creditdatamw.labs.sparkpentaho.autogen;
+package com.creditdatamw.labs.sparkpentaho.reportdefinition;
 
-import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
 import org.pentaho.reporting.libraries.resourceloader.ResourceManager;
 import org.slf4j.LoggerFactory;
 

@@ -3,6 +3,7 @@ package com.creditdatamw.labs.sparkpentaho.autogen;
 import com.creditdatamw.labs.sparkpentaho.config.ApiConfiguration;
 import com.creditdatamw.labs.sparkpentaho.config.Method;
 import com.creditdatamw.labs.sparkpentaho.config.ReportConfiguration;
+import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinitionDirectoryWalker;
 import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;

@@ -1,6 +1,6 @@
 package com.creditdatamw.labs.sparkpentaho.http;
 
-import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
+import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
 import spark.Response;

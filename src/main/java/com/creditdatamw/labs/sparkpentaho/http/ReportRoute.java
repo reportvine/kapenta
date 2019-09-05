@@ -6,7 +6,7 @@ import com.creditdatamw.labs.sparkpentaho.io.MultiplexOutputStream;
 import com.creditdatamw.labs.sparkpentaho.reports.Generator;
 import com.creditdatamw.labs.sparkpentaho.reports.GeneratorException;
 import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
-import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
+import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
 import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

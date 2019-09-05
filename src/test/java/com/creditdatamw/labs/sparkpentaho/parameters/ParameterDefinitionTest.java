@@ -1,7 +1,6 @@
 package com.creditdatamw.labs.sparkpentaho.parameters;
 
-import com.creditdatamw.labs.sparkpentaho.parameters.ParameterDefinition;
-import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
+import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
 import org.junit.Assert;
 import org.junit.Test;
 

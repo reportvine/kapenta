@@ -1,9 +1,9 @@
-package com.creditdatamw.labs.sparkpentaho.autogen;
+package com.creditdatamw.labs.sparkpentaho.reportdefinition;
 
 import com.creditdatamw.labs.sparkpentaho.SparkPentahoAPI;
 import com.creditdatamw.labs.sparkpentaho.parameters.PentahoToParameterDefinitionMapper;
 import com.creditdatamw.labs.sparkpentaho.parameters.ParameterDefinition;
-import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
+import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.pentaho.reporting.engine.classic.core.MasterReport;
 import org.pentaho.reporting.engine.classic.core.parameters.ParameterDefinitionEntry;

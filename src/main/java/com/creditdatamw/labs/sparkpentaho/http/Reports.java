@@ -2,7 +2,7 @@ package com.creditdatamw.labs.sparkpentaho.http;
 
 import com.creditdatamw.labs.sparkpentaho.config.Backup;
 import com.creditdatamw.labs.sparkpentaho.config.Database;
-import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
+import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Spark;

@@ -1,4 +1,4 @@
-package com.creditdatamw.labs.sparkpentaho.resources;
+package com.creditdatamw.labs.sparkpentaho.http;
 
 import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
 import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;

@@ -1,5 +1,6 @@
-package com.creditdatamw.labs.sparkpentaho.resources;
+package com.creditdatamw.labs.sparkpentaho.http;
 
+import com.creditdatamw.labs.sparkpentaho.http.MessageResponse;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

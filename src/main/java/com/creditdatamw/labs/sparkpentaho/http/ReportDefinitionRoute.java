@@ -1,4 +1,4 @@
-package com.creditdatamw.labs.sparkpentaho.resources;
+package com.creditdatamw.labs.sparkpentaho.http;
 
 import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
 import org.eclipse.jetty.http.HttpStatus;
@@ -6,8 +6,8 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
-import static com.creditdatamw.labs.sparkpentaho.resources.ReportRoute.APPLICATION_JSON;
-import static com.creditdatamw.labs.sparkpentaho.resources.ReportRoute.toJson;
+import static com.creditdatamw.labs.sparkpentaho.http.ReportRoute.APPLICATION_JSON;
+import static com.creditdatamw.labs.sparkpentaho.http.ReportRoute.toJson;
 
 /**
  * Report Definition Route

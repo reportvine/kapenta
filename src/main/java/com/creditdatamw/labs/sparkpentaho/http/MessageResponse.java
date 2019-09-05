@@ -1,4 +1,4 @@
-package com.creditdatamw.labs.sparkpentaho.resources;
+package com.creditdatamw.labs.sparkpentaho.http;
 
 import static com.creditdatamw.labs.sparkpentaho.SparkPentahoAPI.OBJECT_MAPPER;
 

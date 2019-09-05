@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static com.creditdatamw.labs.sparkpentaho.resources.MessageResponse.errorJson;
+import static com.creditdatamw.labs.sparkpentaho.http.MessageResponse.errorJson;
 import static spark.Spark.halt;
 
 /**

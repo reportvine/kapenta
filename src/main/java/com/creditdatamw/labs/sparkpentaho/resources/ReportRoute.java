@@ -2,6 +2,7 @@ package com.creditdatamw.labs.sparkpentaho.resources;
 
 import com.creditdatamw.labs.sparkpentaho.config.Backup;
 import com.creditdatamw.labs.sparkpentaho.config.Database;
+import com.creditdatamw.labs.sparkpentaho.io.MultiplexOutputStream;
 import com.creditdatamw.labs.sparkpentaho.reports.Generator;
 import com.creditdatamw.labs.sparkpentaho.reports.GeneratorException;
 import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
@@ -20,13 +21,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.temporal.ChronoField;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.creditdatamw.labs.sparkpentaho.SparkPentahoAPI.OBJECT_MAPPER;
 

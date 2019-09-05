@@ -1,5 +1,6 @@
-package com.creditdatamw.labs.sparkpentaho.reports;
+package com.creditdatamw.labs.sparkpentaho.generator;
 
+import com.creditdatamw.labs.sparkpentaho.OutputType;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;

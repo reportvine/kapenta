@@ -1,9 +1,8 @@
 package com.creditdatamw.labs.sparkpentaho.reportdefinition;
 
-import com.creditdatamw.labs.sparkpentaho.SparkPentahoAPI;
+import com.creditdatamw.labs.sparkpentaho.Server;
 import com.creditdatamw.labs.sparkpentaho.parameters.PentahoToParameterDefinitionMapper;
 import com.creditdatamw.labs.sparkpentaho.parameters.ParameterDefinition;
-import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.pentaho.reporting.engine.classic.core.MasterReport;
 import org.pentaho.reporting.engine.classic.core.parameters.ParameterDefinitionEntry;
@@ -17,7 +16,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ReportDefinitionFileReader {
-    private static final ObjectMapper objectMapper = SparkPentahoAPI.OBJECT_MAPPER;
+    private static final ObjectMapper objectMapper = Server.OBJECT_MAPPER;
     private final ResourceManager resourceManager;
     private final PentahoToParameterDefinitionMapper parameterMapper =
         new PentahoToParameterDefinitionMapper();

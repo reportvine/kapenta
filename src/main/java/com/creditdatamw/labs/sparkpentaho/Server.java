@@ -25,20 +25,20 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Main API for creating APIs out of Pentaho .prpt reports via SparkJava
+ * Main API for creating APIs out of Pentaho .prpt generator via SparkJava
  *
  */
-public class SparkPentahoAPI {
+public class Server {
     public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private final Reports reports;
 
-    SparkPentahoAPI(String apiRoot, List<ReportResource> availableReports) {
+    Server(String apiRoot, List<ReportResource> availableReports) {
         Objects.requireNonNull(apiRoot);
         Objects.requireNonNull(availableReports);
         reports = new Reports(apiRoot, availableReports);
     }
 
-    SparkPentahoAPI(String resourceDefinitionYaml) {
+    Server(String resourceDefinitionYaml) {
         Objects.requireNonNull(resourceDefinitionYaml);
         reports = createFromYaml(resourceDefinitionYaml);
     }
@@ -62,7 +62,7 @@ public class SparkPentahoAPI {
      * @param reportResources
      */
     public static final void sparkPentaho(String apiRoot, List<ReportResource> reportResources) {
-        new SparkPentahoAPI(apiRoot, reportResources).start();
+        new Server(apiRoot, reportResources).start();
     }
 
     /**
@@ -70,7 +70,7 @@ public class SparkPentahoAPI {
      * @param yamlFile
      */
     public static final void sparkPentaho(String yamlFile) {
-        new SparkPentahoAPI(yamlFile).start();
+        new Server(yamlFile).start();
     }
 
     private static Reports createFromYaml(String yamlFile) {
@@ -82,7 +82,7 @@ public class SparkPentahoAPI {
         try {
             configuration = mapper.readValue(new File(yamlFile), ApiConfiguration.class);
         } catch (IOException e) {
-            LoggerFactory.getLogger(SparkPentahoAPI.class).error("Failed to read yaml file", e);
+            LoggerFactory.getLogger(Server.class).error("Failed to read yaml file", e);
             throw new RuntimeException("Failed to parse configuration from Yaml file", e);
         }
 
@@ -122,7 +122,7 @@ public class SparkPentahoAPI {
                            configuration.getBackup(),
                            configuration.getDatabase());
         final String path = configuration.getApiRoot();
-        Spark.get(path.concat("/").concat("reports.json"), new ReportsRoute(reports));
+        Spark.get(path.concat("/").concat("generator.json"), new ReportsRoute(reports));
         return reports;
     }
 

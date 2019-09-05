@@ -4,7 +4,7 @@ import com.creditdatamw.labs.sparkpentaho.config.ApiConfiguration;
 import com.creditdatamw.labs.sparkpentaho.config.Method;
 import com.creditdatamw.labs.sparkpentaho.config.ReportConfiguration;
 import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinitionDirectoryWalker;
-import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
+import com.creditdatamw.labs.sparkpentaho.OutputType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;
@@ -39,7 +39,7 @@ public class PentahoApiGenerator {
     /**
      * Creates an ApiConfiguration generator
      *
-     * @param sourceDir The directory to search for reports from
+     * @param sourceDir The directory to search for generator from
      * @param outputFile The file to write the YAML configuration to
      */
     public PentahoApiGenerator(Path sourceDir, Path outputFile) {

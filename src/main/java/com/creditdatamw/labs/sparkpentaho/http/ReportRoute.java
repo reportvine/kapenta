@@ -3,9 +3,9 @@ package com.creditdatamw.labs.sparkpentaho.http;
 import com.creditdatamw.labs.sparkpentaho.config.Backup;
 import com.creditdatamw.labs.sparkpentaho.config.Database;
 import com.creditdatamw.labs.sparkpentaho.io.MultiplexOutputStream;
-import com.creditdatamw.labs.sparkpentaho.reports.Generator;
-import com.creditdatamw.labs.sparkpentaho.reports.GeneratorException;
-import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
+import com.creditdatamw.labs.sparkpentaho.generator.Generator;
+import com.creditdatamw.labs.sparkpentaho.generator.GeneratorException;
+import com.creditdatamw.labs.sparkpentaho.OutputType;
 import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
 import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
 
-import static com.creditdatamw.labs.sparkpentaho.SparkPentahoAPI.OBJECT_MAPPER;
+import static com.creditdatamw.labs.sparkpentaho.Server.OBJECT_MAPPER;
 
 /**
  * Route Handler for a single report resource
@@ -118,7 +118,7 @@ final class ReportRoute implements Route {
                 );
             }
 
-            // Some reports may require that a database configuration is present
+            // Some generator may require that a database configuration is present
             // To enable them to point to another database configuration (e.g. DEV, QA, PROD)
             if (database.isPresent()) {
                 Generator.generateReport(

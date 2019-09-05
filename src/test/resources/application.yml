@@ -5,9 +5,9 @@ apiRoot: /api
 #  user:
 #    username: zikani
 #    password: zikani123
-# Configuration for backup of generated reports
+# Configuration for backup of generated generator
 backup:
-  # Where to store the generated reports
+  # Where to store the generated generator
   directory: ./log
   # If the directory should have subdirectories for each day
   rollingBackup: false

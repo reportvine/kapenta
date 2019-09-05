@@ -3,7 +3,7 @@ package com.creditdatamw.labs.sparkpentaho.config;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Database configuration for Pentaho reports
+ * Database configuration for Pentaho generator
  */
 public class Database {
 

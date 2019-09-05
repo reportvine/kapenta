@@ -6,14 +6,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-import static com.creditdatamw.labs.sparkpentaho.SparkPentahoAPI.sparkPentaho;
+import static com.creditdatamw.labs.sparkpentaho.Server.sparkPentaho;
 
 /**
  * Run the application to get an auto-generated Server API for Pentaho Reports
  *
  * @author Zikani
  */
-public class Application {
+public class Main {
 
     /**
      * Main method - runs the server

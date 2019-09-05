@@ -1,6 +1,5 @@
 package com.creditdatamw.labs.sparkpentaho;
 
-import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
 import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
 import com.creditdatamw.labs.sparkpentaho.http.ReportResourceImpl;
 import com.google.common.collect.ImmutableList;
@@ -22,15 +21,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 /**
- * {@link SparkPentahoAPI} Test
+ * {@link Server} Test
  */
-public class SparkPentahoAPITest {
+public class ServerTest {
 
-    SparkPentahoAPI sparkPentahoAPI;
+    Server sparkPentahoAPI;
 
     @Before
     public void setUp() {
-        sparkPentahoAPI = new SparkPentahoAPI(
+        sparkPentahoAPI = new Server(
             "/api",
             ImmutableList.of(
                 new ReportResourceImpl(

@@ -174,7 +174,7 @@
                     <arguments>
                         <argument>-classpath</argument>
                         <classpath/>
-                        <argument>com.creditdatamw.labs.sparkpentaho.Application</argument>
+                        <argument>com.creditdatamw.labs.sparkpentaho.Main</argument>
                         <argument>serve</argument>
                         <argument>${project.basedir}/src/test/resources/application.yml</argument>
                     </arguments>

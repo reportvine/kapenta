@@ -1,5 +1,6 @@
-package com.creditdatamw.labs.sparkpentaho.reports;
+package com.creditdatamw.labs.sparkpentaho.generator;
 
+import com.creditdatamw.labs.sparkpentaho.OutputType;
 import com.creditdatamw.labs.sparkpentaho.config.Database;
 import com.creditdatamw.labs.sparkpentaho.sql.SqlDataSourceVisitor;
 import org.pentaho.reporting.engine.classic.core.MasterReport;

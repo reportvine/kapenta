@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Configuration for Backup of generated reports
+ * Configuration for Backup of generated generator
  *
  */
 public class Backup {

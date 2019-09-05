@@ -1,4 +1,4 @@
-package com.creditdatamw.labs.sparkpentaho.reports;
+package com.creditdatamw.labs.sparkpentaho.sql;
 
 import org.pentaho.reporting.engine.classic.core.AbstractReportDefinition;
 import org.pentaho.reporting.engine.classic.core.CompoundDataFactory;
@@ -30,7 +30,11 @@ public class SqlDataSourceVisitor extends AbstractStructureVisitor {
     public SqlDataSourceVisitor(String databaseUrl, String user, String password) {
         this.connectionProvider = new ConnectionProviderImpl(databaseUrl, user, password);
     }
-    
+
+    public void visit(AbstractReportDefinition reportDefinition) {
+        inspect(reportDefinition);
+    }
+
     @Override
     protected void inspect(AbstractReportDefinition reportDefinition) {
         modifyDataSources(reportDefinition);

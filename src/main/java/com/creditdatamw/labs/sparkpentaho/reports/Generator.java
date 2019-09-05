@@ -1,6 +1,7 @@
 package com.creditdatamw.labs.sparkpentaho.reports;
 
 import com.creditdatamw.labs.sparkpentaho.config.Database;
+import com.creditdatamw.labs.sparkpentaho.sql.SqlDataSourceVisitor;
 import org.pentaho.reporting.engine.classic.core.MasterReport;
 import org.pentaho.reporting.engine.classic.core.modules.output.pageable.pdf.PdfReportUtil;
 import org.pentaho.reporting.engine.classic.core.modules.output.pageable.plaintext.PlainTextReportUtil;
@@ -105,7 +106,7 @@ public final class Generator {
                     database.getPassword()
             );
 
-            sqlDataSourceVisitor.inspect(masterReport);
+            sqlDataSourceVisitor.visit(masterReport);
 
             ReportParameterValues params = masterReport.getParameterValues();
 

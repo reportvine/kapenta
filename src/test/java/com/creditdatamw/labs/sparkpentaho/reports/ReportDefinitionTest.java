@@ -1,5 +1,6 @@
 package com.creditdatamw.labs.sparkpentaho.reports;
 
+import com.creditdatamw.labs.sparkpentaho.parameters.ParameterDefinition;
 import com.google.common.collect.Sets;
 import org.junit.Rule;
 import org.junit.Test;

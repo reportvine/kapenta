@@ -1,7 +1,7 @@
 package com.creditdatamw.labs.sparkpentaho.config;
 
 import com.creditdatamw.labs.sparkpentaho.reports.OutputType;
-import com.creditdatamw.labs.sparkpentaho.reports.ParameterDefinition;
+import com.creditdatamw.labs.sparkpentaho.parameters.ParameterDefinition;
 import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

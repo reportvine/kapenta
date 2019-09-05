@@ -2,7 +2,7 @@ package com.creditdatamw.labs.sparkpentaho.autogen;
 
 import com.creditdatamw.labs.sparkpentaho.SparkPentahoAPI;
 import com.creditdatamw.labs.sparkpentaho.parameters.PentahoToParameterDefinitionMapper;
-import com.creditdatamw.labs.sparkpentaho.reports.ParameterDefinition;
+import com.creditdatamw.labs.sparkpentaho.parameters.ParameterDefinition;
 import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.pentaho.reporting.engine.classic.core.MasterReport;
@@ -10,7 +10,6 @@ import org.pentaho.reporting.engine.classic.core.parameters.ParameterDefinitionE
 import org.pentaho.reporting.libraries.resourceloader.Resource;
 import org.pentaho.reporting.libraries.resourceloader.ResourceManager;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;

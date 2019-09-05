@@ -1,5 +1,8 @@
-package com.creditdatamw.labs.sparkpentaho.reports;
+package com.creditdatamw.labs.sparkpentaho.parameters;
 
+import com.creditdatamw.labs.sparkpentaho.parameters.ParameterDefinition;
+import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.sql.Date;
@@ -15,7 +18,7 @@ public class ParameterDefinitionTest {
     @Test
     public void testCreateOptionalParameter() {
         ParameterDefinition p = new ParameterDefinition("test",false,String.class);
-        assertEquals(p, ReportDefinition.optionalParameter("test", String.class));
+        Assert.assertEquals(p, ReportDefinition.optionalParameter("test", String.class));
     }
 
     @Test

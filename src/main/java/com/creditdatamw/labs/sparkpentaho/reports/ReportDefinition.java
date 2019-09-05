@@ -1,5 +1,6 @@
 package com.creditdatamw.labs.sparkpentaho.reports;
 
+import com.creditdatamw.labs.sparkpentaho.parameters.ParameterDefinition;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.nio.file.Files;
@@ -11,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Report definition

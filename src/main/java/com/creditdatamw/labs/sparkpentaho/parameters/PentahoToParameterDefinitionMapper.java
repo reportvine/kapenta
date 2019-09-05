@@ -1,6 +1,5 @@
 package com.creditdatamw.labs.sparkpentaho.parameters;
 
-import com.creditdatamw.labs.sparkpentaho.reports.ParameterDefinition;
 import com.creditdatamw.labs.sparkpentaho.reports.ReportDefinition;
 import org.pentaho.reporting.engine.classic.core.MasterReport;
 import org.pentaho.reporting.engine.classic.core.parameters.DefaultParameterContext;

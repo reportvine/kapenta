@@ -5,7 +5,7 @@ import com.creditdatamw.labs.sparkpentaho.config.Database;
 import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark.Spark;
+import spark.Service;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +25,8 @@ public class Reports {
 
     private final List<ReportResource> resources;
 
+    private Service httpServer;
+    
     private Backup backup;
 
     private Database database;
@@ -55,6 +57,10 @@ public class Reports {
         });
     }
 
+    public void setHttpServer(Service httpServer) {
+        this.httpServer = httpServer;
+    }
+
     public void registerResources() {
         validateResources();
         resources.stream()
@@ -73,7 +79,7 @@ public class Reports {
      */
     private void registerParameterRoute(ReportResource reportResource) {
         String reportInfoPath = withRootPath(reportResource.path().concat("/info"));
-        Spark.get(reportInfoPath, new ReportDefinitionRoute(reportResource));
+        httpServer.get(reportInfoPath, new ReportDefinitionRoute(reportResource));
     }
 
     /**
@@ -101,15 +107,15 @@ public class Reports {
 
         for(String method: reportResource.methods()) {
             if (method.equalsIgnoreCase("GET")) {
-                Spark.get(reportPath, reportRoute);
+                httpServer.get(reportPath, reportRoute);
                 // We want to map the path to the route /path and /path.ext for each output in the resource
-                extensionList.forEach(extension -> Spark.get(reportPath.concat(extension), reportRoute));
+                extensionList.forEach(extension -> httpServer.get(reportPath.concat(extension), reportRoute));
             }
 
             if (method.equalsIgnoreCase("POST")) {
-                Spark.post(withRootPath(reportResource.path()),reportRoute);
+                httpServer.post(withRootPath(reportResource.path()),reportRoute);
                 // We want to map the path to the route /path and /path.ext for each output in the resource
-                extensionList.forEach(extension -> Spark.post(reportPath.concat(extension), reportRoute));
+                extensionList.forEach(extension -> httpServer.post(reportPath.concat(extension), reportRoute));
             }
         }
         LoggerFactory.getLogger(getClass()).debug("Registered Route: {}", withRootPath(reportResource.path()));

@@ -12,17 +12,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;
 import org.slf4j.LoggerFactory;
+import spark.Service;
 import spark.Spark;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Main API for creating APIs out of Pentaho .prpt generator via SparkJava
@@ -30,6 +27,7 @@ import java.util.Optional;
  */
 public class Server {
     public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private ApiConfiguration configuration;
     private final Reports reports;
 
     Server(String apiRoot, List<ReportResource> availableReports) {
@@ -40,16 +38,18 @@ public class Server {
 
     Server(String resourceDefinitionYaml) {
         Objects.requireNonNull(resourceDefinitionYaml);
-        reports = createFromYaml(resourceDefinitionYaml);
+        configuration = createFromYaml(resourceDefinitionYaml);
+        Path yamlFileDir = Paths.get(resourceDefinitionYaml).getParent();
+        reports = createReportsFromConfiguration(yamlFileDir, configuration);
     }
 
-    public Reports getReports() {
+    private Reports getReports() {
         return reports;
     }
 
     public void start() {
         ClassicEngineBoot.getInstance().start();
-        reports.registerResources();
+        createHttpServer();
     }
 
     public void stop() {
@@ -73,11 +73,9 @@ public class Server {
         new Server(yamlFile).start();
     }
 
-    private static Reports createFromYaml(String yamlFile) {
+    private static ApiConfiguration createFromYaml(String yamlFile) {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         ApiConfiguration configuration = null;
-
-        Path yamlFileDir = Paths.get(yamlFile).getParent();
 
         try {
             configuration = mapper.readValue(new File(yamlFile), ApiConfiguration.class);
@@ -85,7 +83,10 @@ public class Server {
             LoggerFactory.getLogger(Server.class).error("Failed to read yaml file", e);
             throw new RuntimeException("Failed to parse configuration from Yaml file", e);
         }
+        return configuration;
+    }
 
+    private Reports createReportsFromConfiguration(Path yamlFileDir, ApiConfiguration configuraiton) {
         List<ReportResource> reportResources = new ArrayList<>();
 
         final String[] defaultMethods = new String[] { "GET", "POST" };
@@ -109,11 +110,6 @@ public class Server {
                     reportConfiguration.toReportDefinition(Optional.of(yamlFileDir))));
         });
 
-        String host = Optional.ofNullable(configuration.getHost()).orElse("0.0.0.0");
-        Spark.ipAddress(host);
-
-        Spark.port(configuration.getPort());
-
         if (Optional.ofNullable(configuration.getBasicAuth()).isPresent()) {
             configureBasicAuth(configuration);
         }
@@ -121,9 +117,25 @@ public class Server {
                            Collections.unmodifiableList(reportResources),
                            configuration.getBackup(),
                            configuration.getDatabase());
-        final String path = configuration.getApiRoot();
-        Spark.get(path.concat("/").concat("generator.json"), new ReportsRoute(reports));
+
+
         return reports;
+    }
+
+    private void createHttpServer() {
+        final String rootPath = configuration.getApiRoot();
+
+        String host = Optional.ofNullable(configuration.getHost()).orElse("0.0.0.0");
+
+        spark.Service server = Service.ignite();
+
+        server.ipAddress(host);
+        server.port(configuration.getPort());
+        server.get(rootPath.concat("/").concat("resource-list"),new ReportsRoute(reports));
+
+        reports.setHttpServer(server);
+        // Registers Spark Routes for the Reports
+        reports.registerResources();
     }
 
     private static void configureBasicAuth(ApiConfiguration configuration) {

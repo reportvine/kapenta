@@ -9,6 +9,9 @@ a YAML configuration file.
 Let's assume you have designed a report called `customer_report` in Pentaho Report Designer
 and you want to make this report available via an *API*.
 
+> NOTE: We provide a "lite" build of Pentaho Report Designer on the [prd-ce-lite](https://github.com/creditdatamw/prd-ce-lite)
+> repository which is a small download and mostly suitable for use with SQL databases
+ 
 You can create this configuration  and save it in a yaml file called `configuration.yml`
 
 ```yaml
@@ -192,29 +195,11 @@ The archives will be created in the `target` directory.
 
 ## Note on MySQL database drivers
 
-The project does not ship with the database driver for MySQL so you will have problems
-if your reports connect to a MySQL database. You can fix this by adding the MySQL 
-dependency to the dependencies section in the `pom` file on your own fork of the repo.
-
-Alternatively, assuming you have a tarball build of `kapenta` you can add 
-the MySQL jar file in the `lib` directory - this should work.
-
-> NOTE: We will not accept pull requests to add MySQL as a dependency in the pom.
-
-You may add something like:
-
-```xml
-<dependency>
-	<groupId>mysql</groupId>
-	<artifactId>mysql-connector-java</artifactId>
-	<version>5.1.42</version>
-</dependency>
-```
+We use [MariaDB's client library](https://mariadb.com/kb/en/library/client-libraries/) for connecting to mysql databases.
 
 ## CONTRIBUTING
 
 See the [`CONTRIBUTING.md`](CONTRIBUTING.md) file for more information.
-
 
 
 This is not an official Credit Data CRB Ltd product  - just code that 

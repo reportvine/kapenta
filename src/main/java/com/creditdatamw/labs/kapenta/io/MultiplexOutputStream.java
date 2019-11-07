@@ -1,4 +1,4 @@
-package com.creditdatamw.labs.sparkpentaho.io;
+package com.creditdatamw.labs.kapenta.io;
 
 import java.io.IOException;
 import java.io.OutputStream;

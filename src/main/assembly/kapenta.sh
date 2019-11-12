@@ -1,2 +1,2 @@
 #!/bin/sh
-java -cp "$CLASSPATH:../lib:../lib/*:." com.creditdatamw.labs.sparkpentaho.Application $*
+java -cp "$CLASSPATH:../lib:../lib/*:." com.creditdatamw.labs.kapenta.Application $*

@@ -1,13 +1,13 @@
-package com.creditdatamw.labs.sparkpentaho;
+package com.creditdatamw.labs.kapenta;
 
-import com.creditdatamw.labs.sparkpentaho.config.ApiConfiguration;
-import com.creditdatamw.labs.sparkpentaho.config.BasicAuth;
-import com.creditdatamw.labs.sparkpentaho.config.Method;
-import com.creditdatamw.labs.sparkpentaho.filter.BasicAuthenticationFilter;
-import com.creditdatamw.labs.sparkpentaho.http.ReportResource;
-import com.creditdatamw.labs.sparkpentaho.http.ReportResourceImpl;
-import com.creditdatamw.labs.sparkpentaho.http.Reports;
-import com.creditdatamw.labs.sparkpentaho.http.ReportsRoute;
+import com.creditdatamw.labs.kapenta.config.ApiConfiguration;
+import com.creditdatamw.labs.kapenta.config.BasicAuth;
+import com.creditdatamw.labs.kapenta.config.Method;
+import com.creditdatamw.labs.kapenta.filter.BasicAuthenticationFilter;
+import com.creditdatamw.labs.kapenta.http.ReportResource;
+import com.creditdatamw.labs.kapenta.http.ReportResourceImpl;
+import com.creditdatamw.labs.kapenta.http.Reports;
+import com.creditdatamw.labs.kapenta.http.ReportsRoute;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;
@@ -61,7 +61,7 @@ public class Server {
      * @param apiRoot
      * @param reportResources
      */
-    public static final void sparkPentaho(String apiRoot, List<ReportResource> reportResources) {
+    public static final void kapenta(String apiRoot, List<ReportResource> reportResources) {
         new Server(apiRoot, reportResources).start();
     }
 
@@ -69,7 +69,7 @@ public class Server {
      * Create a new Spark Pentaho API
      * @param yamlFile
      */
-    public static final void sparkPentaho(String yamlFile) {
+    public static final void kapenta(String yamlFile) {
         new Server(yamlFile).start();
     }
 

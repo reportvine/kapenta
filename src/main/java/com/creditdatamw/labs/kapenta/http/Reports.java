@@ -1,8 +1,8 @@
-package com.creditdatamw.labs.sparkpentaho.http;
+package com.creditdatamw.labs.kapenta.http;
 
-import com.creditdatamw.labs.sparkpentaho.config.Backup;
-import com.creditdatamw.labs.sparkpentaho.config.Database;
-import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
+import com.creditdatamw.labs.kapenta.config.Backup;
+import com.creditdatamw.labs.kapenta.config.Database;
+import com.creditdatamw.labs.kapenta.reportdefinition.ReportDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Service;

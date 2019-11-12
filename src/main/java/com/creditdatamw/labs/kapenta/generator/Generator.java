@@ -1,8 +1,8 @@
-package com.creditdatamw.labs.sparkpentaho.generator;
+package com.creditdatamw.labs.kapenta.generator;
 
-import com.creditdatamw.labs.sparkpentaho.OutputType;
-import com.creditdatamw.labs.sparkpentaho.config.Database;
-import com.creditdatamw.labs.sparkpentaho.sql.SqlDataSourceVisitor;
+import com.creditdatamw.labs.kapenta.OutputType;
+import com.creditdatamw.labs.kapenta.config.Database;
+import com.creditdatamw.labs.kapenta.sql.SqlDataSourceVisitor;
 import org.pentaho.reporting.engine.classic.core.MasterReport;
 import org.pentaho.reporting.engine.classic.core.modules.output.pageable.pdf.PdfReportUtil;
 import org.pentaho.reporting.engine.classic.core.modules.output.pageable.plaintext.PlainTextReportUtil;

@@ -1,4 +1,4 @@
-package com.creditdatamw.labs.sparkpentaho.generator;
+package com.creditdatamw.labs.kapenta.generator;
 
 public class GeneratorException extends RuntimeException {
     public GeneratorException(String message, Throwable cause) {

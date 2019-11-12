@@ -1,4 +1,4 @@
-package com.creditdatamw.labs.sparkpentaho;
+package com.creditdatamw.labs.kapenta;
 
 /**
  * Supported output types

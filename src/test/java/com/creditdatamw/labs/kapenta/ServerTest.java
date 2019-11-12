@@ -1,7 +1,7 @@
-package com.creditdatamw.labs.sparkpentaho;
+package com.creditdatamw.labs.kapenta;
 
-import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
-import com.creditdatamw.labs.sparkpentaho.http.ReportResourceImpl;
+import com.creditdatamw.labs.kapenta.reportdefinition.ReportDefinition;
+import com.creditdatamw.labs.kapenta.http.ReportResourceImpl;
 import com.google.common.collect.ImmutableList;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -25,11 +25,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class ServerTest {
 
-    Server sparkPentahoAPI;
+    Server kapentaAPI;
 
     @Before
     public void setUp() {
-        sparkPentahoAPI = new Server(
+        kapentaAPI = new Server(
             "/api",
             ImmutableList.of(
                 new ReportResourceImpl(
@@ -50,14 +50,14 @@ public class ServerTest {
 
     @Test
     public void testShouldCreateReports() {
-        assertThat(sparkPentahoAPI.getReports()).isNotNull();
-        assertThat(sparkPentahoAPI.getReports().resources()).isNotEmpty();
-        assertThat(sparkPentahoAPI.getReports().resources()).hasSize(1);
+        assertThat(kapentaAPI.getReports()).isNotNull();
+        assertThat(kapentaAPI.getReports().resources()).isNotEmpty();
+        assertThat(kapentaAPI.getReports().resources()).hasSize(1);
     }
 
     @Test
     public void testCanGETReportDocument() throws IOException {
-        sparkPentahoAPI.start();
+        kapentaAPI.start();
         String host = String.format("http://localhost:%s/api/hello.txt?subreport_1=true&subreport_2=true&report_id=1", Spark.port());
 
         try (CloseableHttpClient client = HttpClients.createDefault();
@@ -73,7 +73,7 @@ public class ServerTest {
 
             assertEquals(reportData, bos.toString("UTF-8"));
         }
-        sparkPentahoAPI.stop();
+        kapentaAPI.stop();
     }
 
 }

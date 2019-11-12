@@ -1,8 +1,8 @@
-package com.creditdatamw.labs.sparkpentaho.config;
+package com.creditdatamw.labs.kapenta.config;
 
-import com.creditdatamw.labs.sparkpentaho.OutputType;
-import com.creditdatamw.labs.sparkpentaho.parameters.ParameterDefinition;
-import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
+import com.creditdatamw.labs.kapenta.OutputType;
+import com.creditdatamw.labs.kapenta.parameters.ParameterDefinition;
+import com.creditdatamw.labs.kapenta.reportdefinition.ReportDefinition;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.nio.file.Files;

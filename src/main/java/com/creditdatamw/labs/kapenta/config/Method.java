@@ -1,4 +1,4 @@
-package com.creditdatamw.labs.sparkpentaho.config;
+package com.creditdatamw.labs.kapenta.config;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

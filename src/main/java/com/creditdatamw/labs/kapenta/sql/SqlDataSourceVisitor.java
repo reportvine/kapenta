@@ -1,4 +1,4 @@
-package com.creditdatamw.labs.sparkpentaho.sql;
+package com.creditdatamw.labs.kapenta.sql;
 
 import org.pentaho.reporting.engine.classic.core.AbstractReportDefinition;
 import org.pentaho.reporting.engine.classic.core.CompoundDataFactory;

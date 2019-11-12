@@ -1,7 +1,7 @@
-package com.creditdatamw.labs.sparkpentaho.reportdefinition;
+package com.creditdatamw.labs.kapenta.reportdefinition;
 
-import com.creditdatamw.labs.sparkpentaho.parameters.ParameterDefinition;
-import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
+import com.creditdatamw.labs.kapenta.parameters.ParameterDefinition;
+import com.creditdatamw.labs.kapenta.reportdefinition.ReportDefinition;
 import com.google.common.collect.Sets;
 import org.junit.Rule;
 import org.junit.Test;

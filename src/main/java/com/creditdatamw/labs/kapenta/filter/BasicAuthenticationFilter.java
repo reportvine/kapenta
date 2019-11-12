@@ -1,6 +1,6 @@
-package com.creditdatamw.labs.sparkpentaho.filter;
+package com.creditdatamw.labs.kapenta.filter;
 
-import com.creditdatamw.labs.sparkpentaho.config.BasicAuth;
+import com.creditdatamw.labs.kapenta.config.BasicAuth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Filter;
@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static com.creditdatamw.labs.sparkpentaho.http.MessageResponse.errorJson;
+import static com.creditdatamw.labs.kapenta.http.MessageResponse.errorJson;
 import static spark.Spark.halt;
 
 /**

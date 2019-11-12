@@ -1,12 +1,12 @@
-package com.creditdatamw.labs.sparkpentaho.http;
+package com.creditdatamw.labs.kapenta.http;
 
-import com.creditdatamw.labs.sparkpentaho.config.Backup;
-import com.creditdatamw.labs.sparkpentaho.config.Database;
-import com.creditdatamw.labs.sparkpentaho.io.MultiplexOutputStream;
-import com.creditdatamw.labs.sparkpentaho.generator.Generator;
-import com.creditdatamw.labs.sparkpentaho.generator.GeneratorException;
-import com.creditdatamw.labs.sparkpentaho.OutputType;
-import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
+import com.creditdatamw.labs.kapenta.config.Backup;
+import com.creditdatamw.labs.kapenta.config.Database;
+import com.creditdatamw.labs.kapenta.io.MultiplexOutputStream;
+import com.creditdatamw.labs.kapenta.generator.Generator;
+import com.creditdatamw.labs.kapenta.generator.GeneratorException;
+import com.creditdatamw.labs.kapenta.OutputType;
+import com.creditdatamw.labs.kapenta.reportdefinition.ReportDefinition;
 import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
 
-import static com.creditdatamw.labs.sparkpentaho.Server.OBJECT_MAPPER;
+import static com.creditdatamw.labs.kapenta.Server.OBJECT_MAPPER;
 
 /**
  * Route Handler for a single report resource

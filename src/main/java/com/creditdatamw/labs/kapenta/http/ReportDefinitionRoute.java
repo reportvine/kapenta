@@ -1,13 +1,13 @@
-package com.creditdatamw.labs.sparkpentaho.http;
+package com.creditdatamw.labs.kapenta.http;
 
-import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
+import com.creditdatamw.labs.kapenta.reportdefinition.ReportDefinition;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
-import static com.creditdatamw.labs.sparkpentaho.http.ReportRoute.APPLICATION_JSON;
-import static com.creditdatamw.labs.sparkpentaho.http.ReportRoute.toJson;
+import static com.creditdatamw.labs.kapenta.http.ReportRoute.APPLICATION_JSON;
+import static com.creditdatamw.labs.kapenta.http.ReportRoute.toJson;
 
 /**
  * Report Definition Route

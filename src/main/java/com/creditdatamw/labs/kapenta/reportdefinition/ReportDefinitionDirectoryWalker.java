@@ -1,4 +1,4 @@
-package com.creditdatamw.labs.sparkpentaho.reportdefinition;
+package com.creditdatamw.labs.kapenta.reportdefinition;
 
 import org.pentaho.reporting.libraries.resourceloader.ResourceManager;
 import org.slf4j.LoggerFactory;

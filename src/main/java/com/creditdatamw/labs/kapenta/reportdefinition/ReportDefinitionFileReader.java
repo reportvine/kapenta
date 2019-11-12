@@ -1,8 +1,8 @@
-package com.creditdatamw.labs.sparkpentaho.reportdefinition;
+package com.creditdatamw.labs.kapenta.reportdefinition;
 
-import com.creditdatamw.labs.sparkpentaho.Server;
-import com.creditdatamw.labs.sparkpentaho.parameters.PentahoToParameterDefinitionMapper;
-import com.creditdatamw.labs.sparkpentaho.parameters.ParameterDefinition;
+import com.creditdatamw.labs.kapenta.Server;
+import com.creditdatamw.labs.kapenta.parameters.PentahoToParameterDefinitionMapper;
+import com.creditdatamw.labs.kapenta.parameters.ParameterDefinition;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.pentaho.reporting.engine.classic.core.MasterReport;
 import org.pentaho.reporting.engine.classic.core.parameters.ParameterDefinitionEntry;

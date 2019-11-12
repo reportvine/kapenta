@@ -1,12 +1,12 @@
-package com.creditdatamw.labs.sparkpentaho;
+package com.creditdatamw.labs.kapenta;
 
-import com.creditdatamw.labs.sparkpentaho.autogen.PentahoApiGenerator;
+import com.creditdatamw.labs.kapenta.autogen.PentahoApiGenerator;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-import static com.creditdatamw.labs.sparkpentaho.Server.sparkPentaho;
+import static com.creditdatamw.labs.kapenta.Server.kapenta;
 
 /**
  * Run the application to get an auto-generated Server API for Pentaho Reports
@@ -65,7 +65,7 @@ public class Main {
         }
 
         // Run the spark pentaho report server
-        sparkPentaho(yamlFile);
+        kapenta(yamlFile);
     }
     /**
      * Show help and exit the application

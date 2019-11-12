@@ -1,7 +1,7 @@
-package com.creditdatamw.labs.sparkpentaho.http;
+package com.creditdatamw.labs.kapenta.http;
 
-import com.creditdatamw.labs.sparkpentaho.OutputType;
-import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinition;
+import com.creditdatamw.labs.kapenta.OutputType;
+import com.creditdatamw.labs.kapenta.reportdefinition.ReportDefinition;
 
 import java.util.EnumSet;
 

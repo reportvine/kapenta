@@ -1,6 +1,6 @@
-package com.creditdatamw.labs.sparkpentaho.http;
+package com.creditdatamw.labs.kapenta.http;
 
-import static com.creditdatamw.labs.sparkpentaho.Server.OBJECT_MAPPER;
+import static com.creditdatamw.labs.kapenta.Server.OBJECT_MAPPER;
 
 /**
  * Message Response for error messages and information messages

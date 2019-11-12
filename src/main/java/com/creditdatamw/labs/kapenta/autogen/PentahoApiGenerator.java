@@ -1,10 +1,10 @@
-package com.creditdatamw.labs.sparkpentaho.autogen;
+package com.creditdatamw.labs.kapenta.autogen;
 
-import com.creditdatamw.labs.sparkpentaho.config.ApiConfiguration;
-import com.creditdatamw.labs.sparkpentaho.config.Method;
-import com.creditdatamw.labs.sparkpentaho.config.ReportConfiguration;
-import com.creditdatamw.labs.sparkpentaho.reportdefinition.ReportDefinitionDirectoryWalker;
-import com.creditdatamw.labs.sparkpentaho.OutputType;
+import com.creditdatamw.labs.kapenta.config.ApiConfiguration;
+import com.creditdatamw.labs.kapenta.config.Method;
+import com.creditdatamw.labs.kapenta.config.ReportConfiguration;
+import com.creditdatamw.labs.kapenta.reportdefinition.ReportDefinitionDirectoryWalker;
+import com.creditdatamw.labs.kapenta.OutputType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;

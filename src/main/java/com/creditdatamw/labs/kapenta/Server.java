@@ -43,7 +43,7 @@ public class Server {
         reports = createReportsFromConfiguration(yamlFileDir, configuration);
     }
 
-    private Reports getReports() {
+    public Reports getReports() {
         return reports;
     }
 
@@ -131,7 +131,7 @@ public class Server {
 
         server.ipAddress(host);
         server.port(configuration.getPort());
-        server.get(rootPath.concat("/").concat("resource-list"),new ReportsRoute(reports));
+        server.get(rootPath.concat("/").concat("reports.json"),new ReportsRoute(reports));
 
         reports.setHttpServer(server);
         // Registers Spark Routes for the Reports

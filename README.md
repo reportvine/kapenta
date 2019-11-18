@@ -91,13 +91,13 @@ in that directory.
 > generator only picks up the Pentaho files
 
 ```sh
-$ bin/kapenta generate /var/pentaho_reports my_api.yml
+$ bin/kapenta generate --directory /var/pentaho_reports --output-file my_api.yml  
 ```
 
 You can then use the generated YAML file to run your API and you didn't have to write anything!
 
 ```sh
-$ bin/kapenta serve my_api.yml
+$ bin/kapenta server --config my_api.yml
 ```
 
 The generated configuration file does not configure backup and authentication - so if you
@@ -115,6 +115,17 @@ For example
 ```yaml
 host: 192.168.1.45
 port: 8172
+```
+
+## Logging Configuration
+
+The configuration file also expects a some configuration for logging, the required
+fields for now specify the level and the directory to store log files in.
+
+```yaml
+logging:
+  rootLevel: INFO
+  directory: ./logs
 ```
 
 ## Report Backups

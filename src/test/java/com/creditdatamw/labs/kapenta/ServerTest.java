@@ -73,7 +73,6 @@ public class ServerTest {
 
             assertEquals(reportData, bos.toString("UTF-8"));
         }
-        kapentaAPI.stop();
     }
 
 }

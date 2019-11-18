@@ -1,5 +1,6 @@
 package com.creditdatamw.labs.kapenta.sql;
 
+import com.zaxxer.hikari.HikariConfig;
 import org.pentaho.reporting.engine.classic.core.AbstractReportDefinition;
 import org.pentaho.reporting.engine.classic.core.CompoundDataFactory;
 import org.pentaho.reporting.engine.classic.core.DataFactory;
@@ -8,9 +9,9 @@ import org.pentaho.reporting.engine.classic.core.modules.misc.datafactory.sql.Si
 import org.pentaho.reporting.engine.classic.core.util.AbstractStructureVisitor;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Change the DataSource defined in a report at runtime by using this class.
@@ -22,13 +23,13 @@ import java.util.Objects;
  * in order to keep the original intact - i.e. no side effects on the original copy
  *
  *
- * @author Zikani
+ * @author Zikani Nyirenda Mwase <zikani@creditdatamw.com>
  */
 public class SqlDataSourceVisitor extends AbstractStructureVisitor {
-    private final ConnectionProvider connectionProvider;
+    private final AtomicReference<ConnectionProvider> connectionProvider;
 
-    public SqlDataSourceVisitor(String databaseUrl, String user, String password) {
-        this.connectionProvider = new ConnectionProviderImpl(databaseUrl, user, password);
+    public SqlDataSourceVisitor(String databaseUrl) {
+        this.connectionProvider = new AtomicReference<>(new ConnectionProviderImpl(databaseUrl));
     }
 
     public void visit(AbstractReportDefinition reportDefinition) {
@@ -57,35 +58,35 @@ public class SqlDataSourceVisitor extends AbstractStructureVisitor {
         if(dataFactory instanceof SimpleSQLReportDataFactory) {
             SimpleSQLReportDataFactory sqlDataFactory = (SimpleSQLReportDataFactory) dataFactory;
 
-            sqlDataFactory.setConnectionProvider(connectionProvider);
+            sqlDataFactory.setConnectionProvider(connectionProvider.get());
             
             return sqlDataFactory;
         }
-        
+
         return dataFactory;
     }
     
-    private static final class ConnectionProviderImpl implements ConnectionProvider {
+    private final class ConnectionProviderImpl implements ConnectionProvider {
         private static final long serialVersionUID = 1L;
 
-        final String databaseUrl, user, password;
-        
-        public ConnectionProviderImpl(String databaseUrl, String user, String password) {
-            this.databaseUrl = databaseUrl;
-            this.user = user;
-            this.password = password;
+        private HikariConfig hikariConfig;
+
+        ConnectionProviderImpl(String databaseUrl) {
+            this.hikariConfig = new HikariConfig();
+            this.hikariConfig.setJdbcUrl(databaseUrl);
         }
-        
+
         @Override
         public Object getConnectionHash() {
-            return Objects.hashCode(databaseUrl);
+            return Objects.hash(hikariConfig.getDataSourceClassName());
         }
         
         @Override
         public Connection createConnection(String user, String password)
                 throws SQLException {
-            // Uses details provided in the constructor - arguments ignored
-            return DriverManager.getConnection(this.databaseUrl, this.user, this.password);
+            hikariConfig.setUsername(user);
+            hikariConfig.setPassword(password);
+            return hikariConfig.getDataSource().getConnection();
         }
     }
 }

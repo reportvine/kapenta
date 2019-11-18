@@ -101,11 +101,7 @@ public final class Generator {
             // We finally have the pentaho report instance
             final MasterReport masterReport = (MasterReport) resource.getResource();
 
-            SqlDataSourceVisitor sqlDataSourceVisitor = new SqlDataSourceVisitor(
-                    database.getUri(),
-                    database.getUser(),
-                    database.getPassword()
-            );
+            SqlDataSourceVisitor sqlDataSourceVisitor = new SqlDataSourceVisitor(database.getUri());
 
             sqlDataSourceVisitor.visit(masterReport);
 

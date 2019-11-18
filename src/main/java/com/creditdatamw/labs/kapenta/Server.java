@@ -33,6 +33,29 @@ public class Server {
     private spark.Service httpServer;
     private CountDownLatch countDownLatch = new CountDownLatch(1);
 
+    /**
+     * Create a new Spark Pentaho API
+     * @param apiRoot
+     * @param reportResources
+     */
+    public static final void kapenta(String apiRoot, List<ReportResource> reportResources) {
+        new Server(apiRoot, reportResources).start();
+    }
+
+    /**
+     * Create a new Spark Pentaho API
+     * @param yamlFile
+     */
+    public static final void kapenta(String yamlFile) {
+        new Server(yamlFile).start();
+    }
+
+    /**
+     * Create Server instance with an apiRoot and availableReports
+     *
+     * @param apiRoot Root of the api
+     * @param availableReports reports available on the API
+     */
     Server(String apiRoot, List<ReportResource> availableReports) {
         Objects.requireNonNull(apiRoot);
         Objects.requireNonNull(availableReports);
@@ -48,10 +71,18 @@ public class Server {
         reports = createReportsFromConfiguration(yamlFileDir, configuration);
     }
 
+    /**
+     * Gets the configured Reports
+     *
+     * @return get configured reports
+     */
     public Reports getReports() {
         return reports;
     }
 
+    /**
+     * Start the server
+     */
     public void start() {
         ClassicEngineBoot.getInstance().start();
 
@@ -72,28 +103,19 @@ public class Server {
         }
     }
 
+    /**
+     * Stop the server
+     */
     public void stop() {
         httpServer.stop();
         countDownLatch.countDown();
     }
 
     /**
-     * Create a new Spark Pentaho API
-     * @param apiRoot
-     * @param reportResources
+     * Parses and reads the yamlFile to an ApiConfiguration instance
+     * @param yamlFile path to the yaml configuration file
+     * @return api configuration instance
      */
-    public static final void kapenta(String apiRoot, List<ReportResource> reportResources) {
-        new Server(apiRoot, reportResources).start();
-    }
-
-    /**
-     * Create a new Spark Pentaho API
-     * @param yamlFile
-     */
-    public static final void kapenta(String yamlFile) {
-        new Server(yamlFile).start();
-    }
-
     private static ApiConfiguration createFromYaml(String yamlFile) {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         ApiConfiguration configuration = null;
@@ -147,6 +169,10 @@ public class Server {
         return reports;
     }
 
+    /**
+     * Creates a Spark HttpService
+     * @return
+     */
     private spark.Service createHttpServer() {
         String host = Optional.ofNullable(configuration.getHost()).orElse("0.0.0.0");
         httpServer = Service.ignite();
@@ -155,6 +181,10 @@ public class Server {
         return httpServer;
     }
 
+    /**
+     * Configures basic authentication if provided in the configuration
+     * @param configuration the configuration file
+     */
     private void configureBasicAuth(ApiConfiguration configuration) {
         final List<BasicAuth.User> userList = new ArrayList<>();
 
@@ -171,6 +201,10 @@ public class Server {
         }
     }
 
+    /**
+     * Configure logging
+     * @param apiConfiguration the API configuration object
+     */
     private void configureLogging(ApiConfiguration apiConfiguration) {
 
         LoggingConfiguration log = Optional.ofNullable(apiConfiguration.getLogging())

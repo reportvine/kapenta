@@ -1,10 +1,13 @@
 host: localhost
-port: 4567
+port: 8080
 apiRoot: /api
 #basicAuth:
 #  user:
 #    username: zikani
 #    password: zikani123
+logging:
+  rootLevel: INFO
+  directory: ./logs
 # Configuration for backup of generated generator
 backup:
   # Where to store the generated generator

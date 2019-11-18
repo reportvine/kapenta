@@ -1,27 +1,16 @@
-<configuration>
-    <!-- Get the SPR_HOME property from the system -->
-    <property scope="system" name="SPR_HOME" value="" />
-
+<configuration debug="false">
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${SPR_HOME:-./}server.log</file>
+        <file>${logging.directory}/kapenta.log</file>
         <encoder>
             <pattern>%-5level [%d{yyyy-MM-dd HH:mm:ss}] %logger{36} [%thread] - %msg%n</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>server.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>kapenta.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- keep 30 days' worth of history capped at 500MB total size -->
             <maxHistory>30</maxHistory>
             <maxFileSize>500MB</maxFileSize>
         </rollingPolicy>
-    </appender>
-
-    <!-- <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern> -->
-    <appender name="PENTAHO" class="ch.qos.logback.core.FileAppender">
-        <file>${SPR_HOME:-./}pentaho.log</file>
-        <encoder>
-            <pattern>%-5level [%d{yyyy-MM-dd HH:mm:ss}] %logger{36} [%thread] - %msg%n</pattern>
-        </encoder>
     </appender>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -30,11 +19,9 @@
         </encoder>
     </appender>
 
-    <logger name="org.pentaho.reporting" level="WARN" additivity="false">
-        <appender-ref ref="PENTAHO" />
-    </logger>
+    <logger name="org.pentaho.reporting" level="WARN" />
 
-    <root level="INFO">
+    <root level="${logging.rootLevel:-WARN}">
         <appender-ref ref="FILE"/>
         <appender-ref ref="STDOUT"/>
     </root>

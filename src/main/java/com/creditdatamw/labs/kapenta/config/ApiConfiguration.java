@@ -22,6 +22,9 @@ public class ApiConfiguration {
     BasicAuth basicAuth;
 
     @JsonProperty
+    LoggingConfiguration logging;
+
+    @JsonProperty
     Backup backup;
 
     @JsonProperty
@@ -71,6 +74,14 @@ public class ApiConfiguration {
 
     public void setBasicAuth(BasicAuth basicAuth) {
         this.basicAuth = basicAuth;
+    }
+
+    public LoggingConfiguration getLogging() {
+        return logging;
+    }
+
+    public void setLogging(LoggingConfiguration logging) {
+        this.logging = logging;
     }
 
     public Backup getBackup() {

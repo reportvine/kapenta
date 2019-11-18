@@ -20,8 +20,8 @@ public class Main {
      */
     public static void main(String... args) throws Exception {
         int exitCode = new CommandLine(new KapentaCommand())
-                .addSubcommand(new ServerCommand())
-                .addSubcommand(new GenerateCommand())
+                .addSubcommand("server", new ServerCommand())
+                .addSubcommand("generate", new GenerateCommand())
                 .execute(args);
         System.exit(exitCode);
     }

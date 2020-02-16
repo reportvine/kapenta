@@ -50,10 +50,12 @@ public class ReportDefinitionFileReader {
             throw new Exception("Parameters in report definition and extracted parameters do not match. " + comparison);
         }
 
-        if (Objects.isNull(reportFilePath.getFileName())) {
+        Path fileName = reportFilePath.getFileName();
+        if (Objects.isNull(fileName)) {
             throw new Exception("Failed to read fileName from reportFilePath");
         }
-        String reportName = reportFilePath.getFileName().toString();
+
+        String reportName = fileName.toString();
         // Remove the extension
         reportName = reportName.replace(".prpt", "");
         // TODO: Get version and description from report metadata

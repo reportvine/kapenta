@@ -66,10 +66,10 @@ public class SqlDataSourceVisitor extends AbstractStructureVisitor {
         return dataFactory;
     }
     
-    private final class ConnectionProviderImpl implements ConnectionProvider {
+    private static final class ConnectionProviderImpl implements ConnectionProvider {
         private static final long serialVersionUID = 1L;
 
-        private HikariConfig hikariConfig;
+        private transient HikariConfig hikariConfig;
 
         ConnectionProviderImpl(String databaseUrl) {
             this.hikariConfig = new HikariConfig();

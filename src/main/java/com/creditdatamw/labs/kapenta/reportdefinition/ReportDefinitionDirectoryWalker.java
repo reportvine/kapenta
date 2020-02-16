@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -57,7 +58,16 @@ public class ReportDefinitionDirectoryWalker {
     }
 
     private FileVisitResult innerVisitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        if (file.getFileName().toString().endsWith(".prpt")) {
+        if (file == null)
+            return FileVisitResult.CONTINUE;
+
+        Path filePath = file.getFileName();
+        
+        if (filePath == null)
+            return FileVisitResult.CONTINUE;
+
+        String fileName = filePath.toString();
+        if (fileName.endsWith(".prpt")) {
             try {
                 ReportDefinition reportDefinition = parser.createFromFile(
                     this.directory,

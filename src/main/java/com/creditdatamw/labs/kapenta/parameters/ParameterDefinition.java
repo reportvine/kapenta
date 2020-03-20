@@ -77,10 +77,15 @@ public final class ParameterDefinition implements Cloneable{
         this.defaultValue = null;
     }
 
-    public static Class typeFromStr(String typeStr) {
+    /**
+     * Parses the type specification into a class object.
+     * @param typeStr type specification, can be FQCN or simple name like String
+     * @return the class for the given type if possible, defaulting to Object.class
+     */
+    public static Class<?> typeFromStr(String typeStr) {
         try {
             if (WHITELISTED_CLASSES.contains(typeStr)) {
-                Class clazz = Class.forName(typeStr);
+                Class<?> clazz = Class.forName(typeStr);
                 return clazz;
             }
         } catch(Exception e) {

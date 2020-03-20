@@ -1,8 +1,7 @@
 Kapenta
-=
+=======
 
-Generate RESTful APIs for your Pentaho Reports automatically from
-a YAML configuration file.
+Generate RESTful APIs for your Pentaho Reports automatically from a YAML configuration file.
 
 ## Basic Usage
 
@@ -26,7 +25,7 @@ reports:
     file: ./customer_report.prpt
     parameters:
       - name: customer_id
-        type: java.lang.Long
+        type: Long
         required: true
         default: 0
 ```
@@ -218,4 +217,4 @@ happens to be owned by Credit Data CRB Ltd.
 
 ---
 
-Copyright (c) 2017-2019, Credit Data CRB Ltd
+Copyright (c) 2017 - 2020, Credit Data CRB Ltd

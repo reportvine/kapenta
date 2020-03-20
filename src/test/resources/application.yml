@@ -32,14 +32,14 @@ reports:
       - TXT
     parameters:
       - name: report_id
-        type: java.lang.String
+        type: String
         required: true
         default: 0
       - name: subreport_1
-        type: java.lang.Boolean
+        type: Boolean
         required: false
         default: true
       - name: subreport_2
-        type: java.lang.Boolean
+        type: Boolean
         required: false
         default: true

@@ -1,0 +1,45 @@
+host: localhost
+port: 8080
+apiRoot: /api
+#basicAuth:
+#  user:
+#    username: zikani
+#    password: zikani123
+logging:
+  rootLevel: INFO
+  directory: ./logs
+# Configuration for backup of generated generator
+backup:
+  # Where to store the generated generator
+  directory: ./log
+  # If the directory should have subdirectories for each day
+  rollingBackup: false
+#database:
+#  user: user
+#  password: password
+#  uri: jdbc:postgres://localhost:5432/database
+reports:
+  - name: Hello Report
+    path: /hello
+    version: "1.0.0"
+    file: "./test_report.prpt"
+    methods:
+      get: true
+      post: true
+    ext:
+      - PDF
+      - HTML
+      - TXT
+    parameters:
+      - name: report_id
+        type: String
+        required: true
+        default: 0
+      - name: subreport_1
+        type: Boolean
+        required: false
+        default: true
+      - name: subreport_2
+        type: Boolean
+        required: false
+        default: true

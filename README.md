@@ -1,3 +1,6 @@
+[![](https://img.shields.io/github/license/creditdatamw/kapenta.svg)](./LICENSE)
+![](https://travis-ci.org/creditdatamw/kapenta.svg?branch=master)
+
 Kapenta
 =======
 

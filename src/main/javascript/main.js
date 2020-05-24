@@ -4,6 +4,7 @@ import App from './App.vue';
 import ReportsIndex from './components/ReportsIndex.vue';
 
 Vue.config.productionTip = false;
+Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes: [

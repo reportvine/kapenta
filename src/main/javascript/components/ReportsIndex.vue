@@ -1,8 +1,10 @@
 <template>
 <div class="reports-index">
 
-    <div class="reports-dropdown">
-        <select v-model="selectedReport">
+    <div class="reports-dropdown select">
+        <select v-model="selectedReport" class="input is-primary">
+            <option v-if="availableReports.length < 1" selected value="--none--">
+                Trying to load Reports...</option>
             <option v-for="report in availableReports"
                 :key="report.name" 
                 :value="report">{{report.name}}</option>
@@ -47,7 +49,7 @@ export default {
                   this.availableReports = response.data;
               })
               .catch(err => {
-                  console.log("Failed to load reports");
+                  console.log("Failed to load reports", err);
                   this.availableReports = [];
               });
             

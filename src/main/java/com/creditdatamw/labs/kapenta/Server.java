@@ -1,9 +1,6 @@
 package com.creditdatamw.labs.kapenta;
 
-import com.creditdatamw.labs.kapenta.config.ApiConfiguration;
-import com.creditdatamw.labs.kapenta.config.BasicAuth;
-import com.creditdatamw.labs.kapenta.config.LoggingConfiguration;
-import com.creditdatamw.labs.kapenta.config.Method;
+import com.creditdatamw.labs.kapenta.config.*;
 import com.creditdatamw.labs.kapenta.filter.BasicAuthenticationFilter;
 import com.creditdatamw.labs.kapenta.http.ReportResource;
 import com.creditdatamw.labs.kapenta.http.ReportResourceImpl;
@@ -12,6 +9,7 @@ import com.creditdatamw.labs.kapenta.http.ReportsRoute;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Service;
 
@@ -21,17 +19,24 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
+import java.util.stream.Collectors;
+
+import static com.creditdatamw.labs.kapenta.http.Utils.isValidResourcePath;
 
 /**
  * Main API for creating APIs out of Pentaho .prpt generator via SparkJava
  *
  */
 public class Server {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Server.class);
     public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private ApiConfiguration configuration;
+    private final Path yamlFileDir;
     private final Reports reports;
     private spark.Service httpServer;
     private CountDownLatch countDownLatch = new CountDownLatch(1);
+    private static final String[] DEFAULT_METHODS = new String[] { "GET", "POST" };
+    private static final String REPORTS_JSON_ENDPOINT = "/reports.json";
 
     /**
      * Create a new Spark Pentaho API
@@ -60,15 +65,16 @@ public class Server {
         Objects.requireNonNull(apiRoot);
         Objects.requireNonNull(availableReports);
         reports = new Reports(apiRoot, availableReports);
+        yamlFileDir = Paths.get("."); // For unspecified path, default to cwd
     }
 
     private Server(String resourceDefinitionYaml) {
         Objects.requireNonNull(resourceDefinitionYaml);
         configuration = createFromYaml(resourceDefinitionYaml);
         this.configureLogging(configuration);
-        Path yamlFileDir = Paths.get(resourceDefinitionYaml).getParent();
+        this.yamlFileDir = Paths.get(resourceDefinitionYaml).getParent();
         this.httpServer = createHttpServer();
-        reports = createReportsFromConfiguration(yamlFileDir, configuration);
+        reports = createReportsFromConfiguration(configuration);
     }
 
     /**
@@ -87,7 +93,8 @@ public class Server {
         ClassicEngineBoot.getInstance().start();
 
         final String rootPath = configuration.getApiRoot();
-        httpServer.get(rootPath.concat("/").concat("reports.json"),
+        // Registers the `/reports.json` endpoint
+        httpServer.get(rootPath.concat(REPORTS_JSON_ENDPOINT),
                 new ReportsRoute(reports));
 
         reports.setHttpServer(httpServer);
@@ -129,44 +136,68 @@ public class Server {
         return configuration;
     }
 
-    private Reports createReportsFromConfiguration(Path yamlFileDir, ApiConfiguration configuraiton) {
+    private boolean isValidReportPath(String path) {
+        if (! isValidResourcePath(path)) return false;
+
+        String apiRoot = this.configuration.getApiRoot();
+        if (apiRoot.equalsIgnoreCase(path)) {
+            return false;
+        }
+
+        if (apiRoot.concat(REPORTS_JSON_ENDPOINT).equalsIgnoreCase(path)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private Reports createReportsFromConfiguration(ApiConfiguration configuraiton) {
         Objects.requireNonNull(configuraiton, "configuration");
         Objects.requireNonNull(httpServer, "Server.httpServer");
 
-        List<ReportResource> reportResources = new ArrayList<>();
-
-        final String[] defaultMethods = new String[] { "GET", "POST" };
-
-        configuration.getReports().forEach(reportConfiguration -> {
-            String reportName = reportConfiguration.getReportName();
-            String reportRoute = reportName.toLowerCase().replace(" ", "_");
-            String path = Optional.ofNullable(reportConfiguration.getPath()).orElse(reportRoute);
-
-            Method methods = reportConfiguration.getMethods();
-
-            if (! methods.isGet() && ! methods.isPost()) {
-                throw new RuntimeException("Specify at least one HTTP method between GET or POST");
-            }
-
-            reportResources.add(
-                new ReportResourceImpl(
-                    path.startsWith("/") ? path : "/".concat(path),
-                    methods.toArray().length < 1 ? defaultMethods : methods.toArray(),
-                    reportConfiguration.extensions(),
-                    reportConfiguration.toReportDefinition(Optional.of(yamlFileDir))));
-        });
+        List<ReportResource> reportResources = configuration.getReports()
+            .stream()
+            .map(this::mapReportResourceFromConfiguration)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toList());
 
         if (Optional.ofNullable(configuration.getBasicAuth()).isPresent()) {
+            LOGGER.info("Configuring HTTP Basic Auth from configuration file");
             configureBasicAuth(configuration);
         }
+        if (reportResources.isEmpty()) {
+            throw new RuntimeException("Server cannot boot without Reports correctly configured. Please review the configuration");
+        }
+        LOGGER.info("Registered {} Report Resource endpoints", reportResources.size());
+        return new Reports(configuration.getApiRoot(),
+            reportResources,
+            configuration.getBackup(),
+            configuration.getDatabase());
+    }
 
-        final Reports reports = new Reports(configuration.getApiRoot(),
-                           Collections.unmodifiableList(reportResources),
-                           configuration.getBackup(),
-                           configuration.getDatabase());
+    private Optional<ReportResource> mapReportResourceFromConfiguration(ReportConfiguration reportConfiguration) {
+        String reportName = reportConfiguration.getReportName();
+        String reportRoute = reportName.toLowerCase().replace(" ", "_");
+        String path = Optional.ofNullable(reportConfiguration.getPath()).orElse(reportRoute);
 
+        Method methods = reportConfiguration.getMethods();
 
-        return reports;
+        if (! methods.isGet() && ! methods.isPost()) {
+            throw new RuntimeException("Specify at least one HTTP method between GET or POST");
+        }
+
+        String reportResourcePath = path.startsWith("/") ? path : "/".concat(path);
+
+        if (! isValidReportPath(reportResourcePath)) {
+            return Optional.empty();
+        }
+
+        return Optional.of(new ReportResourceImpl(
+            reportResourcePath,
+            methods.toArray().length < 1 ? DEFAULT_METHODS : methods.toArray(),
+            reportConfiguration.extensions(),
+            reportConfiguration.toReportDefinition(Optional.of(yamlFileDir))));
     }
 
     /**

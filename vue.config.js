@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   publicPath: '/',
-  outputDir: path.resolve('src', 'main', 'resources', 'public'),
+  outputDir: path.resolve('src', 'main', 'resources', 'public', 'app'),
   assetsDir: '',
   devServer: {
       contentBase: path.resolve(__dirname, 'src', 'main', 'resources', 'assets'),

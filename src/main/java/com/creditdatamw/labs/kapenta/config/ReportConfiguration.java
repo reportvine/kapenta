@@ -107,7 +107,7 @@ public class ReportConfiguration {
     }
 
 
-    public EnumSet extensions() {
+    public EnumSet<OutputType> outputTypes() {
         final EnumSet<OutputType> set = EnumSet.noneOf(OutputType.class);
 
         this.extensions.forEach(ext -> {

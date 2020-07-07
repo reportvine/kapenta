@@ -171,18 +171,18 @@ final class ReportRoute implements Route {
         String requestUri = Objects.isNull(request.uri()) ?  "" : request.uri().toLowerCase();
 
         if (accept.toLowerCase().contains("pdf") || requestUri.contains(".pdf")) {
-            response.type("application/pdf;charset=utf-8");
+            response.type(OutputType.PDF.getContentTypeUtf8());
             return OutputType.PDF;
         } else if (accept.toLowerCase().contains("text/plain") || requestUri.contains(".txt")) {
-            response.type("text/plain;charset=utf-8");
+            response.type(OutputType.TXT.getContentTypeUtf8());
             return OutputType.TXT;
         } else if (accept.toLowerCase().contains("html") || requestUri.contains(".html")) {
             // Check for html last since most browsers will send accept with html  or */* ...
-            response.type("text/html;charset=utf-8");
+            response.type(OutputType.HTML.getContentTypeUtf8());
             return OutputType.HTML;
         } else if (accept.toLowerCase().equalsIgnoreCase("*/*")) {
             // If you are cool with anything, you get back html - you're probably a dumb http client
-            response.type("text/html;charset=utf-8");
+            response.type(OutputType.HTML.getContentTypeUtf8());
             return OutputType.HTML;
         }
 

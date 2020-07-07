@@ -2,12 +2,12 @@ package com.creditdatamw.labs.kapenta;
 
 import com.creditdatamw.labs.kapenta.config.*;
 import com.creditdatamw.labs.kapenta.filter.BasicAuthenticationFilter;
-import com.creditdatamw.labs.kapenta.http.ReportResource;
-import com.creditdatamw.labs.kapenta.http.ReportResourceImpl;
-import com.creditdatamw.labs.kapenta.http.Reports;
-import com.creditdatamw.labs.kapenta.http.ReportsRoute;
+import com.creditdatamw.labs.kapenta.http.*;
+import com.creditdatamw.labs.kapenta.openapi.OpenAPISchemaGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import org.openapi4j.parser.model.v3.OpenApi3;
+import org.openapi4j.parser.model.v3.Schema;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +35,7 @@ public class Server {
     private final Reports reports;
     private spark.Service httpServer;
     private CountDownLatch countDownLatch = new CountDownLatch(1);
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private static final String[] DEFAULT_METHODS = new String[] { "GET", "POST" };
     private static final String REPORTS_JSON_ENDPOINT = "/reports.json";
 
@@ -71,9 +72,10 @@ public class Server {
     private Server(String resourceDefinitionYaml) {
         Objects.requireNonNull(resourceDefinitionYaml);
         configuration = createFromYaml(resourceDefinitionYaml);
-        this.configureLogging(configuration);
         this.yamlFileDir = Paths.get(resourceDefinitionYaml).getParent();
+        this.configureLogging(configuration);
         this.httpServer = createHttpServer();
+        this.configureOpenAPIEndpoint();
         reports = createReportsFromConfiguration(configuration);
     }
 
@@ -196,7 +198,7 @@ public class Server {
         return Optional.of(new ReportResourceImpl(
             reportResourcePath,
             methods.toArray().length < 1 ? DEFAULT_METHODS : methods.toArray(),
-            reportConfiguration.extensions(),
+            reportConfiguration.outputTypes(),
             reportConfiguration.toReportDefinition(Optional.of(yamlFileDir))));
     }
 
@@ -209,7 +211,17 @@ public class Server {
         httpServer = Service.ignite();
         httpServer.ipAddress(host);
         httpServer.port(configuration.getPort());
+
+        httpServer.staticFileLocation("public");
+
+        httpServer.after(new CorsFilter());
+
         return httpServer;
+    }
+
+    private void configureOpenAPIEndpoint() {
+        OpenApi3 openApi3 = new OpenAPISchemaGenerator(configuration).getGeneratedSchema();
+        httpServer.get("/openapi",  new OpenAPIRoute(objectMapper, openApi3));
     }
 
     /**

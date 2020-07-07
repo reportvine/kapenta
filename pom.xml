@@ -15,6 +15,7 @@
         <postgresql.version>42.1.1</postgresql.version>
         <spark.version>2.9.1</spark.version>
         <jackson.version>2.10.0</jackson.version>
+        <openapi4j.version>1.0.2</openapi4j.version>
     </properties>
 
     <developers>
@@ -59,6 +60,11 @@
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-core</artifactId>
             <version>${spark.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapi4j</groupId>
+            <artifactId>openapi-parser</artifactId>
+            <version>${openapi4j.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

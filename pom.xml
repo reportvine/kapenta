@@ -50,6 +50,12 @@
 
     <repositories>
         <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>false</enabled></snapshots>
+        </repository>
+        <repository>
             <id>pentaho</id>
             <url>http://nexus.pentaho.org/content/groups/omni/</url>
         </repository>

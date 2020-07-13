@@ -1,9 +1,11 @@
 package com.creditdatamw.labs.kapenta.reportdefinition;
 
+import com.creditdatamw.labs.kapenta.config.ReportConfiguration;
 import com.creditdatamw.labs.kapenta.parameters.ParameterDefinition;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -184,5 +186,29 @@ public class ReportDefinition {
     @Override
     public int hashCode() {
         return Objects.hash(reportName, version, description, reportFilePath, parameters);
+    }
+
+    public static ReportDefinition readFromConfiguration(Optional<Path> baseDir, ReportConfiguration rptCfg) {
+        // if the report configuration uses a relative path to the report
+        // resolve the report to the base directory
+        String reportFullPath = rptCfg.getReportFilePath();
+
+        if (! Files.exists(Paths.get(rptCfg.getReportFilePath()))) {
+            if (reportFullPath.startsWith("./") || reportFullPath.startsWith(".\\")) {
+                String cleaned = reportFullPath.replace("./", "")
+                    .replace(".\\","");
+
+                if (baseDir.isPresent()) {
+                    reportFullPath = baseDir.get()
+                        .resolve(cleaned)
+                        .toAbsolutePath()
+                        .toString();
+                }
+            }
+        }
+        if (Objects.isNull(rptCfg.getParameters())) {
+            return new ReportDefinition(rptCfg.getReportName(), reportFullPath);
+        }
+        return new ReportDefinition(rptCfg.getReportName(), reportFullPath, rptCfg.getParameters());
     }
 }

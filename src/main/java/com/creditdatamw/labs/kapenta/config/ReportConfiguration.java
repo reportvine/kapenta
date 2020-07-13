@@ -125,25 +125,6 @@ public class ReportConfiguration {
     }
 
     public ReportDefinition toReportDefinition(Optional<Path> baseDir) {
-        // if the report configuration uses a relative path to the report
-        // resolve the report to the base directory
-        String reportFullPath = this.reportFilePath;
-
-        if (! Files.exists(Paths.get(this.reportFilePath))) {
-            if (this.reportFilePath.startsWith("./") || this.reportFilePath.startsWith(".\\")) {
-                String cleaned = this.reportFilePath.replace("./", "").replace(".\\","");
-
-                if (baseDir.isPresent()) {
-                    reportFullPath = baseDir.get()
-                            .resolve(cleaned)
-                            .toAbsolutePath()
-                            .toString();
-                }
-            }
-        }
-        if (Objects.isNull(this.parameters)) {
-            return new ReportDefinition(this.reportName, reportFullPath);
-        }
-        return new ReportDefinition(this.reportName, reportFullPath, this.parameters);
+       return ReportDefinition.readFromConfiguration(baseDir, this);
     }
 }

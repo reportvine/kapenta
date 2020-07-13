@@ -2,7 +2,7 @@ package com.creditdatamw.labs.kapenta.pentaho;
 
 import com.creditdatamw.labs.kapenta.OutputType;
 import com.creditdatamw.labs.kapenta.config.Database;
-import com.creditdatamw.labs.kapenta.sql.SqlDataSourceVisitor;
+import com.creditdatamw.labs.kapenta.pentaho.sql.SqlDataSourceVisitor;
 import org.pentaho.reporting.engine.classic.core.MasterReport;
 import org.pentaho.reporting.engine.classic.core.modules.output.pageable.pdf.PdfReportUtil;
 import org.pentaho.reporting.engine.classic.core.modules.output.pageable.plaintext.PlainTextReportUtil;

@@ -1,4 +1,4 @@
-package com.creditdatamw.labs.kapenta.sql;
+package com.creditdatamw.labs.kapenta.pentaho.sql;
 
 import com.zaxxer.hikari.HikariConfig;
 import org.pentaho.reporting.engine.classic.core.AbstractReportDefinition;

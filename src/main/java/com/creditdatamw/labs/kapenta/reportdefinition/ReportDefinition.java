@@ -100,26 +100,6 @@ public class ReportDefinition {
         return Collections.unmodifiableList(parameters);
     }
 
-    public static ParameterDefinition requiredParameter(String name, String type) {
-        return new ParameterDefinition(name, true, type);
-    }
-
-    public static ParameterDefinition requiredParameter(String name, Class clazz) {
-        return new ParameterDefinition(name, true, clazz);
-    }
-
-    public static <T> ParameterDefinition requiredParameter(String name, T defaultValue, Class clazz) {
-        return new ParameterDefinition(name, true, clazz, defaultValue);
-    }
-
-    public static ParameterDefinition optionalParameter(String name, Class clazz) {
-        return new ParameterDefinition(name, clazz);
-    }
-
-    public static <T> ParameterDefinition optionalParameter(String name, T defaultValue, Class clazz) {
-        return new ParameterDefinition(name, false, clazz, defaultValue);
-    }
-
     /**
      * Validate parameters to ensure they are valid
      *

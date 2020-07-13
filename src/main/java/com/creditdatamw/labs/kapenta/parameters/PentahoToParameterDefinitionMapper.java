@@ -1,10 +1,12 @@
 package com.creditdatamw.labs.kapenta.parameters;
 
-import com.creditdatamw.labs.kapenta.reportdefinition.ReportDefinition;
 import org.pentaho.reporting.engine.classic.core.MasterReport;
 import org.pentaho.reporting.engine.classic.core.parameters.DefaultParameterContext;
 import org.pentaho.reporting.engine.classic.core.parameters.ParameterDefinitionEntry;
 import org.slf4j.LoggerFactory;
+
+import static com.creditdatamw.labs.kapenta.parameters.ParameterDefinition.optionalParameter;
+import static com.creditdatamw.labs.kapenta.parameters.ParameterDefinition.requiredParameter;
 
 public class PentahoToParameterDefinitionMapper {
     /**
@@ -31,11 +33,11 @@ public class PentahoToParameterDefinitionMapper {
         }
 
         if (param.isMandatory()) {
-            return ReportDefinition.requiredParameter(param.getName(),
+            return requiredParameter(param.getName(),
                     defaultValue,
                     param.getValueType());
         }
-        return ReportDefinition.optionalParameter(param.getName(),
+        return optionalParameter(param.getName(),
                 defaultValue,
                 param.getValueType());
     }

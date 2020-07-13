@@ -1,11 +1,12 @@
 package com.creditdatamw.labs.kapenta.parameters;
 
-import com.creditdatamw.labs.kapenta.reportdefinition.ReportDefinition;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.sql.Date;
 
+import static com.creditdatamw.labs.kapenta.parameters.ParameterDefinition.optionalParameter;
+import static com.creditdatamw.labs.kapenta.parameters.ParameterDefinition.requiredParameter;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -17,26 +18,26 @@ public class ParameterDefinitionTest {
     @Test
     public void testCreateOptionalParameter() {
         ParameterDefinition p = new ParameterDefinition("test",false,String.class);
-        Assert.assertEquals(p, ReportDefinition.optionalParameter("test", String.class));
+        Assert.assertEquals(p, optionalParameter("test", String.class));
     }
 
     @Test
     public void testCreateOptionalParameterWithDefault() {
         ParameterDefinition p = new ParameterDefinition("test",false,String.class, "none");
-        assertEquals(p, ReportDefinition.optionalParameter("test", "none", String.class));
+        assertEquals(p, optionalParameter("test", "none", String.class));
     }
 
     @Test
     public void testCreateRequiredParameter() {
         ParameterDefinition p = new ParameterDefinition("test",true,String.class);
 
-        assertEquals(p, ReportDefinition.requiredParameter("test", "String"));
+        assertEquals(p, requiredParameter("test", "String"));
     }
 
     @Test
     public void testCreateRequiredParameterWithDefault() {
         ParameterDefinition p = new ParameterDefinition("test",true,String.class, "none");
-        assertEquals(p, ReportDefinition.requiredParameter("test", "none", String.class));
+        assertEquals(p, requiredParameter("test", "none", String.class));
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.creditdatamw.labs.kapenta;
 
-import com.creditdatamw.labs.kapenta.reportdefinition.ReportDefinition;
 import com.creditdatamw.labs.kapenta.http.ReportResourceImpl;
+import com.creditdatamw.labs.kapenta.reportdefinition.ReportDefinition;
 import com.google.common.collect.ImmutableList;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.EnumSet;
 
+import static com.creditdatamw.labs.kapenta.parameters.ParameterDefinition.requiredParameter;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
@@ -39,9 +40,9 @@ public class ServerTest {
                     new ReportDefinition("helloReport",
                         Paths.get("src/test/resources/test_report.prpt").toAbsolutePath().toString(),
                         ImmutableList.of(
-                            ReportDefinition.requiredParameter("report_id", String.class),
-                            ReportDefinition.requiredParameter("subreport_1", true, Boolean.class),
-                            ReportDefinition.requiredParameter("subreport_2", true, Boolean.class))
+                            requiredParameter("report_id", String.class),
+                            requiredParameter("subreport_1", true, Boolean.class),
+                            requiredParameter("subreport_2", true, Boolean.class))
                     )
                 )
             )

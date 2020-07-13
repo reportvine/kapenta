@@ -1,7 +1,6 @@
 package com.creditdatamw.labs.kapenta.reportdefinition;
 
 import com.creditdatamw.labs.kapenta.parameters.ParameterDefinition;
-import com.creditdatamw.labs.kapenta.reportdefinition.ReportDefinition;
 import com.google.common.collect.Sets;
 import org.junit.Rule;
 import org.junit.Test;
@@ -11,9 +10,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static com.creditdatamw.labs.kapenta.parameters.ParameterDefinition.optionalParameter;
+import static com.creditdatamw.labs.kapenta.parameters.ParameterDefinition.requiredParameter;
+import static org.junit.Assert.*;
 
 /**
  * ReportDefinitionTest
@@ -25,7 +24,7 @@ public class ReportDefinitionTest {
     @Test
     public void testGetParameterType() {
         List<ParameterDefinition> params = new ArrayList<>();
-        params.add(ReportDefinition.optionalParameter("subreport_1", Boolean.class));
+        params.add(optionalParameter("subreport_1", Boolean.class));
         ReportDefinition reportDefinition = new ReportDefinition("report",
                 "./src/test/resources/test_report.prpt",
                 params);
@@ -36,7 +35,7 @@ public class ReportDefinitionTest {
     @Test
     public void testFailToGetParameterType() {
         List<ParameterDefinition> params = new ArrayList<>();
-        params.add(ReportDefinition.optionalParameter("subreport_1", Boolean.class));
+        params.add(optionalParameter("subreport_1", Boolean.class));
         ReportDefinition reportDefinition = new ReportDefinition("report",
                 "./src/test/resources/test_report.prpt",
                 params);
@@ -48,9 +47,9 @@ public class ReportDefinitionTest {
     public void testGetParameters() {
         List<ParameterDefinition> params = new ArrayList<>();
 
-        params.add(ReportDefinition.optionalParameter("subreport_1", Boolean.class));
-        params.add(ReportDefinition.optionalParameter("subreport_2", Boolean.class));
-        params.add(ReportDefinition.requiredParameter("report_id", String.class));
+        params.add(optionalParameter("subreport_1", Boolean.class));
+        params.add(optionalParameter("subreport_2", Boolean.class));
+        params.add(requiredParameter("report_id", String.class));
 
         ReportDefinition reportDefinition = new ReportDefinition("report",
                 "./src/test/resources/test_report.prpt",
@@ -73,7 +72,7 @@ public class ReportDefinitionTest {
     @Test
     public void testHasRequiredParametersInSingleSet() {
         List<ParameterDefinition> params = new ArrayList<>();
-        params.add(ReportDefinition.requiredParameter("report_id", Boolean.class));
+        params.add(requiredParameter("report_id", Boolean.class));
         ReportDefinition reportDefinition = new ReportDefinition("report",
                 "./src/test/resources/test_report.prpt",
                 params);
@@ -86,9 +85,9 @@ public class ReportDefinitionTest {
     @Test
     public void testHasRequiredParametersInSet() {
         List<ParameterDefinition> params = new ArrayList<>();
-        params.add(ReportDefinition.requiredParameter("report_id", Boolean.class));
-        params.add(ReportDefinition.optionalParameter("subreport_1", Boolean.class));
-        params.add(ReportDefinition.optionalParameter("subreport_2", Boolean.class));
+        params.add(requiredParameter("report_id", Boolean.class));
+        params.add(optionalParameter("subreport_1", Boolean.class));
+        params.add(optionalParameter("subreport_2", Boolean.class));
         ReportDefinition reportDefinition = new ReportDefinition("report",
                 "./src/test/resources/test_report.prpt",
                 params);
@@ -100,10 +99,10 @@ public class ReportDefinitionTest {
     @Test
     public void testExtractRequiredParametersFromSet() {
         List<ParameterDefinition> params = new ArrayList<>();
-        params.add(ReportDefinition.requiredParameter("required_param_1", Boolean.class));
-        params.add(ReportDefinition.requiredParameter("required_param_2", Boolean.class));
-        params.add(ReportDefinition.optionalParameter("subreport_1", Boolean.class));
-        params.add(ReportDefinition.optionalParameter("subreport_2", Boolean.class));
+        params.add(requiredParameter("required_param_1", Boolean.class));
+        params.add(requiredParameter("required_param_2", Boolean.class));
+        params.add(optionalParameter("subreport_1", Boolean.class));
+        params.add(optionalParameter("subreport_2", Boolean.class));
         ReportDefinition reportDefinition = new ReportDefinition("report",
                 "./src/test/resources/test_report.prpt",
                 params);

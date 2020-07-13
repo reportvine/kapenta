@@ -15,6 +15,19 @@ import java.util.List;
  */
 @JsonTypeName("parameterDefinition")
 public final class ParameterDefinition implements Cloneable{
+
+    private static final ImmutableSet<String> WHITELISTED_CLASSES = ImmutableSet.of(
+        "java.lang.Number",
+        "java.lang.Integer",
+        "java.lang.Double",
+        "java.lang.String",
+        "java.lang.Long",
+        "java.lang.Boolean",
+        "java.lang.Char",
+        "java.lang.Object",
+        "java.util.Date"
+    );
+
     @JsonProperty("name")
     private final String name;
 
@@ -169,15 +182,24 @@ public final class ParameterDefinition implements Cloneable{
         return result;
     }
 
-    private static final ImmutableSet<String> WHITELISTED_CLASSES = ImmutableSet.of(
-            "java.lang.Number",
-            "java.lang.Integer",
-            "java.lang.Double",
-            "java.lang.String",
-            "java.lang.Long",
-            "java.lang.Boolean",
-            "java.lang.Char",
-            "java.lang.Object",
-            "java.util.Date"
-    );
+
+    public static ParameterDefinition requiredParameter(String name, String type) {
+        return new ParameterDefinition(name, true, type);
+    }
+
+    public static ParameterDefinition requiredParameter(String name, Class clazz) {
+        return new ParameterDefinition(name, true, clazz);
+    }
+
+    public static <T> ParameterDefinition requiredParameter(String name, T defaultValue, Class clazz) {
+        return new ParameterDefinition(name, true, clazz, defaultValue);
+    }
+
+    public static ParameterDefinition optionalParameter(String name, Class clazz) {
+        return new ParameterDefinition(name, clazz);
+    }
+
+    public static <T> ParameterDefinition optionalParameter(String name, T defaultValue, Class clazz) {
+        return new ParameterDefinition(name, false, clazz, defaultValue);
+    }
 }

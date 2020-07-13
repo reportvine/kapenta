@@ -1,4 +1,4 @@
-package com.creditdatamw.labs.kapenta.generator;
+package com.creditdatamw.labs.kapenta.pentaho;
 
 import com.creditdatamw.labs.kapenta.OutputType;
 import com.creditdatamw.labs.kapenta.config.Database;

@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Generates an OpenAPI v3 Schema from the configuration and using the
- * `src/main/resources/openapi.base.yml`
+ * Generates an OpenAPI v3 Schema from the kapenta configuration
  */
 public class OpenAPISchemaGenerator {
     private final String baseUri;

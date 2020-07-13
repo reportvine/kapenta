@@ -1,4 +1,4 @@
-package com.creditdatamw.labs.kapenta.http;
+package com.creditdatamw.labs.kapenta.http.filter;
 
 import spark.Filter;
 import spark.Request;

@@ -1,4 +1,4 @@
-package com.creditdatamw.labs.kapenta.filter;
+package com.creditdatamw.labs.kapenta.http.filter;
 
 import com.creditdatamw.labs.kapenta.config.BasicAuth;
 import org.slf4j.Logger;

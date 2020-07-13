@@ -1,13 +1,13 @@
 package com.creditdatamw.labs.kapenta;
 
 import com.creditdatamw.labs.kapenta.config.*;
-import com.creditdatamw.labs.kapenta.filter.BasicAuthenticationFilter;
+import com.creditdatamw.labs.kapenta.http.filter.BasicAuthenticationFilter;
 import com.creditdatamw.labs.kapenta.http.*;
+import com.creditdatamw.labs.kapenta.http.filter.CorsFilter;
 import com.creditdatamw.labs.kapenta.openapi.OpenAPISchemaGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.openapi4j.parser.model.v3.OpenApi3;
-import org.openapi4j.parser.model.v3.Schema;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

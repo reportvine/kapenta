@@ -15,6 +15,7 @@ import spark.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -252,9 +253,12 @@ public class Server {
 
         LoggingConfiguration log = Optional.ofNullable(apiConfiguration.getLogging())
                 .orElse(new LoggingConfiguration());
-
-        System.setProperty("logging.directory",
-                Optional.ofNullable(log.getDirectory()).orElse("./logs"));
+        try {
+            System.setProperty("logging.directory", Optional.ofNullable(log.getDirectory())
+                .orElse(Files.createTempDirectory("kapenta").toAbsolutePath().toString()));
+        } catch(IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
 
         System.setProperty("logging.rootLevel",
                 Optional.ofNullable(log.getLevel()).orElse("INFO"));

@@ -1,12 +1,14 @@
 package com.creditdatamw.labs.kapenta;
 
 import com.creditdatamw.labs.kapenta.config.*;
-import com.creditdatamw.labs.kapenta.http.filter.BasicAuthenticationFilter;
 import com.creditdatamw.labs.kapenta.http.*;
+import com.creditdatamw.labs.kapenta.http.filter.BasicAuthenticationFilter;
 import com.creditdatamw.labs.kapenta.http.filter.CorsFilter;
 import com.creditdatamw.labs.kapenta.openapi.OpenAPISchemaGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import io.micrometer.prometheus.PrometheusConfig;
+import io.micrometer.prometheus.PrometheusMeterRegistry;
 import org.openapi4j.parser.model.v3.OpenApi3;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;
 import org.slf4j.Logger;
@@ -18,7 +20,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
@@ -35,6 +40,7 @@ public class Server {
     private final Path yamlFileDir;
     private final Reports reports;
     private spark.Service httpServer;
+    private PrometheusMeterRegistry prometheusRegistry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
     private CountDownLatch countDownLatch = new CountDownLatch(1);
     private final ObjectMapper objectMapper = new ObjectMapper();
     private static final String[] DEFAULT_METHODS = new String[] { "GET", "POST" };
@@ -77,8 +83,10 @@ public class Server {
         this.configureLogging(configuration);
         this.httpServer = createHttpServer();
         this.configureOpenAPIEndpoint();
+        this.configurePrometheusMetricsEndpoint();
         reports = createReportsFromConfiguration(configuration);
     }
+
 
     /**
      * Gets the configured Reports
@@ -218,6 +226,10 @@ public class Server {
         httpServer.after(new CorsFilter());
 
         return httpServer;
+    }
+
+    private void configurePrometheusMetricsEndpoint() {
+        httpServer.get("/metrics", (req, res) -> prometheusRegistry.scrape());
     }
 
     private void configureOpenAPIEndpoint() {

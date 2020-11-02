@@ -13,11 +13,8 @@ import org.pentaho.reporting.libraries.resourceloader.ResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
@@ -52,7 +49,7 @@ public final class Generator {
                                       OutputType outputType,
                                       OutputStream outputStream) throws GeneratorException {
         Path filePath = Paths.get(reportFileName);
-        try (InputStream fis = Files.newInputStream(filePath, LinkOption.NOFOLLOW_LINKS)){
+        try {
             URL url = filePath.toUri().toURL();
 
             final Resource resource = resourceManager.createDirectly(url, MasterReport.class);
@@ -64,9 +61,7 @@ public final class Generator {
 
             ReportParameterValues params = masterReport.getParameterValues();
 
-            parameters.forEach((key, value) -> {
-                params.put(key, value);
-            });
+            parameters.forEach(params::put);
 
             // Defaults to HTML output
             switch (outputType) {
@@ -91,7 +86,7 @@ public final class Generator {
                                       OutputStream outputStream,
                                       Database database) throws GeneratorException {
         Path filePath = Paths.get(reportFileName);
-        try (InputStream fis = Files.newInputStream(filePath, LinkOption.NOFOLLOW_LINKS)){
+        try {
             URL url = filePath.toUri().toURL();
 
             final Resource resource = resourceManager.createDirectly(url, MasterReport.class);
@@ -107,9 +102,7 @@ public final class Generator {
 
             ReportParameterValues params = masterReport.getParameterValues();
 
-            parameters.forEach((key, value) -> {
-                params.put(key, value);
-            });
+            parameters.forEach(params::put);
 
             // Defaults to HTML output
             switch (outputType) {

@@ -72,19 +72,18 @@ public class Server {
     Server(String apiRoot, List<ReportResource> availableReports) {
         Objects.requireNonNull(apiRoot);
         Objects.requireNonNull(availableReports);
-        reports = new Reports(apiRoot, availableReports);
-        yamlFileDir = Paths.get("."); // For unspecified path, default to cwd
+        this.yamlFileDir = Paths.get("."); // For unspecified path, default to cwd
+        this.reports = new Reports(apiRoot, availableReports);
     }
 
     private Server(String resourceDefinitionYaml) {
-        Objects.requireNonNull(resourceDefinitionYaml);
-        configuration = createFromYaml(resourceDefinitionYaml);
-        this.yamlFileDir = Paths.get(resourceDefinitionYaml).getParent();
+        this.yamlFileDir = Paths.get(Objects.requireNonNull(resourceDefinitionYaml)).getParent();
+        this.configuration = createFromYaml(resourceDefinitionYaml);
         this.configureLogging(configuration);
         this.httpServer = createHttpServer();
         this.configureOpenAPIEndpoint();
         this.configurePrometheusMetricsEndpoint();
-        reports = createReportsFromConfiguration(configuration);
+        this.reports = createReportsFromConfiguration(configuration);
     }
 
 

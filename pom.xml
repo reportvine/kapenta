@@ -5,7 +5,7 @@
     <artifactId>kapenta</artifactId>
     <version>0.3.1-SNAPSHOT</version>
 
-    <name>Spark Pentaho Report</name>
+    <name>kapenta</name>
     <description>Create a Report API for Pentaho Reports</description>
 
     <properties>
@@ -209,7 +209,8 @@
                         <argument>-classpath</argument>
                         <classpath/>
                         <argument>com.creditdatamw.labs.kapenta.Main</argument>
-                        <argument>serve</argument>
+                        <argument>server</argument>
+                        <argument>--config</argument>
                         <argument>${project.basedir}/src/test/resources/application.yml</argument>
                     </arguments>
                 </configuration>

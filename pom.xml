@@ -9,7 +9,7 @@
     <description>Create a Report API for Pentaho Reports</description>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>15</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <micrometer.version>1.5.5</micrometer.version>
@@ -223,7 +223,7 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <optimize>true</optimize>
-                    <debug>true</debug>
+                    <debug>false</debug>
                 </configuration>
             </plugin>
             <plugin>

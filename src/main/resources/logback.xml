@@ -1,6 +1,6 @@
 <configuration debug="false">
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logging.directory}/kapenta.log</file>
+        <file>${logging.directory:-./}kapenta.log</file>
         <encoder>
             <pattern>%-5level [%d{yyyy-MM-dd HH:mm:ss}] %logger{36} [%thread] - %msg%n</pattern>
         </encoder>

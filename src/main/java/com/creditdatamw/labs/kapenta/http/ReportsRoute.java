@@ -15,9 +15,9 @@ import static com.creditdatamw.labs.kapenta.http.ReportRoute.APPLICATION_JSON;
 import static com.creditdatamw.labs.kapenta.http.ReportRoute.toJson;
 
 public class ReportsRoute implements Route {
-    private final List<ReportResource> reportResources;
+    private final String reportResources;
     public ReportsRoute(final Reports reports) {
-        this.reportResources = removePaths(reports.resources());
+        this.reportResources = toJson(removePaths(reports.resources()));
     }
 
     @Override
@@ -25,31 +25,22 @@ public class ReportsRoute implements Route {
         LoggerFactory.getLogger(getClass()).debug("Processing ReportsRoute request");
         response.status(200);
         response.type(APPLICATION_JSON);
-        return toJson(reportResources);
+        return reportResources;
     }
 
     private List<ReportResource> removePaths(List<ReportResource> reports) {
         return reports.stream()
-            .map(r -> new ReportResource() {
-                @Override
-                public String path() {
-                    return null;
-                }
-
-                @Override
-                public ReportDefinition reportDefinition() {
-                    return r.reportDefinition();
-                }
-
-                @Override
-                public String[] methods() {
-                    return r.methods();
-                }
-
-                @Override
-                public EnumSet<OutputType> outputTypes() {
-                    return r.outputTypes();
-                }
+            .map(r -> {
+                return new ReportResourceImpl(
+                    r.path(),
+                    r.methods(),
+                    r.outputTypes(),
+                    new ReportDefinition(
+                        r.reportDefinition().getReportName(),
+                        null,
+                        r.reportDefinition().getParameters()
+                    )
+                );
             })
             .collect(Collectors.toList());
     }

@@ -188,7 +188,7 @@ basicAuth:
 
 ## Building
 
-You will need a minimum of [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html) 
+You will need a minimum of [Java 15](http://www.oracle.com/technetwork/java/javase/downloads/index.html) 
 and [Maven 3](https://maven.apache.org/) to build the project.
 
 The project uses the [assembly](https://maven.apache.org/plugins/maven-assembly-plugin/usage.html) 
@@ -220,4 +220,4 @@ happens to be owned by Credit Data CRB Ltd.
 
 ---
 
-Copyright (c) 2017 - 2020, Credit Data CRB Ltd
+Copyright (c) 2017 - 2021, Credit Data CRB Ltd

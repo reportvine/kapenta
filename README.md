@@ -36,7 +36,7 @@ reports:
 Running the following command will start a webserver at port 4567
 
 ```bash
-$ bin/kapenta serve configuration.yml
+$ bin/kapenta server --config configuration.yml --host "0.0.0.0" --port 4567
 ```
 
 The API created will have two end-points, one for generating your report.

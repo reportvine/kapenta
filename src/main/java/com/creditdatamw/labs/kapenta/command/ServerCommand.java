@@ -18,6 +18,12 @@ public class ServerCommand implements Runnable{
     @Option(names = { "-c", "--config" }, required = true, description = "Configuration file")
     private String configurationFile;
 
+    @Option(names = { "--host" }, description = "Address to bind on")
+    private String ipAddress;
+
+    @Option(names = { "--port" }, description = "Port to bind on")
+    private int port;
+
     @Override
     public void run() {
         if (Objects.isNull(configurationFile)) {
@@ -28,6 +34,6 @@ public class ServerCommand implements Runnable{
             throw new RuntimeException("Kapenta server requires path to yaml configuration file to run!");
         }
 
-        kapenta(configurationFile);
+        kapenta(ipAddress, port, configurationFile);
     }
 }

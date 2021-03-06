@@ -59,8 +59,8 @@ public class Server {
      * Create a new Spark Pentaho API
      * @param yamlFile
      */
-    public static final void kapenta(String yamlFile) {
-        new Server(yamlFile).start();
+    public static final void kapenta(String ipAddress, int port, String yamlFile) {
+        new Server(ipAddress, port, yamlFile).start();
     }
 
     /**
@@ -76,11 +76,11 @@ public class Server {
         this.reports = new Reports(apiRoot, availableReports);
     }
 
-    private Server(String resourceDefinitionYaml) {
+    private Server(String ipAddress, int port, String resourceDefinitionYaml) {
         this.yamlFileDir = Paths.get(Objects.requireNonNull(resourceDefinitionYaml)).getParent();
         this.configuration = createFromYaml(resourceDefinitionYaml);
         this.configureLogging(configuration);
-        this.httpServer = createHttpServer();
+        this.httpServer = createHttpServer(ipAddress, port);
         this.configureOpenAPIEndpoint();
         this.configurePrometheusMetricsEndpoint();
         this.reports = createReportsFromConfiguration(configuration);
@@ -214,11 +214,11 @@ public class Server {
      * Creates a Spark HttpService
      * @return
      */
-    private spark.Service createHttpServer() {
-        String host = Optional.ofNullable(configuration.getHost()).orElse("0.0.0.0");
+    private spark.Service createHttpServer(String ipAddress, int port) {
+        String host = Optional.ofNullable(ipAddress).orElse(configuration.getHost());
         httpServer = Service.ignite();
         httpServer.ipAddress(host);
-        httpServer.port(configuration.getPort());
+        httpServer.port(Optional.ofNullable(port).orElse(configuration.getPort()));
 
         httpServer.staticFileLocation("public");
 

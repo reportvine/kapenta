@@ -17,7 +17,7 @@
         <postgresql.version>42.1.1</postgresql.version>
         <spark.version>2.9.1</spark.version>
         <jackson.version>2.10.0</jackson.version>
-        <openapi4j.version>1.0.2</openapi4j.version>
+        <openapi4j.version>1.0.6</openapi4j.version>
     </properties>
 
     <developers>

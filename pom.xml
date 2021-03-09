@@ -18,6 +18,8 @@
         <spark.version>2.9.1</spark.version>
         <jackson.version>2.12.2</jackson.version>
         <openapi4j.version>1.0.6</openapi4j.version>
+
+        <spotbugs-maven-plugin.version>4.1.3</spotbugs-maven-plugin.version>
     </properties>
 
     <developers>
@@ -229,7 +231,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>3.1.3</version>
+                <version>${spotbugs-maven-plugin.version}</version>
                 <configuration>
                     <effort>Max</effort>
                     <threshold>Default</threshold>
@@ -243,14 +245,6 @@
                         </plugin>
                     </plugins>
                 </configuration>
-                <dependencies>
-                    <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
-                    <dependency>
-                        <groupId>com.github.spotbugs</groupId>
-                        <artifactId>spotbugs</artifactId>
-                        <version>3.1.3</version>
-                    </dependency>
-                </dependencies>
                 <executions>
                     <execution>
                         <phase>

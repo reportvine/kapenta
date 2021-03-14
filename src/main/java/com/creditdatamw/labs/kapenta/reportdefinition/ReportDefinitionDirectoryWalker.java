@@ -9,13 +9,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ReportDefinitionDirectoryWalker {
-    private Stream.Builder<ReportDefinition> reportDefinitions;
+    private List<ReportDefinition> reportDefinitions;
     private int maximumDepth;
     private final Path directory;
     private ReportDefinitionFileReader parser;
@@ -33,7 +35,7 @@ public class ReportDefinitionDirectoryWalker {
         this.directory = directory;
         this.maximumDepth = maximumDepth;
         this.parser = new ReportDefinitionFileReader(resourceManager);
-        this.reportDefinitions = Stream.builder();
+        this.reportDefinitions = new ArrayList<>();
     }
 
     /**
@@ -92,17 +94,17 @@ public class ReportDefinitionDirectoryWalker {
      * @return
      */
     public Stream<ReportDefinition> getReportDefinitionStream() {
-        return reportDefinitions.build();
+        return getReportDefinitions().stream();
     }
 
     /**
-     * Get Report Defintions as a List
+     * Get Report Definitions as a List
      * @return
      */
     public List<ReportDefinition> getReportDefinitions() {
         if (!directoryWalked) {
             this.walkDirectory();
         }
-        return getReportDefinitionStream().collect(Collectors.toList());
+        return Collections.unmodifiableList(reportDefinitions);
     }
 }

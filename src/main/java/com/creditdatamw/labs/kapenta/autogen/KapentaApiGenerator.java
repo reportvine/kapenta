@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
  * 
  * @author Zikani
  */
-public class PentahoApiGenerator {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PentahoApiGenerator.class);
+public class KapentaApiGenerator {
+    private static final Logger LOGGER = LoggerFactory.getLogger(KapentaApiGenerator.class);
     private static final YAMLMapper yamlMapper = new YAMLMapper();
     private final ResourceManager resourceManager;
     private ReportDefinitionDirectoryWalker directoryWalker;
@@ -42,7 +42,7 @@ public class PentahoApiGenerator {
      * @param sourceDir The directory to search for generator from
      * @param outputFile The file to write the YAML configuration to
      */
-    public PentahoApiGenerator(Path sourceDir, Path outputFile) {
+    public KapentaApiGenerator(Path sourceDir, Path outputFile) {
         this.sourceDir = sourceDir;
         this.outputFile = outputFile;
         ClassicEngineBoot.getInstance().start();
@@ -71,12 +71,14 @@ public class PentahoApiGenerator {
     }
 
     private ApiConfiguration buildConfiguration() {
+
         ApiConfiguration apiConfiguration = new ApiConfiguration();
 
         apiConfiguration.setApiRoot("/api");
         apiConfiguration.setHost("localhost");
         apiConfiguration.setPort(4567);
-        apiConfiguration.setReports(directoryWalker.getReportDefinitionStream()
+        apiConfiguration.setReports(directoryWalker.getReportDefinitions()
+            .stream()
             .map(reportDefinition -> {
                 ReportConfiguration reportConfiguration = new ReportConfiguration();
 

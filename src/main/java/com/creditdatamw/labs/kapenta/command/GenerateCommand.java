@@ -1,6 +1,6 @@
 package com.creditdatamw.labs.kapenta.command;
 
-import com.creditdatamw.labs.kapenta.autogen.PentahoApiGenerator;
+import com.creditdatamw.labs.kapenta.autogen.KapentaApiGenerator;
 
 import java.nio.file.Paths;
 
@@ -16,7 +16,7 @@ public class GenerateCommand implements Runnable {
 
     @Override
     public void run() {
-        PentahoApiGenerator generator = new PentahoApiGenerator(
+        KapentaApiGenerator generator = new KapentaApiGenerator(
                 Paths.get(directory), Paths.get(outputFile));
         try {
             generator.generate();

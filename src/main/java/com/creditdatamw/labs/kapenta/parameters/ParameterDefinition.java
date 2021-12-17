@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.collect.ImmutableSet;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -115,7 +116,7 @@ public final class ParameterDefinition implements Cloneable{
             return Integer.class;
         }
 
-        if (typeStr.equalsIgnoreCase("long")) {
+        if (isOneOf(typeStr, "long", "number")) {
             return Long.class;
         }
 
@@ -125,6 +126,10 @@ public final class ParameterDefinition implements Cloneable{
 
         if (isOneOf(typeStr,"array","list")) {
             return List.class;
+        }
+
+        if (isOneOf(typeStr,"date","Date")) {
+            return Date.class;
         }
 
         return Object.class;

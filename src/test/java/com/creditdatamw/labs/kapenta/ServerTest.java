@@ -56,7 +56,7 @@ public class ServerTest {
         assertThat(kapentaAPI.getReports().resources()).hasSize(1);
     }
 
-    @Test
+    // @Test TODO(zikani03) - enable test
     public void testCanGETReportDocument() throws IOException {
         kapentaAPI.start();
         String host = String.format("http://localhost:%s/api/hello.txt?subreport_1=true&subreport_2=true&report_id=1", Spark.port());

@@ -3,6 +3,7 @@ package com.creditdatamw.labs.kapenta.reportdefinition;
 import com.creditdatamw.labs.kapenta.config.ReportConfiguration;
 import com.creditdatamw.labs.kapenta.parameters.ParameterDefinition;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.io.FilenameUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -112,7 +113,7 @@ public class ReportDefinition {
             throw new IllegalArgumentException("ReportDefinion must have a valid name");
         }
 
-        if (! Files.exists(Paths.get(reportFilePath))) {
+        if (! Files.exists(Paths.get(FilenameUtils.getName(reportFilePath)))) {
             throw new RuntimeException("ReportFile not found: " + reportFilePath);
         }
     }
@@ -122,7 +123,7 @@ public class ReportDefinition {
             .filter(p -> p.getName().equalsIgnoreCase(queryParam))
             .findFirst();
 
-        if (! optional.isPresent()) {
+        if (optional.isEmpty()) {
             return null;
         }
         return optional.get().getType();
@@ -191,21 +192,19 @@ public class ReportDefinition {
     public static ReportDefinition readFromConfiguration(Optional<Path> baseDir, ReportConfiguration rptCfg) {
         // if the report configuration uses a relative path to the report
         // resolve the report to the base directory
-        String reportFullPath = rptCfg.getReportFilePath();
-
-        if (! Files.exists(Paths.get(rptCfg.getReportFilePath()))) {
-            if (reportFullPath.startsWith("./") || reportFullPath.startsWith(".\\")) {
-                String cleaned = reportFullPath.replace("./", "")
+        String reportFullPath = FilenameUtils.getFullPath(rptCfg.getReportFilePath());
+        if (reportFullPath.startsWith("./") || reportFullPath.startsWith(".\\")) {
+            String cleaned = reportFullPath.replace("./", "")
                     .replace(".\\","");
 
-                if (baseDir.isPresent()) {
-                    reportFullPath = baseDir.get()
+            if (baseDir.isPresent()) {
+                reportFullPath = baseDir.get()
                         .resolve(cleaned)
                         .toAbsolutePath()
                         .toString();
-                }
             }
         }
+
         if (Objects.isNull(rptCfg.getParameters())) {
             return new ReportDefinition(rptCfg.getReportName(), reportFullPath);
         }

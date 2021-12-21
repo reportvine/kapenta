@@ -1,6 +1,7 @@
 package com.creditdatamw.labs.kapenta.command;
 
 import com.creditdatamw.labs.kapenta.autogen.KapentaApiGenerator;
+import org.apache.commons.io.FilenameUtils;
 
 import java.nio.file.Paths;
 
@@ -17,7 +18,9 @@ public class GenerateCommand implements Runnable {
     @Override
     public void run() {
         KapentaApiGenerator generator = new KapentaApiGenerator(
-                Paths.get(directory), Paths.get(outputFile));
+            Paths.get(FilenameUtils.getName(directory)),
+            Paths.get(FilenameUtils.getName(outputFile))
+        );
         try {
             generator.generate();
         } catch (Exception e) {

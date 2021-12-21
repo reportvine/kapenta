@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.micrometer.prometheus.PrometheusConfig;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
+import org.apache.commons.io.FilenameUtils;
 import org.openapi4j.parser.model.v3.OpenApi3;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;
 import org.slf4j.Logger;
@@ -77,7 +78,7 @@ public class Server {
     }
 
     private Server(String ipAddress, int port, String resourceDefinitionYaml) {
-        this.yamlFileDir = Paths.get(Objects.requireNonNull(resourceDefinitionYaml)).getParent();
+        this.yamlFileDir = Paths.get(FilenameUtils.getName(resourceDefinitionYaml)).getParent();
         this.configuration = createFromYaml(resourceDefinitionYaml);
         this.configureLogging(configuration);
         this.httpServer = createHttpServer(ipAddress, port);

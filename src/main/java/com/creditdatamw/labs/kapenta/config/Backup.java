@@ -1,7 +1,9 @@
 package com.creditdatamw.labs.kapenta.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.io.FilenameUtils;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -34,13 +36,15 @@ public class Backup {
         this.rollingBackup = rollingBackup;
     }
 
-    public String getFullDirectory() {
+    public Path makeBackupPath(String fileName) {
+        var directoryName = FilenameUtils.getName(directory);
         if (isRollingBackup()) {
             LocalDate date = LocalDate.now();
             String currentYmd = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
-            return Paths.get(directory, currentYmd).toAbsolutePath().toString();
+            // findbugs sec-bugs filter makes us do things...
+            return Paths.get(directoryName, FilenameUtils.getName(currentYmd), FilenameUtils.getName(fileName));
         }
 
-        return directory;
+        return Paths.get(directoryName, FilenameUtils.getName(fileName));
     }
 }

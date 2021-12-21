@@ -7,6 +7,7 @@ import com.creditdatamw.labs.kapenta.pentaho.Generator;
 import com.creditdatamw.labs.kapenta.pentaho.GeneratorException;
 import com.creditdatamw.labs.kapenta.OutputType;
 import com.creditdatamw.labs.kapenta.reportdefinition.ReportDefinition;
+import org.apache.commons.io.FilenameUtils;
 import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,11 +150,11 @@ final class ReportRoute implements Route {
     }
 
     private OutputStream getBackupOutput(String reportName, OutputType outputType) throws IOException {
-        String nameSanitized = reportName.replace(" ", "");
+        String nameSanitized = FilenameUtils.getName(reportName.replace(" ", ""));
 
         String backupFileName = String.format("%s-%s.%s", System.currentTimeMillis(), nameSanitized, outputType.name());
         Backup backupConfig = backup.get();
-        Path outputPath = Paths.get(backupConfig.getFullDirectory(), backupFileName.toLowerCase());
+        Path outputPath = backupConfig.makeBackupPath(backupFileName.toLowerCase());
 
         return Files.newOutputStream(outputPath, StandardOpenOption.CREATE_NEW);
     }

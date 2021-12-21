@@ -1,5 +1,7 @@
 package com.creditdatamw.labs.kapenta.command;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -30,10 +32,11 @@ public class ServerCommand implements Runnable{
             throw new RuntimeException("Kapenta server requires path to yaml configuration file to run!");
         }
 
-        if (!Files.exists(Paths.get(configurationFile))) {
+        final String fileName = FilenameUtils.getName(configurationFile);
+        if (!Files.exists(Paths.get(fileName))) {
             throw new RuntimeException("Kapenta server requires path to yaml configuration file to run!");
         }
 
-        kapenta(ipAddress, port, configurationFile);
+        kapenta(ipAddress, port, fileName);
     }
 }

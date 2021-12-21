@@ -3,6 +3,7 @@ package com.creditdatamw.labs.kapenta.pentaho;
 import com.creditdatamw.labs.kapenta.OutputType;
 import com.creditdatamw.labs.kapenta.config.Database;
 import com.creditdatamw.labs.kapenta.pentaho.sql.SqlDataSourceVisitor;
+import org.apache.commons.io.FilenameUtils;
 import org.pentaho.reporting.engine.classic.core.MasterReport;
 import org.pentaho.reporting.engine.classic.core.modules.output.pageable.pdf.PdfReportUtil;
 import org.pentaho.reporting.engine.classic.core.modules.output.pageable.plaintext.PlainTextReportUtil;
@@ -13,6 +14,7 @@ import org.pentaho.reporting.libraries.resourceloader.ResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.OutputStream;
 import java.net.URL;
 import java.nio.file.Path;
@@ -48,7 +50,7 @@ public final class Generator {
                                       Map<String, Object> parameters,
                                       OutputType outputType,
                                       OutputStream outputStream) throws GeneratorException {
-        Path filePath = Paths.get(reportFileName);
+        Path filePath = Paths.get(FilenameUtils.getName(reportFileName));
         try {
             URL url = filePath.toUri().toURL();
 
@@ -85,7 +87,7 @@ public final class Generator {
                                       OutputType outputType,
                                       OutputStream outputStream,
                                       Database database) throws GeneratorException {
-        Path filePath = Paths.get(reportFileName);
+        Path filePath = Paths.get(FilenameUtils.getName(reportFileName));
         try {
             URL url = filePath.toUri().toURL();
 

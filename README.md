@@ -187,7 +187,7 @@ basicAuth:
 
 ## Building
 
-You will need a minimum of [Java 15](http://www.oracle.com/technetwork/java/javase/downloads/index.html) 
+You will need a minimum of [Java 17](https://jdk.java.net/) 
 and [Maven 3](https://maven.apache.org/) to build the project.
 
 The project uses the [assembly](https://maven.apache.org/plugins/maven-assembly-plugin/usage.html) 

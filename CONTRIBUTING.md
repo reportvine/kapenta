@@ -2,8 +2,7 @@
 
 We'd love to get contributions from you!
 
-If you have any questions or run into any problems, please create
-an issue here or email us: it [at] creditdatamw.com
+If you have any questions or run into any problems, please create an issue
 
 ## Workflow
 

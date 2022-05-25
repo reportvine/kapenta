@@ -1,5 +1,4 @@
-[![](https://img.shields.io/github/license/creditdatamw/kapenta.svg)](./LICENSE)
-![](https://travis-ci.org/creditdatamw/kapenta.svg?branch=master)
+[![](https://img.shields.io/github/license/nndi-oss/kapenta.svg)](./LICENSE)
 
 Kapenta
 =======
@@ -11,7 +10,7 @@ Generate RESTful APIs for your Pentaho Reports automatically from a YAML configu
 Let's assume you have designed a report called `customer_report` in Pentaho Report Designer
 and you want to make this report available via an *API*.
 
-> NOTE: We provide a "lite" build of Pentaho Report Designer on the [prd-ce-lite](https://github.com/creditdatamw/prd-ce-lite)
+> NOTE: Credit Data provides a "lite" build of Pentaho Report Designer on the [prd-ce-lite](https://github.com/creditdatamw/prd-ce-lite)
 > repository which is a small download and mostly suitable for use with SQL databases
  
 You can create this configuration  and save it in a yaml file called `configuration.yml`
@@ -198,7 +197,7 @@ scripts; `bin/kapenta.bat` file for Windows and a bash (`bin/kapenta`)
 file for Linux.
 
 ```sh
-$ git clone https://github.com/creditdatamw/kapenta.git
+$ git clone https://github.com/nndi-oss/kapenta.git
 $ cd kapenta
 $ mvn clean install
 $ mvn assembly:assembly
@@ -214,10 +213,9 @@ We use [MariaDB's client library](https://mariadb.com/kb/en/library/client-libra
 
 See the [`CONTRIBUTING.md`](CONTRIBUTING.md) file for more information.
 
-
-This is not an official Credit Data CRB Ltd product  - just code that 
-happens to be owned by Credit Data CRB Ltd.
+Shout out to [Credit Data CRB Ltd](https://creditdatamw.com) for handing the project over  for us to maintain.
 
 ---
 
+Copyright (c) 2022, Zikani Nyirenda Mwase, NNDI
 Copyright (c) 2017 - 2021, Credit Data CRB Ltd

@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.creditdatamw.labs</groupId>
+    <groupId>cloud.nndi.labs</groupId>
     <artifactId>kapenta</artifactId>
-    <version>0.3.1-SNAPSHOT</version>
+    <version>0.5.0-SNAPSHOT</version>
 
     <name>kapenta</name>
     <description>Create a Report API for Pentaho Reports</description>
@@ -15,7 +15,7 @@
         <pentaho.version>8.3.0.0-371</pentaho.version>
         <postgresql.version>42.3.3</postgresql.version>
         <spark.version>2.9.3</spark.version>
-        <jackson.version>2.12.6.1</jackson.version>
+        <jackson.version>2.13.3</jackson.version>
         <openapi4j.version>1.0.7</openapi4j.version>
         <logback.version>1.2.8</logback.version>
         <spotbugs-maven-plugin.version>4.1.3</spotbugs-maven-plugin.version>
@@ -24,7 +24,7 @@
     <developers>
         <developer>
             <name>Zikani Nyirenda Mwase</name>
-            <email>zikani@creditdatamw.com</email>
+            <email>zikani.nmwase@ymail.com</email>
             <timezone>Africa/Harare</timezone>
             <roles>
                 <role>committer</role>
@@ -41,14 +41,14 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/creditdatamw/kapenta.git</connection>
-        <developerConnection>scm:git:git@github.com:creditdatamw/kapenta.git</developerConnection>
-        <url>https://github.com/creditdatamw/kapenta</url>
+        <connection>scm:git:git://github.com/nndi-oss/kapenta.git</connection>
+        <developerConnection>scm:git:git@github.com:nndi-oss/kapenta.git</developerConnection>
+        <url>https://github.com/nndi-oss/kapenta</url>
     </scm>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/creditdatamw/kapenta/issues</url>
+        <url>https://github.com/nndi-oss/kapenta/issues</url>
     </issueManagement>
 
     <repositories>
@@ -247,7 +247,7 @@
                     <arguments>
                         <argument>-classpath</argument>
                         <classpath />
-                        <argument>com.creditdatamw.labs.kapenta.Main</argument>
+                        <argument>cloud.nndi.labs.kapenta.Main</argument>
                         <argument>server</argument>
                         <argument>--config</argument>
                         <argument>${project.basedir}/src/test/resources/application.yml</argument>

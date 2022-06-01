@@ -121,7 +121,7 @@ public class ReportConfiguration {
         return set;
     }
 
-    public ReportDefinition toReportDefinition(Optional<Path> baseDir) {
-       return ReportDefinition.readFromConfiguration(baseDir, this);
+    public ReportDefinition toReportDefinition(Path configurationDirectory) {
+       return ReportDefinition.readFromConfiguration(configurationDirectory, this);
     }
 }

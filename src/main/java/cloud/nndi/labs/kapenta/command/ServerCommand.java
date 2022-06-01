@@ -22,20 +22,17 @@ public class ServerCommand implements Runnable{
     private String configurationFile;
 
     @Option(names = { "--host" }, description = "Address to bind on")
-    private String ipAddress;
+    private String ipAddress = "0.0.0.0";
 
     @Option(names = { "--port" }, description = "Port to bind on")
-    private int port;
+    private int port = 4567;
 
     @Override
     public void run() {
-        if (Objects.isNull(configurationFile)) {
-            throw new RuntimeException("Kapenta server requires path to yaml configuration file to run!");
-        }
-
-        final String fileName = FilenameUtils.getName(configurationFile);
-        if (!Files.exists(Paths.get(fileName))) {
-            throw new RuntimeException("Kapenta server requires path to yaml configuration file to run!");
+        final String fileName = Paths.get(configurationFile).toAbsolutePath().toString();
+        //FilenameUtils.getFullPath(configurationFile);
+        if (!Files.exists(Paths.get(configurationFile))) {
+            throw new RuntimeException(String.format("File %s does not exist. Kapenta server requires path to yaml configuration file to run!", fileName));
         }
 
         Server.kapenta(ipAddress, port, fileName);

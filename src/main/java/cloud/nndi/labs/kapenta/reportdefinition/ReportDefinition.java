@@ -113,7 +113,7 @@ public class ReportDefinition {
             throw new IllegalArgumentException("ReportDefinion must have a valid name");
         }
 
-        if (! Files.exists(Paths.get(FilenameUtils.getName(reportFilePath)))) {
+        if (! Files.exists(Paths.get(reportFilePath))) {
             throw new RuntimeException("ReportFile not found: " + reportFilePath);
         }
     }
@@ -189,25 +189,19 @@ public class ReportDefinition {
         return Objects.hash(reportName, version, description, reportFilePath, parameters);
     }
 
-    public static ReportDefinition readFromConfiguration(Optional<Path> baseDir, ReportConfiguration rptCfg) {
+    public static ReportDefinition readFromConfiguration(Path baseDir, ReportConfiguration rptCfg) {
+        Path resolvedPath = Paths.get(rptCfg.getReportFilePath()).toAbsolutePath();
         // if the report configuration uses a relative path to the report
         // resolve the report to the base directory
-        String reportFullPath = FilenameUtils.getFullPath(rptCfg.getReportFilePath());
-        if (reportFullPath.startsWith("./") || reportFullPath.startsWith(".\\")) {
-            String cleaned = reportFullPath.replace("./", "")
-                    .replace(".\\","");
-
-            if (baseDir.isPresent()) {
-                reportFullPath = baseDir.get()
-                        .resolve(cleaned)
-                        .toAbsolutePath()
-                        .toString();
-            }
+        String reportFilePath = rptCfg.getReportFilePath();
+        if (reportFilePath.startsWith("./") || reportFilePath.startsWith(".\\")) {
+            reportFilePath = reportFilePath.replace("./", "").replace(".\\","");
+            resolvedPath = baseDir.resolve(reportFilePath).toAbsolutePath();
         }
 
         if (Objects.isNull(rptCfg.getParameters())) {
-            return new ReportDefinition(rptCfg.getReportName(), reportFullPath);
+            return new ReportDefinition(rptCfg.getReportName(), resolvedPath.toString());
         }
-        return new ReportDefinition(rptCfg.getReportName(), reportFullPath, rptCfg.getParameters());
+        return new ReportDefinition(rptCfg.getReportName(), resolvedPath.toString(), rptCfg.getParameters());
     }
 }

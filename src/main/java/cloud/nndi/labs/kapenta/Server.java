@@ -76,7 +76,7 @@ public class Server {
     }
 
     private Server(String ipAddress, int port, String resourceDefinitionYaml) {
-        this.yamlFileDir = Paths.get(FilenameUtils.getName(resourceDefinitionYaml)).getParent();
+        this.yamlFileDir = Objects.requireNonNull(Paths.get(resourceDefinitionYaml).getParent(), "Failed to find directory YAML is in");
         this.configuration = createFromYaml(resourceDefinitionYaml);
         this.configureLogging(configuration);
         this.httpServer = createHttpServer(ipAddress, port);
@@ -140,7 +140,7 @@ public class Server {
             configuration = mapper.readValue(new File(yamlFile), ApiConfiguration.class);
         } catch (IOException e) {
             LoggerFactory.getLogger(Server.class).error("Failed to read yaml file", e);
-            throw new RuntimeException("Failed to parse configuration from Yaml file", e);
+            throw new RuntimeException("Failed to parse configuration from Yaml file: " + yamlFile, e);
         }
         return configuration;
     }
@@ -163,6 +163,7 @@ public class Server {
     private Reports createReportsFromConfiguration(ApiConfiguration configuraiton) {
         Objects.requireNonNull(configuraiton, "configuration");
         Objects.requireNonNull(httpServer, "Server.httpServer");
+        Objects.requireNonNull(yamlFileDir, "YAML directory cannot be null");
 
         List<ReportResource> reportResources = configuration.getReports()
             .stream()
@@ -206,7 +207,7 @@ public class Server {
             reportResourcePath,
             methods.toArray().length < 1 ? DEFAULT_METHODS : methods.toArray(),
             reportConfiguration.outputTypes(),
-            reportConfiguration.toReportDefinition(Optional.of(yamlFileDir))));
+            reportConfiguration.toReportDefinition(yamlFileDir)));
     }
 
     /**

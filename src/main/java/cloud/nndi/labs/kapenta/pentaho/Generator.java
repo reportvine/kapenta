@@ -49,7 +49,7 @@ public final class Generator {
                                       Map<String, Object> parameters,
                                       OutputType outputType,
                                       OutputStream outputStream) throws GeneratorException {
-        Path filePath = Paths.get(FilenameUtils.getName(reportFileName));
+        Path filePath = Paths.get(reportFileName);
         try {
             URL url = filePath.toUri().toURL();
 

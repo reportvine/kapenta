@@ -20,8 +20,10 @@
     </appender>
 
     <logger name="org.pentaho.reporting" level="WARN" />
+    <logger name="org.eclipse.jetty" level="WARN" />
+    <logger name="spark.http" level="WARN" />
 
-    <root level="${logging.rootLevel:-WARN}">
+    <root level="${logging.rootLevel:-INFO}">
         <appender-ref ref="FILE"/>
         <appender-ref ref="STDOUT"/>
     </root>

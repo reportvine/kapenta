@@ -22,7 +22,7 @@ reports:
   - name: Hello Report
     path: /hello
     version: "1.0.0"
-    file: "src/test/resources/test_report.prpt"
+    file: "./test_report.prpt"
     methods:
       get: true
       post: true

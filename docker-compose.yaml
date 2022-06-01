@@ -1,0 +1,15 @@
+version: '3'
+networks:
+  kapenta-network:
+
+services:
+  kapenta-server:
+    image: nndi/kapenta
+    volumes:
+      - "./example/:/data/"
+      - "./target/:/log/"
+    ports:
+      - "4567:4567"
+    networks:
+      - kapenta-network
+    command: server --config=/data/application.yaml --port 4567

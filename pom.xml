@@ -386,6 +386,11 @@
                         <goals>
                             <goal>dockerBuild</goal>
                         </goals>
+                        <configuration>
+                            <to>
+                                <image>nndi/kapenta</image>
+                            </to>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

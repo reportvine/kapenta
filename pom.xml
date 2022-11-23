@@ -13,7 +13,7 @@
 
         <micrometer.version>1.5.5</micrometer.version>
         <pentaho.version>8.3.0.0-371</pentaho.version>
-        <postgresql.version>42.4.1</postgresql.version>
+        <postgresql.version>42.4.3</postgresql.version>
         <spark.version>2.9.3</spark.version>
         <jackson.version>2.13.4.1</jackson.version>
         <openapi4j.version>1.0.7</openapi4j.version>

@@ -17,7 +17,7 @@
         <spark.version>2.9.3</spark.version>
         <jackson.version>2.15.2</jackson.version>
         <openapi4j.version>1.0.7</openapi4j.version>
-        <logback.version>1.2.8</logback.version>
+        <logback.version>1.3.12</logback.version>
         <spotbugs-maven-plugin.version>4.1.3</spotbugs-maven-plugin.version>
     </properties>
 

@@ -1,11 +1,11 @@
 package cloud.nndi.labs.kapenta.http;
 
 import cloud.nndi.labs.kapenta.config.Backup;
-import cloud.nndi.labs.kapenta.reportdefinition.ReportDefinition;
 import cloud.nndi.labs.kapenta.config.Database;
+import cloud.nndi.labs.kapenta.reportdefinition.ReportDefinition;
+import io.javalin.Javalin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark.Service;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +25,7 @@ public class Reports {
 
     private final List<ReportResource> resources;
 
-    private Service httpServer;
+    private Javalin httpServer;
     
     private Backup backup;
 
@@ -57,7 +57,7 @@ public class Reports {
         });
     }
 
-    public void setHttpServer(Service httpServer) {
+    public void setHttpServer(Javalin httpServer) {
         this.httpServer = httpServer;
     }
 

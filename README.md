@@ -187,10 +187,10 @@ basicAuth:
 
 ## Building
 
-You will need a minimum of [Java 17](https://jdk.java.net/) 
-and [Maven 3](https://maven.apache.org/) to build the project.
+You will need a minimum of [Java 21](https://jdk.java.net/) 
+and [Maven 3.8](https://maven.apache.org/) to build the project.
 
-The project uses the [assembly](https://maven.apache.org/plugins/maven-assembly-plugin/usage.html) 
+The project uses the [maven assembly plugin](https://maven.apache.org/plugins/maven-assembly-plugin/usage.html) 
 to create both a zip and tar archive
 that contains the compiled application, all it's dependencies and the executable 
 scripts; `bin/kapenta.bat` file for Windows and a bash (`bin/kapenta`)

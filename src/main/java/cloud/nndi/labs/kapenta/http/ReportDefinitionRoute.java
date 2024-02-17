@@ -1,17 +1,16 @@
 package cloud.nndi.labs.kapenta.http;
 
 import cloud.nndi.labs.kapenta.reportdefinition.ReportDefinition;
-import org.eclipse.jetty.http.HttpStatus;
-import spark.Request;
-import spark.Response;
-import spark.Route;
+import io.javalin.http.Context;
+import io.javalin.http.Handler;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Report Definition Route
  *
  * Generates a route for presenting the Report Definition
  */
-public class ReportDefinitionRoute implements Route {
+public class ReportDefinitionRoute implements Handler {
 
     public final ReportResource reportResource;
 
@@ -20,9 +19,8 @@ public class ReportDefinitionRoute implements Route {
     }
 
     @Override
-    public String handle(Request request, Response response) throws Exception {
-        response.status(HttpStatus.OK_200);
-        response.type(ReportRoute.APPLICATION_JSON);
+    public void handle(@NotNull Context context) throws Exception {
+
         // We send the report definition without the reportFilePath to avoid
         // exposing how and where generator are stored on the server #security
         final ReportDefinition original = reportResource.reportDefinition(),
@@ -33,6 +31,7 @@ public class ReportDefinitionRoute implements Route {
                 original.getVersion(),
                 original.getDescription()
             );
-        return ReportRoute.toJson(reportDefinition);
+
+        context.json(reportDefinition);
     }
 }

@@ -1,13 +1,12 @@
 package cloud.nndi.labs.kapenta.http.filter;
 
-import spark.Filter;
-import spark.Request;
-import spark.Response;
-import spark.Spark;
+import io.javalin.http.Context;
+import io.javalin.http.Handler;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
-public class CorsFilter implements Filter {
+public class CorsFilter implements Handler {
     private static final HashMap<String, String> corsHeaders = new HashMap<>();
 
     static {
@@ -18,7 +17,7 @@ public class CorsFilter implements Filter {
     }
 
     @Override
-    public void handle(Request request, Response response) {
-        corsHeaders.forEach(response::header);
+    public void handle(@NotNull Context context) throws Exception {
+        corsHeaders.forEach(context::header);
     }
 }

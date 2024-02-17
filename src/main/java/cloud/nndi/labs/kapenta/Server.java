@@ -7,14 +7,13 @@ import cloud.nndi.labs.kapenta.http.filter.CorsFilter;
 import cloud.nndi.labs.kapenta.openapi.OpenAPISchemaGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import io.javalin.Javalin;
 import io.micrometer.prometheus.PrometheusConfig;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
-import org.apache.commons.io.FilenameUtils;
 import org.openapi4j.parser.model.v3.OpenApi3;
 import org.pentaho.reporting.engine.classic.core.ClassicEngineBoot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark.Service;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +37,7 @@ public class Server {
     private ApiConfiguration configuration;
     private final Path yamlFileDir;
     private final Reports reports;
-    private spark.Service httpServer;
+    private Javalin httpServer;
     private PrometheusMeterRegistry prometheusRegistry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
     private CountDownLatch countDownLatch = new CountDownLatch(1);
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -112,7 +111,11 @@ public class Server {
         reports.registerResources();
 
         try {
-            httpServer.awaitStop();
+            var host = configuration.getHost();
+            var port = configuration.getPort();
+
+            httpServer.start(host, port);
+
             countDownLatch.await();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -214,13 +217,11 @@ public class Server {
      * Creates a Spark HttpService
      * @return
      */
-    private spark.Service createHttpServer(String ipAddress, int port) {
+    private Javalin createHttpServer(String ipAddress, int port) {
         String host = Optional.ofNullable(ipAddress).orElse(configuration.getHost());
-        httpServer = Service.ignite();
-        httpServer.ipAddress(host);
-        httpServer.port(Optional.ofNullable(port).orElse(configuration.getPort()));
-
-        httpServer.staticFileLocation("public");
+        httpServer = Javalin.create(config -> {
+            config.staticFiles.add("public");
+        });
 
         httpServer.after(new CorsFilter());
 
@@ -228,7 +229,7 @@ public class Server {
     }
 
     private void configurePrometheusMetricsEndpoint() {
-        httpServer.get("/metrics", (req, res) -> prometheusRegistry.scrape());
+        httpServer.get("/metrics", (ctx) -> prometheusRegistry.scrape());
     }
 
     private void configureOpenAPIEndpoint() {

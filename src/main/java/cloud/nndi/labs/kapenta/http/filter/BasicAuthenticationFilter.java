@@ -2,11 +2,12 @@ package cloud.nndi.labs.kapenta.http.filter;
 
 import cloud.nndi.labs.kapenta.config.BasicAuth;
 import cloud.nndi.labs.kapenta.http.MessageResponse;
+import io.javalin.http.Context;
+import io.javalin.http.Handler;
+import org.eclipse.jetty.http.HttpStatus;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark.Filter;
-import spark.Request;
-import spark.Response;
 
 import java.nio.charset.Charset;
 import java.util.Base64;
@@ -14,12 +15,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static spark.Spark.halt;
-
 /**
  * Filter for Basic Authentication using a {@link BasicAuth.User}
  */
-public class BasicAuthenticationFilter implements Filter {
+public class BasicAuthenticationFilter implements Handler {
     private final static Logger LOGGER = LoggerFactory.getLogger(BasicAuthenticationFilter.class);
     private final String HEADER_NAME = "Authorization";
     private final String BASIC_PREFIX = "Basic ";
@@ -37,18 +36,21 @@ public class BasicAuthenticationFilter implements Filter {
     }
 
     @Override
-    public void handle(Request request, Response response) throws Exception {
-        if (! request.headers().contains(HEADER_NAME)) {
+    public void handle(@NotNull Context context) throws Exception {
+
+        if (! context.headerMap().containsKey(HEADER_NAME)) {
             LOGGER.error("Failed to find Authorization header in request.");
-            halt(401, MessageResponse.errorJson("Not Authorized to access this report"));
+            context.status(HttpStatus.UNAUTHORIZED_401);
+            context.json(MessageResponse.errorJson("Not Authorized to access this report"));
             return;
         }
 
-        String val = request.headers(HEADER_NAME);
+        String val = context.header(HEADER_NAME);
 
         if (val.length() < BASIC_PREFIX.length()) {
             LOGGER.error("Failed to find Authorization value in request.");
-            halt(401, MessageResponse.errorJson("Not Authorized to access this report"));
+            context.status(HttpStatus.UNAUTHORIZED_401);
+            context.json(MessageResponse.errorJson("Not Authorized to access this report"));
             return;
         }
 
@@ -56,7 +58,8 @@ public class BasicAuthenticationFilter implements Filter {
 
         if (base64Encoded.isEmpty()) {
             LOGGER.error("Failed to find Authorization value in request.");
-            halt(401, MessageResponse.errorJson("Not Authorized to access this report"));
+            context.status(HttpStatus.UNAUTHORIZED_401);
+            context.json(MessageResponse.errorJson("Not Authorized to access this report"));
             return;
         }
 
@@ -70,8 +73,8 @@ public class BasicAuthenticationFilter implements Filter {
 
         if (! users.contains(new BasicAuth.User(username, password))) {
             LOGGER.error("Failed to find User in list of authorized users value in request.");
-            halt(401, MessageResponse.errorJson("Not Authorized to access this report"));
-            return;
+            context.status(HttpStatus.UNAUTHORIZED_401);
+            context.json(MessageResponse.errorJson("Not Authorized to access this report"));
         }
     }
 }
